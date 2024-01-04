@@ -2,6 +2,16 @@ import java.util.Iterator;
 
 public class ArrayIntList implements IntList
 {
+    //fields
+    private int size;
+    private int[] buffer;
+    
+    public ArrayIntList(int size, int[] buffer)
+    {
+        size = 0;
+        buffer = new int[10];
+    }
+    
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -12,7 +22,16 @@ public class ArrayIntList implements IntList
     @Override
     public void addFront(int value)
     {
+        int curr = value;
+        int next = curr;
     
+        for (int i = 0; i < size + 1; i++)
+        {
+            curr = next;
+            next = buffer[i];
+            buffer[i] = curr;
+        }
+        size++;
     }
     
     /**
@@ -23,7 +42,8 @@ public class ArrayIntList implements IntList
     @Override
     public void addBack(int value)
     {
-    
+        buffer[size] = value;
+        size++;
     }
     
     /**
