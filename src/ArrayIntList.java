@@ -107,7 +107,7 @@ public class ArrayIntList implements IntList
     @Override
     public int get(int index)
     {
-        return 0;
+        return buffer[index];
     }
     
     /**
@@ -155,7 +155,7 @@ public class ArrayIntList implements IntList
     @Override
     public int size()
     {
-        return 0;
+        return buffer.length;
     }
     
     /**
