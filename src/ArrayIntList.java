@@ -1,8 +1,14 @@
 import java.util.Iterator;
 
 public class ArrayIntList implements IntList {
-    public ArrayIntList() {
 
+    // fields:
+    private int size;
+    private int[] buffer;
+
+    public ArrayIntList() {
+        this.size = 0;
+        this.buffer = new int[10];
     }
 
     /**
@@ -14,7 +20,11 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-
+        for(int i = size - 1; i >= 0; i--) {
+            buffer[i + 1] = buffer[i];
+        }
+        buffer[0] = value;
+        size++;
     }
 
     /**
@@ -24,7 +34,11 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-
+        if(size == buffer.length) {
+            increaseBuffer();
+        }
+        buffer[size] = value;
+        size++;
     }
 
     /**
@@ -38,7 +52,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-
+        if(size == buffer.length) {
+            increaseBuffer();
+        }
+        for(int i = size + 1; i > 0; i--) {
+            buffer[i + 1] = buffer[i];
+        }
+        buffer[index] = value;
+        size++;
     }
 
     /**
@@ -48,7 +69,13 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        if(size > 0) {
+            buffer[0] = 0;
+            for(int i = 0; i < size; i++) {
+                buffer[i] = buffer[i + 1];
+            }
+            size--;
+        }
     }
 
     /**
@@ -57,7 +84,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        if(size > 0) {
+            buffer[size] = 0;
+            size--;
+        }
     }
 
     /**
@@ -71,7 +101,19 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        int removedInt = 0;
+        try {
+            removedInt = buffer[index];
+            buffer[index] = 0;
+            for (int i = index; i < size; i++) {
+                buffer[i] = buffer[i + 1];
+            }
+            size--;
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("no bueno");
+        }
+
+        return removedInt;
     }
 
     /**
@@ -83,7 +125,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        return buffer[index];
     }
 
     /**
@@ -94,7 +136,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        return false;
+        boolean result = false;
+        for(int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     /**
@@ -107,7 +156,13 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        int result = -1;
+        for(int i = 0; i < size; i++ ) {
+            if(buffer[i] == value) {
+                result = i;
+            }
+        }
+        return result;
     }
 
     /**
@@ -117,7 +172,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -127,7 +182,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -136,7 +191,22 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
+        for(int i = 0; i < size; i++) {
+            buffer[i] = 0;
+        }
+        size = 0;
+    }
 
+    /**
+     * Doubles the buffer length, copying any current data into the new
+     * array.
+     */
+    private void increaseBuffer() {
+        int[] hold = new int[buffer.length];
+        System.arraycopy(buffer, 0, hold, 0, buffer.length);
+
+        buffer = new int[hold.length * 2];
+        System.arraycopy(hold, 0, buffer, 0, hold.length);
     }
 
     /**
