@@ -16,6 +16,7 @@ public class Main {
         thirdList.addFront(2);
         thirdList.addFront(3);
 
+        // testing .add method
         thirdList.add(1, 4);
         thirdList.add(2, 5);
 
