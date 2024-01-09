@@ -19,6 +19,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
+        if (size == buffer.length) {
+            resize(size * 2);
+        }
+
         //4 <- 3
         //3 <- 2
         //2 <- 1
@@ -44,6 +48,9 @@ public class ArrayIntList implements IntList {
     @Override
     public void addBack(int value) {
         // TODO: check to see if we are full - if so, we need to create a larger buffer
+        if (size == buffer.length) {
+            resize(size * 2);
+        }
         buffer[size] = value;
         value++;
     }
@@ -59,7 +66,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-
+        // TODO: finish method
+        if (size == buffer.length) {
+            resize(size * 2);
+        }
     }
 
     /**
@@ -69,6 +79,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeFront() {
+        // TODO: finish method
 
     }
 
@@ -78,6 +89,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
+        // TODO: finish method
 
     }
 
@@ -125,6 +137,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
+        // TODO: finish method
+
         return 0;
     }
 
@@ -136,6 +150,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        // TODO: finish method
+
         return false;
     }
 
@@ -149,6 +165,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
+        // TODO: finish method
+
         return 0;
     }
 
@@ -159,6 +177,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
+        // TODO: finish method
+
         return false;
     }
 
@@ -169,6 +189,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int size() {
+        // TODO: finish method
+
         return 0;
     }
 
@@ -178,7 +200,25 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
+        buffer = new int[10];
+        size = 0;
 
+    }
+
+    private void resize(int newSize) {
+        //create new space, separate from the old space
+        int[] newBuffer = new int[newSize];
+
+        //copy everything over from buffer into newBuffer
+        for (int i = 0; i < buffer.length; i++) {
+            newBuffer[i] = buffer[i];
+        }
+
+        //set the new space into buffer
+        buffer = newBuffer;
+
+        //the old space is no longer "pointed to" and will
+        //eventually be cleaned up by the garbage collector
     }
 
     /**
@@ -188,6 +228,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
+        // TODO: finish method
+
         return null;
     }
 }
