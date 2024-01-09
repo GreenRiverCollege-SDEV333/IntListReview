@@ -94,7 +94,29 @@ public class ArrayIntList implements IntList
     @Override
     public int remove(int index)
     {
-        return 0;
+        if (index < 0)
+        {
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
+        else if (index >= size)
+        {
+            throw new IndexOutOfBoundsException("Index is larger than size");
+        }
+        
+        int copyOfNewVal = buffer[index];
+        
+        int curr = index;
+        int next = index + 1;
+        
+        while (index < size)
+        {
+            buffer[curr] = buffer[next];
+            curr = next;
+            next += 1;
+        }
+        
+        size--;
+        return copyOfNewVal;
     }
     
     /**
@@ -119,6 +141,13 @@ public class ArrayIntList implements IntList
     @Override
     public boolean contains(int value)
     {
+        for (int num:buffer)
+        {
+            if (num == value)
+            {
+                return true;
+            }
+        }
         return false;
     }
     
