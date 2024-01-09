@@ -12,6 +12,18 @@ public class ArrayIntList implements IntList
         buffer = new int[10];
     }
     
+    private void resize(int newSize)
+    {
+        int[] newBuffer = new int[newSize];
+    
+        for (int i = 0; i < buffer.length; i++)
+        {
+            newBuffer[i] = buffer[i];
+        }
+        
+        buffer = newBuffer;
+    }
+    
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -58,7 +70,10 @@ public class ArrayIntList implements IntList
     @Override
     public void add(int index, int value)
     {
-    
+        if (size == buffer.length)
+        {
+            resize(size * 2);
+        }
     }
     
     /**
@@ -173,6 +188,11 @@ public class ArrayIntList implements IntList
     @Override
     public boolean isEmpty()
     {
+        if (size > 0)
+        {
+            return true;
+        }
+        
         return false;
     }
     
@@ -194,7 +214,9 @@ public class ArrayIntList implements IntList
     @Override
     public void clear()
     {
-    
+        buffer = new int[10];
+        
+        size = 0;
     }
     
     @Override
