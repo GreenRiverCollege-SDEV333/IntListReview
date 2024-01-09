@@ -17,5 +17,13 @@ public class Main {
         ArrayIntList secondList = new ArrayIntList();
 
         IntList thirdList = new ArrayIntList();
+        thirdList.addFront(15);
+        thirdList.addFront(1);
+        thirdList.addFront(22);
+
+        for(int value: thirdList)
+        {
+            System.out.println(value);
+        }
     }
 }
