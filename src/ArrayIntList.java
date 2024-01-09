@@ -60,7 +60,10 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public void add(int index, int value)
     {
-
+//        if (size == buffer.length)
+//        {
+//            resize(size * 2);
+//        }
     }
 
     /**
@@ -197,6 +200,24 @@ public class ArrayIntList implements IntList
 //        {
 //            remove(0);
 //        }
+    }
+
+    private void resize(int newSize)
+    {
+        //create a new space, separate from the old one
+        int[] newBuffer = new int[newSize];
+
+        //copy everything over from buffer into newBuffer
+        for (int i = 0; i < size; i++)
+        {
+            newBuffer[i] = buffer[i];
+        }
+
+        //set the new space into buffer
+        buffer = newBuffer;
+
+        //the old buffer space is no longer "pointed to" and will eventually be cleaned up by the
+        //garbage collector
     }
 
     /**
