@@ -19,6 +19,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void addFront(int value) {
+        doubleSize();
         for(int i = size; i>0;i--){
             buffer[i]=buffer[i-1];
             buffer[0]=value;
@@ -33,9 +34,10 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
+        doubleSize();
         if (size < buffer.length){
             buffer[size]=value;
-            this.size++;
+            size++;
         }
     }
 
@@ -50,7 +52,10 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-        if(index >= 0 && index < buffer.length){
+        doubleSize();
+        if (index < 0 || index >= size){
+            throw new IndexOutOfBoundsException("Index ouf of bounds");
+        } else {
             buffer[index]=value;
         }
         size++;
@@ -63,9 +68,8 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeFront() {
-        if(size>1){
-            buffer[0]=buffer[1];
-            for(int i=1;i<size;i++){
+        if(size>0){
+            for(int i=0;i<size;i++){
             buffer[i]=buffer[i+1];
             }
         } else{
@@ -81,7 +85,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeBack() {
-        buffer[buffer.length-1]=0;
+        buffer[size-1]=0;
         size++;
     }
 
@@ -96,16 +100,20 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        if (index < size && index > 0) {
+        int value=0;
+        if (index < size && index >= 0) {
+            value = buffer[index];
             for(int i=index;i<size;i++){
                 buffer[i]=buffer[i+1];
             }
             buffer[size]=0;
             size--;
-            return 1;
-        } else {
-            return 0;
+        } else if (index<0){
+            throw new IndexOutOfBoundsException("Index cannot be less than 0.");
+        } else if (index > size) {
+            throw new IndexOutOfBoundsException("Index cannot be greater than array length");
         }
+        return value;
     }
 
     /**
@@ -151,7 +159,11 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
+        if(size==0){
+            return true;
+        } else{
         return false;
+        }
     }
 
     /**
@@ -161,7 +173,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -170,7 +182,25 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void clear() {
+        int length = buffer.length;
+        int[] buffer = new int[length];
+        size =0;
+    }
 
+    /**
+     * Helper method that doubles the array size using the resizez method.
+     */
+    private void doubleSize(){
+        resize(buffer.length*2);
+    }
+
+    /**
+     * Grows and Shrinks the array as required by data size.
+     */
+    private void resize(int newSize){
+        int[] newBuffer = new int[newSize];
+        System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
+        buffer = newBuffer;
     }
 
     /**
@@ -181,5 +211,20 @@ public class ArrayIntList implements IntList{
     @Override
     public Iterator<Integer> iterator() {
         return null;
+    }
+
+    private class IntListIterator implements Iterator<Integer>{
+        private int i;
+        private IntListIterator(){
+            this.i =0;
+        }
+        public boolean hasNext(){
+            return i<size;
+        }
+        public Integer next(){
+            int currentValue = buffer[i];
+            i++;
+            return currentValue;
+        }
     }
 }
