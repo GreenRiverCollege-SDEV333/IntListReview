@@ -53,7 +53,7 @@ public class ArrayIntList implements IntList {
     @Override
     public void add(int index, int value) {
         if(size == buffer.length) {
-            increaseBuffer();
+            increaseBuffer(2);
         }
         for(int i = size + 1; i > 0; i--) {
             buffer[i + 1] = buffer[i];
@@ -104,7 +104,6 @@ public class ArrayIntList implements IntList {
         int removedInt = 0;
         try {
             removedInt = buffer[index];
-            buffer[index] = 0;
             for (int i = index; i < size; i++) {
                 buffer[i] = buffer[i + 1];
             }
@@ -201,11 +200,11 @@ public class ArrayIntList implements IntList {
      * Doubles the buffer length, copying any current data into the new
      * array.
      */
-    private void increaseBuffer() {
+    private void increaseBuffer(int increase) {
         int[] hold = new int[buffer.length];
         System.arraycopy(buffer, 0, hold, 0, buffer.length);
 
-        buffer = new int[hold.length * 2];
+        buffer = new int[hold.length * increase];
         System.arraycopy(hold, 0, buffer, 0, hold.length);
     }
 
@@ -217,5 +216,40 @@ public class ArrayIntList implements IntList {
     @Override
     public Iterator<Integer> iterator() {
         return null;
+    }
+
+    private class IntListIterator implements Iterator<Integer> {
+
+        //Private fields
+        private int i;
+
+        private IntListIterator() {
+            i = 0;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return i < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            int currentVal = buffer[i];
+            i++;
+            return currentVal;
+        }
     }
 }
