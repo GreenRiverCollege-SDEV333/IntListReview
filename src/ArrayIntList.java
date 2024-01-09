@@ -96,7 +96,29 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public int remove(int index)
     {
-        return 0;
+        if (index < 0)
+        {
+            throw new IndexOutOfBoundsException("Index cannot be negative.");
+        }
+        else if (index >= size)
+        {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        //save a copy of the value to be removed so we can return it later
+        int returnValue = buffer[index];
+
+        //shift values from upper indexes down
+        for (int i = index; i < size; i++)
+        {
+            buffer[i] = buffer[i + 1];
+        }
+        buffer[size - 1] = 0;
+
+        //decrement the size of the list
+        size--;
+
+        return returnValue;
     }
 
     /**
