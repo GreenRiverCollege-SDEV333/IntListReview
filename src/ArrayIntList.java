@@ -175,7 +175,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        buffer = new int[10];
+        size = 0;
     }
 
     /**
