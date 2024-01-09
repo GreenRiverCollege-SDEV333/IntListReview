@@ -87,7 +87,24 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        //check to see if index is valid
+        if(index >= size || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+        // save a copy of the value to be returned later
+        int removedValue = buffer[index];
+
+        //shift values to the left
+        for (int i = index; i < size; i++) {
+            buffer[i] = buffer[i+1];
+        }
+        //remove the final index value
+        buffer[size - 1] = 0;
+        //decrement size
+        size--;
+        //return the removed value
+        return buffer[removedValue];
     }
 
     /**
