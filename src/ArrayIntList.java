@@ -50,6 +50,7 @@ public class ArrayIntList implements IntList {
     @Override
     public void addBack(int value) {
         // TODO: check to see if we are full. - If so, we need to create a larger buffer.
+
         buffer[size] = value;
         size++;
     }
@@ -98,6 +99,26 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int remove(int index) {
+        //check if index is out of bounds
+        if(index >= size){
+            throw new IndexOutOfBoundsException("Index is higher than size");
+        }
+        else if(index < 0){
+            throw new IndexOutOfBoundsException("Index cannot be negative.");
+        }
+
+        //save a copy of the value to be removed so we can return it later
+        int copOfRemovedValue = buffer[index];
+
+        for (int i = index; i < size; i++) {
+            buffer[i] = buffer[i+1];
+        }
+
+        //Set the last value to zero
+        buffer[size-1] = 0;
+
+        //don't forget to decrease size
+        size--;
         return 0;
     }
 
@@ -110,7 +131,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        
+
         if(index > size){
             throw new IndexOutOfBoundsException();
         }
