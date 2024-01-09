@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList
 {
@@ -60,10 +61,10 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public void add(int index, int value)
     {
-//        if (size == buffer.length)
-//        {
-//            resize(size * 2);
-//        }
+        if (size == buffer.length)
+        {
+            resize(size * 2);
+        }
     }
 
     /**
@@ -228,6 +229,51 @@ public class ArrayIntList implements IntList
     @Override
     public Iterator<Integer> iterator()
     {
+
         return null;
+    }
+
+    //create a private helper Iterator class
+    private class IntListIterator implements Iterator<Integer>
+    {
+        //private fields
+        private int i;
+
+        private IntListIterator()
+        {
+            i = 0;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext()
+        {
+            return i < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next()
+        {
+            if (i >= size)
+            {
+                throw new NoSuchElementException("i is out of bounds");
+            }
+
+            int currentValue = buffer[i];
+            i++;
+            return currentValue;
+        }
     }
 }
