@@ -46,6 +46,11 @@ public class ArrayIntList implements IntList
     public void addBack(int value)
     {
         // TODO: check to see if we are full - if so, we need to create a larger buffer
+        if (size == buffer.length)
+        {
+            resize(size * 2);
+        }
+
         buffer[size] = value;
         size += 1;
     }
@@ -62,7 +67,10 @@ public class ArrayIntList implements IntList
     @Override
     public void add(int index, int value)
     {
-        buffer[index] = value;
+        if (size == buffer.length)
+        {
+            resize(size * 2);
+        }
     }
 
     /**
@@ -203,6 +211,28 @@ public class ArrayIntList implements IntList
         {
             buffer[i] = 0;
         }
+        //another way to do this
+
+        //buffer = new int[10];
+        //size = 0;
+    }
+
+    private void resize(int newSize)
+    {
+        //create new space, separate from the old space (buffer)
+        int[] newBuffer = new int[newSize];
+
+        //copy everything over from buffer into newBuffer
+        for (int i = 0; i < buffer.length; i++)
+        {
+            newBuffer[i] = buffer[i];
+        }
+
+        // set the new space into buffer
+        buffer = newBuffer;
+
+        //the old buffer space is no longer "pointed to" and will eventually
+        //be cleaned up by the garbage collector
     }
 
     /**
