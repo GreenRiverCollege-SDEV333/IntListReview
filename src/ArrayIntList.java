@@ -189,7 +189,14 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public void clear()
     {
+        buffer = new int[10];
+        size = 0;
 
+//        clean, efficient method. Too slow.
+//        while (size != 0)
+//        {
+//            remove(0);
+//        }
     }
 
     /**
