@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList {
 
@@ -35,7 +36,7 @@ public class ArrayIntList implements IntList {
     @Override
     public void addBack(int value) {
         if(size == buffer.length) {
-            increaseBuffer();
+            increaseBuffer(2);
         }
         buffer[size] = value;
         size++;
@@ -247,6 +248,9 @@ public class ArrayIntList implements IntList {
          */
         @Override
         public Integer next() {
+            if(!hasNext()) {
+                throw new NoSuchElementException();
+            }
             int currentVal = buffer[i];
             i++;
             return currentVal;
