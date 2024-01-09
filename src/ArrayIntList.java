@@ -66,7 +66,9 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-
+        if (size == buffer.length){
+            resize(size*2);
+        }
     }
 
     /**
@@ -190,7 +192,32 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
+        //this is one way.
+//        for (int i = 0; i < size; i++) {
+//            buffer[i] = 0;
+//        }
 
+        //create a new buffer, other one just disappears
+        buffer = new int[10];
+
+        size = 0;
+
+    }
+
+    private void resize(int newSize){
+
+        //create a new space, separate from old space (buffer)
+        int[] newBuffer = new int[newSize];
+
+        //copy everything over from buffer into newBuffer
+        for (int i = 0; i < size; i++) {
+            newBuffer[i] = buffer[i];
+        }
+
+        //override old buffer with new buffer
+        buffer = newBuffer;
+
+        //the old space is no longer "pointed to" and will eventually be cleaned up by the garbage collector.
     }
 
     /**
