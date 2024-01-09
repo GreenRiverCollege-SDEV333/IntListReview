@@ -263,6 +263,10 @@ public class ArrayIntList implements IntList {
          */
         @Override
         public Integer next() {
+            if (i >= size) {
+                throw new NoSuchElementException("i is now out of bounds");
+            }
+
             int currentValue = buffer[i];
             i++;
 
