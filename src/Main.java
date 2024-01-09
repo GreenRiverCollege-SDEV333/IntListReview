@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -14,6 +16,22 @@ public class Main {
             //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
             // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
             System.out.println("i = " + i);
+        }
+
+        IntList thirdList = new ArrayIntList();
+        thirdList.addFront(15);
+        thirdList.addFront(12);
+        thirdList.addBack(8);
+
+        for (int value : thirdList) {
+            System.out.println(value);
+        }
+
+        //alternate way to use an iterator
+        Iterator<Integer> itr = thirdList.iterator();
+        while (itr.hasNext()) {
+            int value = itr.next();
+            System.out.println(value);
         }
     }
 }
