@@ -25,6 +25,7 @@ public class ArrayIntList implements IntList{
             buffer[i] = buffer[i-1];
         }
         buffer[0] = value;
+        size++;
 //        size++;
 //        int lastPointer = size - 1;
 //        while (lastPointer != 0){
@@ -57,7 +58,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-
+        buffer[index] = value;
     }
 
     /**
@@ -90,7 +91,24 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        //out of bounds
+        if (index >= size || index < 0){
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        // save a copy of the value to be removed so we can return it later
+        int removedValue = buffer[index];
+
+        //removing and transferring values
+        for (int i = index; i < size; i++){
+            buffer[i] = buffer[i+1];
+        }
+        buffer[size- 1] = 0;
+
+        //decrement size
+        size--;
+
+        return removedValue;
     }
 
     /**
