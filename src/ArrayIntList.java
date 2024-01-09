@@ -8,7 +8,7 @@ public class ArrayIntList implements IntList
 
     public ArrayIntList()
     {
-        //initialize
+        //initialize variables
         size = 0;
         buffer = new int[10];
     }
