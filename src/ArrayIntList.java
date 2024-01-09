@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList {
 
@@ -24,6 +25,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
+        fullSize();
         //move all the values over to one index.
         for (int i = size; i >= 1 ; i--) {
             buffer[i] = buffer[i-1];
@@ -41,6 +43,7 @@ public class ArrayIntList implements IntList {
     @Override
     public void addBack(int value) {
         //TODO: Check to see if we are full - if so, we need to create a larger buffer.
+        fullSize();
         buffer[size] = value ;
         size++;
     }
@@ -56,6 +59,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        fullSize();
 
     }
 
@@ -175,7 +179,45 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
+        for (int i = 0; i < buffer[size]; i++) {
+            buffer[i] = 0;
+        }
+        // or you can create a new array
+        // buffer = new array[ whatever size ] ;
+        size = 0 ;
 
+
+    }
+
+
+    /**
+     * this will make the size of the array to a certain size.
+     * @param newSize
+     */
+    private void resize (int newSize)
+    {
+
+        //create a temporary new array with the new size.
+        int [] tempBuffer = new int[newSize];
+
+        //copy everything over from buffer into newbuffer.
+        for (int i = 0; i < buffer.length; i++) {
+            tempBuffer[i] = buffer[i];
+        }
+
+        // set the new temp array as the main array .
+        buffer  = tempBuffer;
+    }
+
+    /**
+     * this method will check if the size is equal to the buffer.length,
+     * if it is equal to buffer length, it will double the size.
+     */
+    private void fullSize(){
+        if(size >= buffer.length)
+        {
+            resize(size * 2 );
+        }
     }
 
     /**
@@ -187,4 +229,49 @@ public class ArrayIntList implements IntList {
     public Iterator<Integer> iterator() {
         return null;
     }
+
+    //create a private helper itorator class.
+    private class IntListIterator implements Iterator<Integer>
+    {
+        //private fields
+
+        private int i ;
+        //constructor.
+        private IntListIterator ()
+        {
+            i = 0 ;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return i < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            if(i > size)
+            {
+                throw new NoSuchElementException("i is now out of bounds");
+            }
+            int currentValue  = buffer[i];
+            i++;
+            return currentValue;
+        }
+    }
+
+    //iterator are what enables main/client to use for each loop.
+
 }
