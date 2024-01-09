@@ -84,7 +84,25 @@ public class ArrayList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
+        else if (index >= size) {
+            throw new IndexOutOfBoundsException("Index is higher than size");
+        }
+
+        int copyOfRemovedValue = buffer[index];
+
+        // shift values to the left
+        for (int i = index; i < size; i++) {
+            buffer[i] = buffer[i + 1];
+        }
+
+        buffer[size - 1] = 0;
+
+        size--;
+
+        return copyOfRemovedValue;
     }
 
     /**
@@ -153,8 +171,9 @@ public class ArrayList implements IntList {
     @Override
     public void clear() {
         for (int i = 0; i < size; i++) {
-
+            buffer[i] = 0;
         }
+        size = 0;
     }
 
     /**
