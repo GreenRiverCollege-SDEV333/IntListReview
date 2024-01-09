@@ -64,13 +64,14 @@ public class ArrayIntList implements IntList{
     @Override
     public void removeFront() {
         if(size>1){
-            buffer[0]=0;
-            for(int i=0;i<size;i++){
-
+            buffer[0]=buffer[1];
+            for(int i=1;i<size;i++){
+            buffer[i]=buffer[i+1];
             }
         } else{
             buffer[0]=0;
         }
+        buffer[size]=0;
         size--;
     }
 
@@ -95,7 +96,16 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < size && index > 0) {
+            for(int i=index;i<size;i++){
+                buffer[i]=buffer[i+1];
+            }
+            buffer[size]=0;
+            size--;
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -107,7 +117,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        return buffer[index];
     }
 
     /**
