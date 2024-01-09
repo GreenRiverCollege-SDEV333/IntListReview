@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList
 {
@@ -6,7 +7,7 @@ public class ArrayIntList implements IntList
     private int size;
     private int[] buffer;
     
-    public ArrayIntList(int size, int[] buffer)
+    public ArrayIntList()
     {
         size = 0;
         buffer = new int[10];
@@ -228,9 +229,49 @@ public class ArrayIntList implements IntList
         size = 0;
     }
     
+    
     @Override
     public Iterator<Integer> iterator()
     {
         return null;
     }
+    
+    //create private helper iterator class
+    private class intListIterator implements Iterator<Integer>
+    {
+        private int i;
+    
+        public intListIterator()
+        {
+            i = 0;
+        }
+    
+        /**
+         * @return
+         */
+        @Override
+        public boolean hasNext()
+        {
+            return i < size;
+        }
+    
+        /**
+         * @return
+         */
+        @Override
+        public Integer next()
+        {
+            if (i >= size)
+            {
+                throw new NoSuchElementException("i is out of bounds");
+            }
+            
+            int curr = buffer[i];
+            i++;
+            return curr;
+        }
+    }
+    
+    //enables client to use a for-each loop
+    
 }
