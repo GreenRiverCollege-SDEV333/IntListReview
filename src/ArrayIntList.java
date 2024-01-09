@@ -24,6 +24,14 @@ public class ArrayIntList implements IntList
         buffer = newBuffer;
     }
     
+    private void sizeCheck()
+    {
+        if (size == buffer.length)
+        {
+            resize(size * 2);
+        }
+    }
+    
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -34,6 +42,8 @@ public class ArrayIntList implements IntList
     @Override
     public void addFront(int value)
     {
+        sizeCheck();
+        
         int curr = value;
         int next = curr;
     
@@ -54,6 +64,8 @@ public class ArrayIntList implements IntList
     @Override
     public void addBack(int value)
     {
+        sizeCheck();
+        
         buffer[size] = value;
         size++;
     }
@@ -70,10 +82,7 @@ public class ArrayIntList implements IntList
     @Override
     public void add(int index, int value)
     {
-        if (size == buffer.length)
-        {
-            resize(size * 2);
-        }
+        sizeCheck();
     }
     
     /**
