@@ -97,6 +97,10 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public void removeBack() {
+        Node removed = post.prev;
+
+        removed.prev.next = post;
+        post.prev = removed.prev;
 
     }
 
