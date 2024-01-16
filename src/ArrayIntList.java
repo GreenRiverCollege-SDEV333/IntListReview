@@ -3,7 +3,9 @@ import java.util.Iterator;
 
 public class ArrayIntList implements IntList{
 
-
+    //size and length are different
+    // size: amount of elements in array has to have a value
+    // length: amount of spots in array does not have to have a value
    private int size;
    private int[] buffer;
 
@@ -29,8 +31,13 @@ public class ArrayIntList implements IntList{
 //         buffer[i] = buffer[i - 1];
 //       }
 
-       for (int i = size - 1; i >= 0; i--) {
+        if(size == buffer.length){
+            resize(size + 2);
+        }
+
+        for (int i = size - 1; i >= 0; i--) {
             buffer[i+1] = buffer[i];
+
         }
 
 //         buffer[4] = buffer[3];
@@ -49,11 +56,12 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
-        // put 88(value) at index 0
-
-        buffer[size + 1] = value;
+        if(size == buffer.length){
+            resize(size + 2);
+        }
+        buffer[size] = value;
         size++;
-        // when filled then create new arraylist with bigger capacity and copy over data
+
     }
 
     /**
@@ -67,10 +75,13 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-
+        if(size == buffer.length){
+            resize(size + 2);
+        }
         for (int i = size; i >= 0; i--) {
             buffer[index] = value;
         }
+        size++;
     }
 
     /**
@@ -82,6 +93,12 @@ public class ArrayIntList implements IntList{
     public void removeFront() {
         // starts from back of array then replace the index +1
        // basically shift everything one opposite of addfront
+
+        for (int i = 0; i < size - 1; i++) {
+            buffer[i] = buffer[i + 1];
+        }
+        buffer[size - 1] = 0;
+        size--;
     }
 
     /**
@@ -91,9 +108,9 @@ public class ArrayIntList implements IntList{
     @Override
     public void removeBack() {
      // reduce size or zero it out
-        for (int i = size; i >= 1; i--) {
-            buffer[i] = buffer[i + 1];
-        }
+        buffer[size - 1] = 0;
+        size--;
+
     }
 
     /**
@@ -107,12 +124,27 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-
-        for (int i = size; i >= 1; i--) {
-            remove(buffer[index]);
-            buffer[i] = buffer[i + 1];
+        if(index < 0){
+            throw new IndexOutOfBoundsException("Index can not be negative");
         }
-        return buffer[index];
+        if(index >= size){
+            throw new IndexOutOfBoundsException("Index is higher than size");
+        }
+
+        // save copy of the value to be removed so we can return it later
+        int removedValue = buffer[index];
+
+        // shift values to the left
+        for(int i = index; i <= size-1; i++){
+            buffer[i] = buffer[1 + i]; // buffer[3] = buffer[4] 3 becomes 4, buffer[4] = buffer[5]  4 becomes 5
+        }
+
+        buffer[size - 1] = 0;
+        //size decrement
+        size--;
+
+        return removedValue;
+
     }
 
     /**
@@ -136,7 +168,7 @@ public class ArrayIntList implements IntList{
     @Override
     public boolean contains(int value) {
         for (int i = 0; i < size; i++) {
-             if(contains(value)){
+             if(buffer[i] == value){
                  return true;
              }
         }
@@ -190,10 +222,33 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void clear() {
-        for (int i = size; i >= 0; i--) {
-            buffer[i] = buffer[i - 1];
+      // while size is not 0 remove the items at index
+//        while(size != 0){
+//          remove(0);
+//      }
+        // iterating over array and setting values to zero
+        for (int i = 0; i < size; i++) {
+            buffer[i] = 0;
         }
+        size = 0;
+//        creating new array
+//        buffer = new int[10];
+//        size = 0;
     }
+
+    private void resize(int newSize){
+       // create a new space separate from the old buffer
+        int[] temp = new int[newSize];
+
+        // copy everything over from the buffer into new buffer
+        for (int i = 0; i < buffer.length; i++) {
+            temp[i] = buffer[i];
+
+        }
+        // reassign temp data back to buffer with bigger array
+        buffer = temp;
+    }
+
 
     /**
      * Returns an iterator over elements of type {@code T}.
@@ -205,11 +260,33 @@ public class ArrayIntList implements IntList{
         return null;
     }
 
+
+    //create a private helper iterator class
+    private static class IntListIterator implements Iterable<Integer>{
+//    private int 1;
+
+    private IntListIterator(){
+        ;
+    }
+        /**
+         * Returns an iterator over elements of type {@code T}.
+         *
+         * @return an Iterator.
+         */
+        @Override
+        public Iterator<Integer> iterator() {
+            return null;
+        }
+    }
+
+    //iterate are what enables main/client to use for each loop
+    // on my intlist
+
+
     @Override
     public String toString() {
-        return "ArrayIntList{" +
-                "size=" + size +
-                ", " + Arrays.toString(buffer) +
+        return "ArrayIntList{" + " " +
+                 Arrays.toString(buffer) +
                 '}';
     }
 }

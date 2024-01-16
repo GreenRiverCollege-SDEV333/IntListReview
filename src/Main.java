@@ -13,26 +13,27 @@ public class Main  {
 
             IntList thirdList = new ArrayIntList();
 
+//            for(int value : thirdList){
+//                System.out.println(value);
+//            }
+
+
 
             thirdList.add(0,4);
             thirdList.add(1,5);
             thirdList.add(2,6);
             thirdList.add(3,7);
             System.out.println(thirdList);
+            thirdList.addBack(65);
+            System.out.println(thirdList);
+            thirdList.addFront(69);
+            System.out.println(thirdList);
+            thirdList.removeBack();
+            System.out.println(thirdList);
+            thirdList.removeFront();
+            System.out.println(thirdList);
 
 
-
-//            thirdList.removeBack();
-//            System.out.println(thirdList);
-
-
-
-
-
-
-//            thirdList.removeFront();
-//            System.out.println(thirdList);
-//
 
         }
 
