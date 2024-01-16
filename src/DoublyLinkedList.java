@@ -101,7 +101,20 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void removeBack() {
+        if(size > 0 ) {
+            // set up a temp variable for convenience
+            Node theOneToRemove = post.prev;
+            theOneToRemove.prev.next = post;
+            post.prev = theOneToRemove.prev;
 
+            //optional to clean upp
+            theOneToRemove.data = 0;
+            theOneToRemove.next = null;
+            theOneToRemove.prev = null;
+
+            //decrement size
+            size--;
+        }
     }
 
     /**
