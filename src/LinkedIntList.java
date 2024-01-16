@@ -2,6 +2,16 @@ import java.util.Iterator;
 
 public class LinkedIntList implements IntList
 {
+    //private fields
+    private class Node
+    {
+        int data;
+        Node next;
+    }
+    
+    private Node head;
+    private int size;
+    
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any

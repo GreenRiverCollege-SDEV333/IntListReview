@@ -2,6 +2,33 @@ import java.util.Iterator;
 
 public class DoublyLinkedIntList implements IntList
 {
+    //private fields
+    private class Node
+    {
+        int data;
+        Node next;
+        Node prev;
+        
+        public Node()
+        {
+            next = null;
+            prev = null;
+        }
+    }
+    
+    private Node pre;
+    private Node post;
+    private int size;
+    
+    public DoublyLinkedIntList()
+    {
+        //empty list has 2 sentinel nodes that serve as bookends
+        pre = new Node();
+        post = new Node();
+        pre.next = post;
+        post.prev = pre;
+        size = 0;
+    }
     
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
@@ -24,7 +51,14 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void addBack(int value)
     {
+        Node theNewOne = new Node(); //new node
+        theNewOne.data = value; //instantiate node value
+        theNewOne.next = post; //instantiate node.next
+        theNewOne.prev = post.prev; //instantiate node.prev
     
+        post.prev.next = theNewOne; //change node.next of node proceeding new node
+        post.prev = theNewOne; //change node.prev of post
+        size++; //increment size
     }
     
     /**
@@ -60,7 +94,20 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void removeBack()
     {
+        if (size > 0)
+        {
+            Node removeNode = post.prev; //make a copy of node to remove
     
+            removeNode.prev.next = post; //set the proceeding node's next pointer to post
+            post.prev = removeNode.prev; //set the prev pointer of post to the node proceeding the removed node
+            
+            //set node to null for garbage collector to clean up
+            removeNode.data = 0;
+            removeNode.next = null;
+            removeNode.prev = null;
+            
+            size--; //decrement size of linkedlist
+        }
     }
     
     /**
