@@ -64,10 +64,16 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        // TODO: finish method
         if (size == buffer.length) {
             resize(size * 2);
         }
+
+        for (int i = size; i >= index; i--) {
+            buffer[i] = buffer[i - 1];
+        }
+
+        buffer[index] = value;
+        size++;
     }
 
     /**
