@@ -34,6 +34,6 @@ public class Main {
 
     public static double findAverage(IntList theList)
     {
-
+        return 0.0;
     }
 }
