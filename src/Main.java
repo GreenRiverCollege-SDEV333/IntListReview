@@ -6,14 +6,17 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.printf("Hello and welcome!");
 
-        IntList firstList;
+        IntList firstList = new ArrayList();
 
         ArrayList secondList = new ArrayList();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        IntList thirdList = new ArrayList();
+        thirdList.addFront(15);
+        thirdList.addFront(12);
+        thirdList.addFront(7);
+        
+        for (int value : thirdList) {
+            System.out.println(value);
         }
     }
 }

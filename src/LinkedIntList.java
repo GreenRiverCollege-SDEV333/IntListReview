@@ -1,24 +1,22 @@
 import java.util.Iterator;
 
-public class ArrayList implements IntList {
-    /*
-        This is supposed to be called ArrayIntList, but renaming it breaks some other things.
-     */
-    private int size;
-    private int[] buffer;
+public class LinkedIntList implements IntList {
+    //define what a node is
+    private class Node {
+        int data;
+        Node next;
+    }
+    //set up the head
+    private Node head;
 
-    public ArrayList() {
-        // initialize fields
+    //set up the size field
+    int size;
+
+    public LinkedIntList() {
+        head = null;
         size = 0;
-        buffer = new int[10];
     }
-    public void resize(int newSize) {
-        int[] newBuffer = new int[newSize];
-        for (int i = 0; i < size; i++) {
-            newBuffer[i] = buffer[i];
-        }
-        buffer = newBuffer;
-    }
+
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -28,16 +26,17 @@ public class ArrayList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        if (size == buffer.length) {
-            resize(size * 2);
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+        if (head == null) {
+            head = theNewOne;
+            theNewOne.next = null;
+        } else {
+            theNewOne.next = head;
+            head = theNewOne;
         }
-        for (int i = size ; i >= 1 ; i-- ) {
-            buffer[i] = buffer[i - 1];
-        }
-        buffer[0] = value;
         size++;
     }
-
 
     /**
      * Appends (inserts) the specified value at the back of the list (at index size()-1).
@@ -46,11 +45,7 @@ public class ArrayList implements IntList {
      */
     @Override
     public void addBack(int value) {
-        if (size == buffer.length) {
-            resize(size * 2);
-        }
-        buffer[size] = value;
-        size++;
+
     }
 
     /**
@@ -64,9 +59,7 @@ public class ArrayList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        if (size == buffer.length) {
-            resize(size * 2);
-        }
+
     }
 
     /**
@@ -76,9 +69,7 @@ public class ArrayList implements IntList {
      */
     @Override
     public void removeFront() {
-        for (int i = 0; i < size; i++) {
-            buffer[i + 1] = buffer[i];
-        }
+
     }
 
     /**
@@ -101,25 +92,7 @@ public class ArrayList implements IntList {
      */
     @Override
     public int remove(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Index cannot be negative");
-        }
-        else if (index >= size) {
-            throw new IndexOutOfBoundsException("Index is higher than size");
-        }
-
-        int copyOfRemovedValue = buffer[index];
-
-        // shift values to the left
-        for (int i = index; i < size; i++) {
-            buffer[i] = buffer[i + 1];
-        }
-
-        buffer[size - 1] = 0;
-
-        size--;
-
-        return copyOfRemovedValue;
+        return 0;
     }
 
     /**
@@ -131,10 +104,7 @@ public class ArrayList implements IntList {
      */
     @Override
     public int get(int index) {
-        if (index > size) {
-            throw new IndexOutOfBoundsException();
-        }
-        return buffer[index];
+        return 0;
     }
 
     /**
@@ -178,7 +148,7 @@ public class ArrayList implements IntList {
      */
     @Override
     public int size() {
-        return size;
+        return 0;
     }
 
     /**
@@ -187,10 +157,7 @@ public class ArrayList implements IntList {
      */
     @Override
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            buffer[i] = 0;
-        }
-        size = 0;
+
     }
 
     /**
