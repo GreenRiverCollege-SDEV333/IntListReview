@@ -6,6 +6,9 @@ public class ArrayIntList implements IntList {
     private int size;
     private int[] buffer;
 
+    /**
+     * Constructor for an ArrayIntList object
+     */
     public ArrayIntList() {
         size = 0;
         this.buffer = new int[10];
@@ -32,11 +35,6 @@ public class ArrayIntList implements IntList {
             buffer[i] = buffer[i - 1];
         }
 
-        buffer[4] = buffer[3];
-        buffer[3] = buffer[2];
-        buffer[2] = buffer[1];
-        buffer[1] = buffer[0];
-
        buffer[0] = value;
         size++;
     }
@@ -48,7 +46,6 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-        // TODO: check to see if we are full - if so, we need to create a larger buffer
         if (size == buffer.length) {
             resize(size * 2);
         }
@@ -80,7 +77,13 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeFront() {
-        // TODO: finish method
+        if (size != 0) {
+            for (int i = 0; i <= size; i++) {
+                buffer[i] = buffer[i+1];
+            }
+
+            size--;
+        }
 
     }
 
@@ -90,7 +93,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
-        // TODO: finish method
+        if (size != 0) {
+            buffer[size] = 0;
+            size--;
+        }
 
     }
 
@@ -138,9 +144,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        // TODO: finish method
-
-        return 0;
+        return buffer[index];
     }
 
     /**
@@ -151,8 +155,11 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        // TODO: finish method
-
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -166,9 +173,12 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        // TODO: finish method
-
-        return 0;
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -178,9 +188,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        // TODO: finish method
-
-        return false;
+        return size != buffer.length;
     }
 
     /**
@@ -190,9 +198,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int size() {
-        // TODO: finish method
-
-        return 0;
+        return size;
     }
 
     /**
@@ -222,6 +228,8 @@ public class ArrayIntList implements IntList {
         //eventually be cleaned up by the garbage collector
     }
 
+
+
     /**
      * Returns an iterator over elements of type {@code T}.
      *
@@ -229,9 +237,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        // TODO: finish method
-
-        return null;
+        return new IntListIterator();
     }
 
     private class IntListIterator implements Iterator<Integer> {
