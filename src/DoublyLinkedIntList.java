@@ -1,6 +1,32 @@
 import java.util.Iterator;
 
 public class DoublyLinkedIntList implements IntList{
+
+    private class Node {
+        int data;
+        Node next;      //address of the node "after" this one in line
+        Node prev;      //address of the node "before" this one in line
+
+        //sets next and prev null by default
+        public Node() {
+            next = null;
+            prev = null;
+        }
+    }
+
+    private Node pre;
+    private Node post;
+    private int size;
+
+    public DoublyLinkedIntList(){
+        //on empty list has 2 sentinel (dummy) nodes that serve as bookends
+        pre = new Node();
+        post = new Node();
+        pre.next = post;
+        post.prev = pre;
+        size = 0;
+    }
+
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -8,6 +34,7 @@ public class DoublyLinkedIntList implements IntList{
      *
      * @param value value to be inserted
      */
+
     @Override
     public void addFront(int value) {
 
@@ -20,7 +47,19 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
+        Node theLastOne = post.prev;
 
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+
+        pre.next = theNewOne;
+        theNewOne.next = post;
+        theNewOne.prev = theLastOne;
+        post.prev = theNewOne;
+
+        theLastOne.next = theNewOne;
+
+        size++;
     }
 
     /**
@@ -53,7 +92,12 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void removeBack() {
+        //the last real node in prev
+        Node temp = post.prev;
+        temp.prev.next = post;
+        post.prev = temp.prev;
 
+        size--;
     }
 
     /**
