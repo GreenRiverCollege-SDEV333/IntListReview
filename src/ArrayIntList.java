@@ -3,6 +3,13 @@ import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList{
 
+    private class Node {
+        int data;
+        Node next;
+    }
+    //set up head field
+    private Node head;
+
     //fields:
     private int size;
     private int[] buffer;
@@ -200,7 +207,6 @@ public class ArrayIntList implements IntList{
         buffer = newBuffer;
 
         // the old buffer is no longer references and will be garbage collected
-
     }
 
     /**
