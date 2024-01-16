@@ -1,33 +1,25 @@
 import java.util.Iterator;
 
-public class DoublyLinkedIntList implements IntList
-{
-    //private fields
-    int size;
+public class LinkedIntList implements IntList {
 
+    // define what a node is
     private class Node {
         int data;
-        Node next;      //address of the node "after" this one in line
-        Node previous;      //address of the node "before" this one in line
-
-        public Node() {
-            next = null;
-            previous = null;
-        }
+        Node next;
     }
 
+    // set up the head field
     private Node head;
-    private Node tail;
 
-    public DoublyLinkedIntList() {
-        // an empty list has 3 sentinel (dummy) nodes that serve as bookends
-        head = new Node();
-        tail = new Node();
-        head.next = tail;
-        tail.previous = head;
+    // set up the size field
+    private int size;
+
+    //add a constructor to initialize
+    public LinkedIntList()
+    {
+        head = null;
         size = 0;
     }
-
 
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
@@ -39,21 +31,19 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void addFront(int value)
     {
-        Node theLastOne = tail.previous;
-
-        // set up my new node and fill it out (data, prev, next)
+        // set up a new node
         Node theNewOne = new Node();
-        theNewOne.data = value;
-        theNewOne.next = tail;
-        theNewOne.previous = theLastOne;
 
-        //go to the end of the list's sentinel, and update its prev
-        tail.previous = theNewOne;
-
-        //go to the node before the new one, and update its next
-        theLastOne.next = theNewOne;
-
-        size++;
+        if (head == null) {
+            // the list is currently empty
+            head = theNewOne;
+            size++;
+        }
+        else {
+            // the list currently has some nodes in it
+            theNewOne.next = head;
+            head = theNewOne;
+        }
     }
 
     /**
@@ -100,20 +90,7 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void removeBack()
     {
-        if (size > 0) {
-            //set up a temporary variable for convenience
-            Node theOneToRemove = tail.previous;
 
-            theOneToRemove.previous.next = tail;
-            tail.previous = theOneToRemove.previous;
-
-            //optional, but strongly recommended to clean up
-            theOneToRemove.next = null;
-            theOneToRemove.previous = null;
-            theOneToRemove.data = 0;
-
-            size--;
-        }
     }
 
     /**
