@@ -58,6 +58,30 @@ public class Driver {
         int removedValue = firstList.remove(2);
         firstList.printList();
         System.out.println(removedValue);
-        
+
+        firstList.printList();
+        int valueAtIndex = firstList.get(8);
+        System.out.println(valueAtIndex);
+
+        firstList.printList();
+        System.out.println(firstList.contains(10));
+
+        firstList.printList();
+        System.out.println(firstList.indexOf( 6));
+
+        System.out.println(firstList.isEmpty());
+        System.out.println(emptyList.isEmpty());
+
+        System.out.println(firstList.size());
+        System.out.println(emptyList.size());
+
+        System.out.println(firstList.isEmpty());
+
+        firstList.clear();
+        firstList.printList();
+        System.out.println(firstList.isEmpty());
+
+
+
     }
 }

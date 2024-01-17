@@ -199,11 +199,13 @@ public class DoublyLinkedIntList implements IntList {
             if (index == 0) {
                 int removedValue = current.data;
                 removeFront();
+                size--;
                 return removedValue;
             // Conditional to skip looping if index is last node
             } else if (index == size - 1) {
                 int removedValue = back.prev.data;
                 removeBack();
+                size--;
                 return removedValue;
             } else {
                 // Loop to find the node at index position
@@ -212,6 +214,7 @@ public class DoublyLinkedIntList implements IntList {
                         int removedValue = current.data;
                         current.prev.next = current.next;
                         current.next.prev = current.prev;
+                        size--;
                         // Index found so skip looping
                         return removedValue;
                     } else {
@@ -219,7 +222,8 @@ public class DoublyLinkedIntList implements IntList {
                         i++;
                     }
                 // Decrement size of list
-                } size--;
+                }
+//                size--;
             }
         } else {
             if (index < 0) {
@@ -239,7 +243,36 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        // Counter
+        int i = 0;
+        // Position
+        Node current = front.next;
+
+        //Skip looping if index is at front of list
+        if (index == 0) {
+            return current.data;
+        // Skip looping if index is at back of list
+        } else if (index == size - 1) {
+            return back.prev.data;
+        // If index is in acceptable range loop to find Node at index value
+        }else if (index < size && index >= 0){
+            while (current != back) {
+                if (index == i) {
+                    return current.data;
+                } else {
+                    i++;
+                    current = current.next;
+                }
+            }
+            return current.data;
+        // Throw IndexOutOfBoundsException if index is not in range
+        } else {
+            if (index < 0) {
+                throw new IndexOutOfBoundsException("Index must be 0 or greater...");
+            } else {
+                throw new IndexOutOfBoundsException("List does not have enough indices...");
+            }
+        }
     }
 
     /**
@@ -250,7 +283,17 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        return false;
+
+        // Position
+        Node current = front.next;
+
+        while (current != back) {
+            if (current.data == value) {
+                return true;
+            } else {
+                current = current.next;
+            }
+        } return false;
     }
 
     /**
@@ -263,7 +306,16 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+
+        int i = 0;
+        Node current = front.next;
+
+        if (contains(value)) {
+             while (current.data != value) {
+                 i++;
+                 current = current.next;
+             } return i;
+        } return -1;
     }
 
     /**
@@ -273,6 +325,10 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
+
+        if (front.next == back && back.prev == front) {
+            return true;
+        }
         return false;
     }
 
@@ -283,7 +339,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return this.size;
     }
 
     /**
@@ -292,7 +348,9 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        front.next = back;
+        back.prev = front;
+        size = 0;
     }
 
     /**
