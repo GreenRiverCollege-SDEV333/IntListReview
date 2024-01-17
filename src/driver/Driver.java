@@ -14,5 +14,15 @@ public class Driver {
 
         firstList.printList();
 
+        firstList.addFront(4);
+        firstList.printList();
+        firstList.addFront(5);
+        firstList.printList();
+
+        firstList.add(5, 100);
+        firstList.printList();
+
+
+
     }
 }

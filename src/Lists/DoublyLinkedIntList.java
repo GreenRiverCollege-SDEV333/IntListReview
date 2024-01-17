@@ -6,17 +6,17 @@ import Interfaces.IntList;
 public class DoublyLinkedIntList implements IntList {
 
     // Fields
-    private Node left;
-    private Node right;
+    private Node front;
+    private Node back;
     private int size;
 
     // Constructor
     public DoublyLinkedIntList() {
         // an empty list has two sentinel (dummy) nodes that serve as bookends
-        left = new Node();
-        right = new Node();
-        left.next = right;
-        right.prev = left;
+        front = new Node(0);
+        back = new Node(0);
+        front.next = back;
+        back.prev = front;
         size = 0;
 
     }
@@ -26,13 +26,12 @@ public class DoublyLinkedIntList implements IntList {
         Node next;  // address of the node 'after' this one in line
         Node prev;  // addres of the node 'before' this one in line
 
-        public Node() {
+        public Node(int dataValue) {
+            data = dataValue;
             next = null;
             prev = null;
         }
     }
-
-
 
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
@@ -44,6 +43,18 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void addFront(int value) {
 
+        // Create new node with int value;
+        Node addedToFront = new Node(value);
+
+        // Assign new Node prev and next locators
+        addedToFront.prev = front;
+        addedToFront.next = front.next;
+
+        // Connect new Node to list
+        front.next.prev = addedToFront;
+        front.next = addedToFront;
+
+        size++;
     }
 
     /**
@@ -53,22 +64,20 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-        Node theLastNode = right.prev;
+        Node theLastNode = back.prev;
 
         // set up my new node and fill it out (data, prev, next)
-        Node theNewNode = new Node();
-        theNewNode.data = value;
-        theNewNode.next = right;
+        Node theNewNode = new Node(value);
+        theNewNode.next = back;
         theNewNode.prev = theLastNode;
 
         // go to the end of the list's sentinel and update it's prev
-        right.prev = theNewNode;
+        back.prev = theNewNode;
 
         // go to the node before the new one and update it's next
         theLastNode.next = theNewNode;
 
         size++;
-
     }
 
     /**
@@ -83,6 +92,32 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void add(int index, int value) {
 
+        // Counter
+        int i = 0;
+        // Create new Node
+        Node nodeAtIndex = new Node(value);
+        Node current = front.next;
+
+        if (i <= size) {
+            // Conditional: If index is size of List skip loop and add to back
+            if (index == size) {
+                this.addBack(value);
+            } else {
+                while (current != back) {
+                    if (index == i) {
+                        // Assign the new node's prev and next locators
+                        nodeAtIndex.prev = current.prev;
+                        nodeAtIndex.next = current;
+                        // Connect new Node to list
+                        current.prev.next = nodeAtIndex;
+                        current.prev = nodeAtIndex;
+                    }
+                    i++;
+                    current = current.next;
+                }
+                size++;
+            }
+        }
     }
 
     /**
@@ -103,10 +138,10 @@ public class DoublyLinkedIntList implements IntList {
     public void removeBack() {
         if (size > 0) {
             // set up a temp variable for convenience
-            Node theOneToRemove = right.prev;
+            Node theOneToRemove = back.prev;
 
-            theOneToRemove.prev.next = right;
-            right.prev = theOneToRemove.prev;
+            theOneToRemove.prev.next = back;
+            back.prev = theOneToRemove.prev;
 
             // optional to clean up
             theOneToRemove.next = null;
@@ -211,16 +246,19 @@ public class DoublyLinkedIntList implements IntList {
      */
     public void printList()
     {
-        Node current = this.left.next;
+        Node current = this.front.next;
+        System.out.print("Size: " + size + "     ");
 
         while (current.next != null)
         {
-            if (current.next != right) {
+            if (current.next != back) {
                 System.out.print(current.data + " -> ");
             } else {
                 System.out.print(current.data);
             }
             current = current.next;
         }
+
+        System.out.println();
     }
 }
