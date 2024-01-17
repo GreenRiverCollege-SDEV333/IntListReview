@@ -50,7 +50,7 @@ public class ArrayIntList implements IntList {
             resize(size * 2);
         }
         buffer[size] = value;
-        value++;
+        size++;
     }
 
     /**
@@ -64,6 +64,12 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        if (index == 0 && size == 0) {
+            size++;
+        }
+        else if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("index is out of bounds");
+        }
         if (size == buffer.length) {
             resize(size * 2);
         }
@@ -150,6 +156,12 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
+        if (index >= size) {
+            throw new IndexOutOfBoundsException("Index cannot be greater than size");
+        }
+        else if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be less than zero");
+        }
         return buffer[index];
     }
 
@@ -194,7 +206,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return size != buffer.length;
+        return size == 0;
     }
 
     /**
