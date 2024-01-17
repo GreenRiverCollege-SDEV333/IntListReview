@@ -6,24 +6,11 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("Hello and welcome!");
 
-        IntList firstList;
+        DoublyLinkedList listOne = new DoublyLinkedList();
 
-        ArrayIntList secondList = new ArrayIntList();
-
-        IntList thirdList = new ArrayIntList();
-
-        thirdList.addFront(1);
-        thirdList.addFront(2);
-        thirdList.addFront(3);
-
-        // testing .add method
-        thirdList.add(1, 4);
-        thirdList.add(2, 5);
-
-        for(int i = 0; i < thirdList.size(); i++) {
-            System.out.print(thirdList.get(i) + " ");
-        }
-
+        listOne.addFront(3);
+        listOne.addFront(2);
+        listOne.addFront(1);
 
     }
 }

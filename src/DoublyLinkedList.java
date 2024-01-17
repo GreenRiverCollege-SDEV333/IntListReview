@@ -39,7 +39,26 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public void addFront(int value) {
+        // create a placeholder node for the original first node
+        Node originalFirst = pre.next;
 
+        // the new node to be added to the front
+        Node theNewNode = new Node();
+        theNewNode.data = value;
+
+        // set theNewNode.next to the original first
+        theNewNode.next = originalFirst;
+
+        // set theNewNode.prev to the pre sentinel
+        theNewNode.prev = pre;
+
+        // connects the originalFirst to the new node
+        originalFirst.prev = theNewNode;
+
+        // connects the pre sentinel node to the new node
+        pre.next = theNewNode;
+
+        size++;
     }
 
     /**
@@ -88,7 +107,18 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public void removeFront() {
+        if(size > 0) {
+            Node removed = pre.next;
 
+            pre.next = removed.next;
+            removed.next.prev = pre;
+
+            removed.next = null;
+            removed.prev = null;
+            removed.data = 0;
+
+            size--;
+        }
     }
 
     /**
@@ -97,11 +127,18 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public void removeBack() {
-        Node removed = post.prev;
+        if(size > 0) {
+            Node removed = post.prev;
 
-        removed.prev.next = post;
-        post.prev = removed.prev;
+            removed.prev.next = post;
+            post.prev = removed.prev;
 
+            removed.next = null;
+            removed.prev = null;
+            removed.data = 0;
+
+            size--;
+        }
     }
 
     /**
