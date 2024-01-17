@@ -205,4 +205,22 @@ public class DoublyLinkedIntList implements IntList {
     public Iterator<Integer> iterator() {
         return null;
     }
+
+    /**
+     * Prints Entire list
+     */
+    public void printList()
+    {
+        Node current = this.left.next;
+
+        while (current.next != null)
+        {
+            if (current.next != right) {
+                System.out.print(current.data + " -> ");
+            } else {
+                System.out.print(current.data);
+            }
+            current = current.next;
+        }
+    }
 }
