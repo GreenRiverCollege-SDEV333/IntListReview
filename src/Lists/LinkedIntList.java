@@ -1,4 +1,7 @@
+package Lists;
+
 import java.util.Iterator;
+import Interfaces.IntList;
 
 public class LinkedIntList implements IntList {
 
