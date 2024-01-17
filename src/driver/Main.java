@@ -1,7 +1,7 @@
 package driver;
 
-import Lists.ArrayIntList;
-import Interfaces.IntList;
+import lists.ArrayIntList;
+import interfaces.IntList;
 
 import java.util.Iterator;
 

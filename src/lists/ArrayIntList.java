@@ -1,30 +1,21 @@
-package Lists;
+package lists;
 
 import java.util.Iterator;
-import Interfaces.IntList;
+import java.util.NoSuchElementException;
 
-public class LinkedIntList implements IntList {
+import interfaces.IntList;
 
-    // define what a node is
-    private class Node {
+public class ArrayIntList implements IntList {
 
-        int data;
-        Node next;
-    }
-
-    // set up the head
-    private Node head;
-
-    // set up the size field
+    // fields:
     private int size;
+    private int[] buffer;
 
-    // ad a constructor to initialize the fields
-    public LinkedIntList() {
-        head = null;
+    public ArrayIntList() {
+        //initialize fields
         size = 0;
+        buffer = new int[10];
     }
-
-
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -34,19 +25,14 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        // set up a new node
-        Node theNewOne = new Node();
-
-        if (head == null) {
-            // the list is currently empty
-            head = theNewOne;
-            size++;
-        } else {
-            // the list cureently has some nodes in it
-            theNewOne.next = head;
-            head = theNewOne;
+        for (int i = size; i >= 0; i--) {
+            buffer[i] = buffer[i - 1];
 
         }
+
+        // put the value at the front of the array at position 0
+        buffer[0] = value;
+        size++;
 
     }
 
@@ -57,6 +43,14 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
+        //TODO: check to see if we are full - if so, we need to create a larger buffer
+
+        if ( size == buffer.length) {
+            resize(size * 2);
+        }
+
+        buffer[size] = value;
+        size++;
 
     }
 
@@ -71,6 +65,9 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        if ( size == buffer.length) {
+            resize(size * 2);
+        }
 
     }
 
@@ -104,7 +101,26 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        // first, check the index to see if it is valid
+        if ( index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        } else if (index >= size) {
+            throw new IndexOutOfBoundsException("Index is higher than size");
+        }
+
+        // save a copy of the value to be removed so we can return it later
+        int copyOfRemovedValue = buffer[index];
+
+        //shift values to the left
+        for (int i = 0; i <= size - 1; i++) {
+            buffer[i] = buffer[i + 1];
+
+        }
+
+        buffer[size - 1] = 0;
+        size--;
+        
+        return copyOfRemovedValue;
     }
 
     /**
@@ -116,7 +132,10 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (index > size) {
+            throw new IndexOutOfBoundsException("No Such Index Value...");
+        }
+        return buffer[index];
     }
 
     /**
@@ -169,7 +188,31 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
+//        for (int i = 0; i < size; i++) {
+//            buffer[i] = 0;
+//        }
+//
+//        size = 0;
 
+        buffer = new int[10];
+        size = 0;
+    }
+
+    private void resize(int newSize) {
+        //create new space, separate from the old space (buffer)
+        int[] newBuffer = new int[newSize];
+
+        // copy everything over from buffer into newBuffer
+        for (int i = 0; i < buffer.length; i++) {
+            newBuffer[i] = buffer[i];
+
+        }
+
+        // set the new space into buffer
+        buffer = newBuffer;
+
+        // the old space is no longer "pointed to" and will eventually
+        // be cleaned up by the garbage collector
     }
 
     /**
@@ -179,6 +222,50 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
+
+        //iterators are what enables main/client to use a for-each lop on Interfaces.IntList
         return null;
     }
+
+    //create a private helper Iterator class
+    private class IntListIterator implements Iterator<Integer> {
+
+        // private fields:
+        private int i;
+
+        private IntListIterator() {
+            i = 0;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return i < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            //check to see if i is greater than size
+//            if ( i >= size) {
+//                throw new
+//            }
+            
+            int currentValue = buffer[i];
+            i++;
+            return currentValue;
+        }
+    }
+
 }

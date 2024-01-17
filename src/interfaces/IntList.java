@@ -1,4 +1,4 @@
-package Interfaces;
+package interfaces;
 
 /**
  * The Interfaces.IntList interface defines a set of operations

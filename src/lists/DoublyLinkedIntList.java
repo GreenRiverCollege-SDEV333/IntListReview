@@ -1,8 +1,14 @@
-package Lists;
+package lists;
 
 import java.util.Iterator;
-import Interfaces.IntList;
+import interfaces.IntList;
 
+/**
+ * Creates a doubly linked list and implements methods in IntList
+ *
+ * @author tobygoetz
+ * @version 1.0
+ */
 public class DoublyLinkedIntList implements IntList {
 
     // Fields
@@ -10,7 +16,9 @@ public class DoublyLinkedIntList implements IntList {
     private Node back;
     private int size;
 
-    // Constructor
+    /**
+     * Constructor for DoublyLinkedIntList
+      */
     public DoublyLinkedIntList() {
         // an empty list has two sentinel (dummy) nodes that serve as bookends
         front = new Node(0);
@@ -30,6 +38,15 @@ public class DoublyLinkedIntList implements IntList {
             data = dataValue;
             next = null;
             prev = null;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "data=" + data +
+                    ", next=" + next +
+                    ", prev=" + prev +
+                    '}';
         }
     }
 
@@ -128,6 +145,14 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void removeFront() {
 
+        if (size > 0) {
+            // Assign Front next locator to second Node
+            front.next = front.next.next;
+            // Assign the new first node's prev locator to front
+            front.next.prev = front;
+            // Decrement size
+            size--;
+        }
     }
 
     /**
@@ -136,6 +161,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
+
         if (size > 0) {
             // set up a temp variable for convenience
             Node theOneToRemove = back.prev;
@@ -163,7 +189,45 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        // Counter
+        int i = 0;
+        // Position
+        Node current = front.next;
+
+        if (index < size && index >= 0) {
+            // Conditional to skip looping if index is first node
+            if (index == 0) {
+                int removedValue = current.data;
+                removeFront();
+                return removedValue;
+            // Conditional to skip looping if index is last node
+            } else if (index == size - 1) {
+                int removedValue = back.prev.data;
+                removeBack();
+                return removedValue;
+            } else {
+                // Loop to find the node at index position
+                while (current != back) {
+                    if (index == i) {
+                        int removedValue = current.data;
+                        current.prev.next = current.next;
+                        current.next.prev = current.prev;
+                        // Index found so skip looping
+                        return removedValue;
+                    } else {
+                        current = current.next;
+                        i++;
+                    }
+                // Decrement size of list
+                } size--;
+            }
+        } else {
+            if (index < 0) {
+                throw new IndexOutOfBoundsException("Index must be 0 or greater...");
+            } else {
+                throw new IndexOutOfBoundsException("List does not have enough indices...");
+            }
+        } return 0;
     }
 
     /**
@@ -260,5 +324,14 @@ public class DoublyLinkedIntList implements IntList {
         }
 
         System.out.println();
+    }
+
+    @Override
+    public String toString() {
+        return "DoublyLinkedIntList{" +
+                "front=" + front +
+                ", back=" + back +
+                ", size=" + size +
+                '}';
     }
 }
