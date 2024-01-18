@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedIntList implements IntList{
 
@@ -146,7 +147,7 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -175,6 +176,49 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new SinglyLinkedIterator();
+    }
+
+    // helper class/type that defines how the iterator works
+    private class SinglyLinkedIterator implements Iterator<Integer> {
+        private Node current;
+
+        public SinglyLinkedIterator() {
+            current = head;
+        }
+
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            if(current != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            if(current == null)
+            {
+                throw new NoSuchElementException("There is no next element!");
+            }
+            int item = current.data;
+            current = current.next;
+            return item;
+        }
     }
 }
