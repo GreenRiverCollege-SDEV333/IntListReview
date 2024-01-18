@@ -233,15 +233,15 @@ public class ArrayIntList implements IntList
     @Override
     public Iterator<Integer> iterator()
     {
-        return null;
+        return new IntListIterator();
     }
     
     //create private helper iterator class
-    private class intListIterator implements Iterator<Integer>
+    private class IntListIterator implements Iterator<Integer>
     {
         private int i;
     
-        public intListIterator()
+        public IntListIterator()
         {
             i = 0;
         }

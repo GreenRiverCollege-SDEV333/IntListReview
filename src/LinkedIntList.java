@@ -145,7 +145,7 @@ public class LinkedIntList implements IntList
     @Override
     public int size()
     {
-        return 0;
+        return size;
     }
     
     /**
@@ -161,6 +161,31 @@ public class LinkedIntList implements IntList
     @Override
     public Iterator<Integer> iterator()
     {
-        return null;
+        return new SinglyLinkedIterator();
+    }
+    
+    //helper class that defines how the iterator works
+    private class SinglyLinkedIterator implements Iterator<Integer>
+    {
+        private Node curr;
+        
+        public SinglyLinkedIterator()
+        {
+            curr = head;
+        }
+        
+        @Override
+        public boolean hasNext()
+        {
+            return curr.next != null;
+        }
+    
+        @Override
+        public Integer next()
+        {
+            curr = curr.next;
+            
+            return curr.data;
+        }
     }
 }
