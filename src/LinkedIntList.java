@@ -1,4 +1,7 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+//4
 
 public class LinkedIntList implements IntList {
 
@@ -8,10 +11,7 @@ public class LinkedIntList implements IntList {
         Node next;
     }
 
-    //set up the head field
     private Node head;
-
-    //set up the size field
     private int size;
 
     public LinkedIntList() {
@@ -30,17 +30,18 @@ public class LinkedIntList implements IntList {
     public void addFront(int value) {
         //set up a new node
         Node theNewOne = new Node();
+        theNewOne.data = value;
 
         if (head == null) {
             // the list is currently empty
             head = theNewOne;
-            size++;
         }
         else {
             //the list currently has some nodes in it
             theNewOne.next = head;
             head = theNewOne;
         }
+        size++;
     }
 
     /**
@@ -50,6 +51,20 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+        Node current = head;
+
+        if (head == null) {
+            head = theNewOne;
+        }
+        else {
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = theNewOne;
+        }
+        size++;
 
     }
 
@@ -65,6 +80,28 @@ public class LinkedIntList implements IntList {
     @Override
     public void add(int index, int value) {
 
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+        else {
+            Node theNewOne = new Node();
+            theNewOne.data = value;
+            Node current = head;
+
+            while (index != 0) {
+                current = current.next;
+                index--;
+            }
+            if (current.next == null) {
+                addBack(value);
+            }
+            else {
+                theNewOne.next = current.next;
+                current.next = theNewOne;
+            }
+            size++;
+        }
+
     }
 
     /**
@@ -74,7 +111,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        head = head.next;
+        size--;
     }
 
     /**
@@ -83,6 +121,15 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
+        Node current = head;
+
+        if (head != null) {
+            while (current.next.next != null) {
+                current = current.next;
+            }
+            current.next = null;
+            size--;
+        }
 
     }
 
@@ -97,7 +144,34 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        // TODO: finish the method
+        Node current = head;
+
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        else {
+            while (index != 0) {
+                //problem: this loop leaves us one ahead
+                // it leaves us on the node we want gone
+                // we want it on the one before the one we want gone
+                current = current.next;
+                index--;
+            }
+
+            int value = current.next.data;
+
+            if (current.next.next != null) {
+                current.next = current.next.next;
+            }
+            else {
+                current.next = null;
+            }
+
+            size--;
+            return value;
+        }
+
     }
 
     /**
@@ -109,6 +183,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
+        // TODO: finish the method
+
         return 0;
     }
 
@@ -120,6 +196,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        // TODO: finish the method
+
         return false;
     }
 
@@ -133,6 +211,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
+        // TODO: finish the method
+
         return 0;
     }
 
@@ -143,7 +223,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return head == null;
     }
 
     /**
@@ -153,7 +233,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+
+        return size;
     }
 
     /**
@@ -162,6 +243,10 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
+        head.data = 0;
+        head.next = null;
+
+
 
     }
 
@@ -172,6 +257,42 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+
+        return new SinglyLinkedIterator();
+    }
+
+    private class SinglyLinkedIterator implements Iterator<Integer> {
+
+
+        private Node current;
+
+        public SinglyLinkedIterator() {
+            current = head;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            int item = current.data;
+            current = current.next;
+            return item;
+        }
     }
 }

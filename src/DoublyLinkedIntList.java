@@ -1,5 +1,7 @@
 import java.util.Iterator;
 
+//10
+
 public class DoublyLinkedIntList implements IntList {
 
     private class Node {
@@ -35,6 +37,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
+        // TODO: finish the method
 
     }
 
@@ -73,6 +76,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        // TODO: finish the method
 
     }
 
@@ -83,6 +87,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
+        // TODO: finish the method
 
     }
 
@@ -120,6 +125,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
+        // TODO: finish the method
+
         return 0;
     }
 
@@ -132,6 +139,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
+        // TODO: finish the method
+
         return 0;
     }
 
@@ -143,6 +152,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        // TODO: finish the method
+
         return false;
     }
 
@@ -156,6 +167,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
+        // TODO: finish the method
+
         return 0;
     }
 
@@ -166,6 +179,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
+        // TODO: finish the method
+
         return false;
     }
 
@@ -176,6 +191,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int size() {
+        // TODO: finish the method
+
         return 0;
     }
 
@@ -185,6 +202,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void clear() {
+        // TODO: finish the method
 
     }
 
