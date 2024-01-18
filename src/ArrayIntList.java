@@ -157,9 +157,11 @@ public class ArrayIntList implements IntList {
     @Override
     public int indexOf(int value) {
         int result = -1;
-        for(int i = 0; i < size; i++ ) {
-            if(buffer[i] == value) {
-                result = i;
+        if(size > 0) {
+            for(int i = 0; i < size; i++ ) {
+                if(buffer[i] == value) {
+                    result = i;
+                }
             }
         }
         return result;
