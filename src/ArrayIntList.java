@@ -82,7 +82,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        if(!isEmpty())
+        {
+            for (int i = 0; i <= size - 2; i++) {
+                buffer[i] = buffer[i + 1];
+            }
+            buffer[size - 1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -91,7 +98,13 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        if(!isEmpty())
+        {
+            buffer[size-1] = 0;
+            size--;
+            return;
+        }
+       throw new NoSuchElementException("There are no elements to remove!");
     }
 
     /**
@@ -261,7 +274,7 @@ public class ArrayIntList implements IntList {
          */
         @Override
         public Integer next() {
-            if(i > size)
+            if(i >= size)
             {
                 throw new NoSuchElementException("i is out of bounds");
             }
