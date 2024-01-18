@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // clic
 // k the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -20,6 +22,15 @@ public class Main {
 
 
 
+        }
+
+        LinkedList a = new LinkedList();
+        a.addFront(1);
+        a.addFront(2);
+        a.addFront(3);
+
+        for (Integer integer : a) {
+            System.out.println(integer);
         }
     }
 }

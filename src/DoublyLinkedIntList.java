@@ -92,12 +92,17 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void removeBack() {
-        //the last real node in prev
-        Node temp = post.prev;
-        temp.prev.next = post;
-        post.prev = temp.prev;
+        if (size > 0) {
+            //the last real node in prev
+            Node temp = post.prev;
+            temp.prev.next = post;
+            post.prev = temp.prev;
 
-        size--;
+            size--;
+        }
+        else{
+            throw new IllegalStateException("the list is empty");
+        }
     }
 
     /**
