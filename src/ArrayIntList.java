@@ -72,7 +72,7 @@ public class ArrayIntList implements IntList {
     public void removeFront() {
         if(size > 0) {
             buffer[0] = 0;
-            for(int i = 0; i < size; i++) {
+            for(int i = 0; i < size - 1; i++) {
                 buffer[i] = buffer[i + 1];
             }
             size--;
