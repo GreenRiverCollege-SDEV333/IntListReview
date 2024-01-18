@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.zip.ZipFile;
 
 public class ArrayIntList implements IntList{
 
@@ -21,6 +23,10 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void addFront(int value) {
+        if (size == buffer.length) {
+            resize(size + 2);
+        }
+
         for (int i = size; i >= 1; i--) {
             buffer[i] = buffer[i -1];
         }
@@ -43,6 +49,10 @@ public class ArrayIntList implements IntList{
     public void addBack(int value) {
         // TODO: check to see if we are full - if so, we need to create a larger buffer
 
+        if (size == buffer.length) {
+            resize(size + 2);
+        }
+
         buffer[size] = value;
         size++;
     }
@@ -58,6 +68,9 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
+        if (size == buffer.length) {
+            resize(size + 2);
+        }
 
     }
 
@@ -68,7 +81,13 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeFront() {
+        if (isEmpty()) {
+            for (int i = 0; i <= size - 2; i++) {
+                buffer[i] = buffer[i + 1];
+            }
 
+            size--;
+        }
     }
 
     /**
@@ -77,7 +96,10 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeBack() {
-
+        if (isEmpty()) {
+            buffer[size - 1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -179,6 +201,30 @@ public class ArrayIntList implements IntList{
     @Override
     public void clear() {
 
+        for (int i = 0; i < size; i++) {
+            buffer[i] = 0;
+        }
+
+        // creating a new array
+//        buffer = new int[10];
+
+        size = 0;
+    }
+
+    private void resize(int newSize) {
+        // creates new space, separate from the old space
+        int[] newBuffer = new int[newSize];
+
+        // copy everything over from buffer into newBuffer
+        for (int i = 0; i < buffer.length; i++) {
+            newBuffer[i] = buffer[i];
+        }
+
+        // set the new space into buffer
+        buffer = newBuffer;
+
+        // the old space is no longer "pointed to" and will eventually
+        // be cleaned up by the garbage collecter
     }
 
     /**
@@ -188,6 +234,46 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new IntListIterator();
     }
+
+    // Create a private helper iterator class
+    private class IntListIterator implements Iterator<Integer> {
+        // private fields
+        private int i;
+
+        private IntListIterator() {
+            i = 0;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return i > size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            if (i >= size) {
+                throw new NoSuchElementException("i is now out of bounds");
+            }
+            int currentValue = buffer[i];
+            i++;
+            return currentValue;
+        }
+    }
+
+    // Iterators are what enables main/client to use a for each loop on my IntList
 }
