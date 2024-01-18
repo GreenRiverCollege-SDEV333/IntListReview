@@ -36,7 +36,11 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void addFront(int value) {
-
+        Node theFirstOne = new Node();
+        theFirstOne.data = value;
+        theFirstOne.next = pre.next;
+        theFirstOne.prev = pre;
+        pre.prev = theFirstOne;
     }
 
     /**
@@ -71,7 +75,20 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-
+        if(size < index)
+        {
+            System.out.println("Index out of bounds!");
+            return;
+        }
+        Node current = pre;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+        theNewOne.prev.next = theNewOne;
+        theNewOne.next.prev = theNewOne;
+        current.prev = theNewOne;
     }
 
     /**
@@ -163,7 +180,7 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -173,7 +190,7 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
