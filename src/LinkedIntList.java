@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedIntList implements IntList {
 
@@ -174,6 +175,35 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        SinglyLinkedIterator theIterator = new SinglyLinkedIterator();
+        return theIterator;
     }
+
+    // helper class/type that defines how the iterator works
+    private class SinglyLinkedIterator implements Iterator<Integer> {
+
+        // private int i;       // the index of the item I am on in the arraylist
+        private Node current;
+
+        public SinglyLinkedIterator() {
+            current = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Integer next() {
+            if (current == null) {
+                throw new NoSuchElementException("There is no next one to go to!!");
+            }
+
+            int item = current.data;
+            current = current.next;
+            return item;
+        }
+    }
+
 }
