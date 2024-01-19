@@ -184,11 +184,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return size == 0;
     }
 
     /**
@@ -213,7 +209,7 @@ public class ArrayIntList implements IntList {
     }
 
     /**
-     * Helper method that doubles the array size using the resizez method.
+     * Helper method that doubles the array size using the resize method.
      */
     private void doubleSize() {
         if (size - 1 == buffer.length) {
