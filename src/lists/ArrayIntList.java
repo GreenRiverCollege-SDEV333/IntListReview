@@ -94,7 +94,9 @@ public class ArrayIntList implements IntList {
                     this.resize(buffer.length + 1);
                 }
                 //index at highest buffer gets shifted right
-                buffer[i] = buffer[i - 1];
+                if (i != 0) {
+                    buffer[i] = buffer[i - 1];
+                }
             }
         }
         buffer[index] = value;
@@ -115,7 +117,7 @@ public class ArrayIntList implements IntList {
             }
 
             //Make sure the last value that was shifted left is set to zero
-            buffer[size - 1] = 0;
+            buffer[size - 1] = null;
 
             size--;
         }

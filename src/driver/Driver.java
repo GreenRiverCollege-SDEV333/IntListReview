@@ -100,7 +100,15 @@ public class Driver {
         arrOne.addBack(10);
 
         arrOne.add(5, 100);
-        arrOne.add(-1, 100);
+        arrOne.add(0, 100);
+        arrOne.add(13, 100);
+        arrOne.add(0, 100);
+
+        
+
+
+
+
 
 
 

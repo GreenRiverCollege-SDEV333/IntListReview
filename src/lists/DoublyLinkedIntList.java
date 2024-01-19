@@ -380,7 +380,6 @@ public class DoublyLinkedIntList implements IntList {
             }
             current = current.next;
         }
-
         System.out.println();
     }
 
