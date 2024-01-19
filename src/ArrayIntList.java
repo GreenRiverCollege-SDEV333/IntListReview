@@ -1,11 +1,11 @@
 import java.util.Iterator;
 
-public class ArrayIntList implements IntList{
+public class ArrayIntList implements IntList {
 
     private int size;
     private int[] buffer;
 
-    public ArrayIntList(){
+    public ArrayIntList() {
         this.size = 0;
         this.buffer = new int[10];
     }
@@ -20,9 +20,9 @@ public class ArrayIntList implements IntList{
     @Override
     public void addFront(int value) {
         doubleSize();
-        for(int i = size; i>0;i--){
-            buffer[i]=buffer[i-1];
-            buffer[0]=value;
+        for (int i = size; i > 0; i--) {
+            buffer[i] = buffer[i - 1];
+            buffer[0] = value;
             size++;
         }
     }
@@ -35,10 +35,8 @@ public class ArrayIntList implements IntList{
     @Override
     public void addBack(int value) {
         doubleSize();
-        if (size < buffer.length){
-            buffer[size]=value;
-            size++;
-        }
+        buffer[size] = value;
+        size++;
     }
 
     /**
@@ -53,12 +51,15 @@ public class ArrayIntList implements IntList{
     @Override
     public void add(int index, int value) {
         doubleSize();
-        if (index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index ouf of bounds");
         } else {
-            buffer[index]=value;
+            for (int i = size; i >= index; i--) {
+                buffer[i] = buffer[i - 1];
+            }
+            buffer[index] = value;
+            size++;
         }
-        size++;
     }
 
     /**
@@ -68,14 +69,14 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeFront() {
-        if(size>0){
-            for(int i=0;i<size;i++){
-            buffer[i]=buffer[i+1];
+        if (size <= 0) {
+            return;
+        } else {
+            for (int i = 0; i < size; i++) {
+                buffer[i] = buffer[i + 1];
             }
-        } else{
-            buffer[0]=0;
         }
-        buffer[size]=0;
+        buffer[size] = 0;
         size--;
     }
 
@@ -85,8 +86,12 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeBack() {
-        buffer[size-1]=0;
-        size++;
+        if (size <= 0) {
+            return;
+        } else {
+            buffer[size - 1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -100,15 +105,19 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        int value=0;
-        if (index < size && index >= 0) {
+        int value = 0;
+        if (index < size - 1 && index >= 0) {
             value = buffer[index];
-            for(int i=index;i<size;i++){
-                buffer[i]=buffer[i+1];
+            for (int i = index; i < size; i++) {
+                buffer[i] = buffer[i + 1];
             }
-            buffer[size]=0;
+            buffer[size] = 0;
             size--;
-        } else if (index<0){
+        } else if (index == size-1){
+            value = buffer[index];
+            buffer[index]=0;
+            size--;
+        } else if (index < 0) {
             throw new IndexOutOfBoundsException("Index cannot be less than 0.");
         } else if (index > size) {
             throw new IndexOutOfBoundsException("Index cannot be greater than array length");
@@ -125,7 +134,11 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return buffer[index];
+        if(index >= 0 && index < size) {
+            return buffer[index];
+        } else {
+            throw new IndexOutOfBoundsException("Index cannot be outside the size of the array.");
+        }
     }
 
     /**
@@ -136,6 +149,11 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        for(int i = 0; i < size;i++){
+            if(buffer[i] == value){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -149,7 +167,14 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        int index=-1;
+        for(int i = 0; i < size;i++){
+            if(buffer[i] == value){
+                index = i;
+                return index;
+            }
+        }
+        return index;
     }
 
     /**
@@ -159,10 +184,10 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        if(size==0){
+        if (size == 0) {
             return true;
-        } else{
-        return false;
+        } else {
+            return false;
         }
     }
 
@@ -184,20 +209,22 @@ public class ArrayIntList implements IntList{
     public void clear() {
         int length = buffer.length;
         int[] buffer = new int[length];
-        size =0;
+        size = 0;
     }
 
     /**
      * Helper method that doubles the array size using the resizez method.
      */
-    private void doubleSize(){
-        resize(buffer.length*2);
+    private void doubleSize() {
+        if (size - 1 == buffer.length) {
+            resize(buffer.length * 2);
+        }
     }
 
     /**
      * Grows and Shrinks the array as required by data size.
      */
-    private void resize(int newSize){
+    private void resize(int newSize) {
         int[] newBuffer = new int[newSize];
         System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
         buffer = newBuffer;
@@ -213,15 +240,18 @@ public class ArrayIntList implements IntList{
         return null;
     }
 
-    private class IntListIterator implements Iterator<Integer>{
+    private class IntListIterator implements Iterator<Integer> {
         private int i;
-        private IntListIterator(){
-            this.i =0;
+
+        private IntListIterator() {
+            this.i = 0;
         }
-        public boolean hasNext(){
-            return i<size;
+
+        public boolean hasNext() {
+            return i < size;
         }
-        public Integer next(){
+
+        public Integer next() {
             int currentValue = buffer[i];
             i++;
             return currentValue;
