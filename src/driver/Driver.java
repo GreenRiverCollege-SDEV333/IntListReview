@@ -1,5 +1,6 @@
 package driver;
 
+import lists.ArrayIntList;
 import  lists.DoublyLinkedIntList;
 
 
@@ -14,72 +15,100 @@ public class Driver {
      * @param args command line arguments
      */
     public static void main(String[] args) {
-        DoublyLinkedIntList firstList = new DoublyLinkedIntList();
-        firstList.addBack(1);
-        firstList.addBack(2);
-        firstList.addBack(3);
+//        DoublyLinkedIntList firstList = new DoublyLinkedIntList();
+//        firstList.addBack(1);
+//        firstList.addBack(2);
+//        firstList.addBack(3);
+//
+//        firstList.printList();
+//
+//        firstList.addFront(4);
+//        firstList.printList();
+//        firstList.addFront(5);
+//        firstList.printList();
+//
+//        firstList.add(5, 100);
+//        firstList.printList();
+//
+//        firstList.removeFront();
+//        firstList.printList();
+//
+//        firstList.removeFront();
+//        firstList.printList();
+//
+//        firstList.removeBack();
+//        firstList.printList();
+//
+//        DoublyLinkedIntList emptyList = new DoublyLinkedIntList();
+//
+//        emptyList.printList();
+//        emptyList.removeBack();
+//        emptyList.removeFront();
+//
+//        firstList.printList();
+//        firstList.addBack(4);
+//        firstList.addBack(5);
+//        firstList.addBack(6);
+//        firstList.addBack(7);
+//        firstList.addBack(8);
+//        firstList.addBack(9);
+//        firstList.addFront(0);
+//        firstList.printList();
+//
+//
+//        int removedValue = firstList.remove(2);
+//        firstList.printList();
+//        System.out.println(removedValue);
+//
+//        firstList.printList();
+//        int valueAtIndex = firstList.get(8);
+//        System.out.println(valueAtIndex);
+//
+//        firstList.printList();
+//        System.out.println(firstList.contains(10));
+//
+//        firstList.printList();
+//        System.out.println(firstList.indexOf( 6));
+//
+//        System.out.println(firstList.isEmpty());
+//        System.out.println(emptyList.isEmpty());
+//
+//        System.out.println(firstList.size());
+//        System.out.println(emptyList.size());
+//
+//        System.out.println(firstList.isEmpty());
+//
+//        firstList.clear();
+//        firstList.printList();
+//        System.out.println(firstList.isEmpty());
 
-        firstList.printList();
+        ArrayIntList arrOne = new ArrayIntList();
 
-        firstList.addFront(4);
-        firstList.printList();
-        firstList.addFront(5);
-        firstList.printList();
+        System.out.println(arrOne);
 
-        firstList.add(5, 100);
-        firstList.printList();
+        arrOne.addFront(3);
+        arrOne.addFront(2);
+        arrOne.addFront(1);
+        arrOne.addFront(0);
 
-        firstList.removeFront();
-        firstList.printList();
+        arrOne.addBack(4);
+        arrOne.addBack(5);
+        arrOne.addBack(6);
+        arrOne.addBack(7);
+        arrOne.addBack(8);
+        arrOne.addBack(9);
+        arrOne.addBack(10);
 
-        firstList.removeFront();
-        firstList.printList();
-
-        firstList.removeBack();
-        firstList.printList();
-
-        DoublyLinkedIntList emptyList = new DoublyLinkedIntList();
-
-        emptyList.printList();
-        emptyList.removeBack();
-        emptyList.removeFront();
-
-        firstList.printList();
-        firstList.addBack(4);
-        firstList.addBack(5);
-        firstList.addBack(6);
-        firstList.addBack(7);
-        firstList.addBack(8);
-        firstList.addBack(9);
-        firstList.addFront(0);
-        firstList.printList();
+        arrOne.add(5, 100);
+        arrOne.add(-1, 100);
 
 
-        int removedValue = firstList.remove(2);
-        firstList.printList();
-        System.out.println(removedValue);
 
-        firstList.printList();
-        int valueAtIndex = firstList.get(8);
-        System.out.println(valueAtIndex);
 
-        firstList.printList();
-        System.out.println(firstList.contains(10));
 
-        firstList.printList();
-        System.out.println(firstList.indexOf( 6));
+        System.out.println(arrOne);
+        System.out.println();
 
-        System.out.println(firstList.isEmpty());
-        System.out.println(emptyList.isEmpty());
-
-        System.out.println(firstList.size());
-        System.out.println(emptyList.size());
-
-        System.out.println(firstList.isEmpty());
-
-        firstList.clear();
-        firstList.printList();
-        System.out.println(firstList.isEmpty());
 
 
 

@@ -1,21 +1,36 @@
 package lists;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import interfaces.IntList;
 
+/**
+ * Class that instantiates an int[] and provides size field
+ * contains instance methods implemented from IntList interface
+ * to help with adding, removing, etc
+ * @author tobygoetz
+ * @author Ken Hang
+ * @version 1.0
+ */
 public class ArrayIntList implements IntList {
 
     // fields:
     private int size;
-    private int[] buffer;
+    private Integer[] buffer;
 
+    /**
+     * Constructor for ArrayIntList created a new
+     * ArrayIntList with a buffer of 10
+     */
     public ArrayIntList() {
         //initialize fields
         size = 0;
-        buffer = new int[10];
+        //updated int[] to Integer[] so that 0 can be used in this list
+        buffer = new Integer[10];
     }
+
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -25,15 +40,17 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        for (int i = size; i >= 0; i--) {
-            buffer[i] = buffer[i - 1];
-
-        }
-
-        // put the value at the front of the array at position 0
+            //loop while index is greater than zero
+            for (int i = size; i > 0; i--) {
+                //if buffer is at capacity increase buffer by one index
+                if (size == buffer.length) {
+                    this.resize(buffer.length + 1);
+                }
+                //index at highest buffer gets shifted right
+                buffer[i] = buffer[i - 1];
+            }
         buffer[0] = value;
         size++;
-
     }
 
     /**
@@ -43,12 +60,12 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-        //TODO: check to see if we are full - if so, we need to create a larger buffer
 
+        //if buffer is at capacity increase buffer by one index
         if ( size == buffer.length) {
-            resize(size * 2);
+            resize(size + 1);
         }
-
+        //add value to size which is one index greater than last value
         buffer[size] = value;
         size++;
 
@@ -65,9 +82,23 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        if ( size == buffer.length) {
-            resize(size * 2);
+
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Specified Index Must Be " +
+                    "In the Range of 0-" + size);
+        } else {
+            //loop while index is greater than index value specified
+            for (int i = size; i >= index; i--) {
+                //if buffer is at capacity increase buffer by one index
+                if (size == buffer.length) {
+                    this.resize(buffer.length + 1);
+                }
+                //index at highest buffer gets shifted right
+                buffer[i] = buffer[i - 1];
+            }
         }
+        buffer[index] = value;
+        size++;
 
     }
 
@@ -78,7 +109,16 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeFront() {
+        if (!isEmpty()) {
+            for (int i = 0; i <= size - 2; i++) {
+                buffer[i] = buffer[i + 1];
+            }
 
+            //Make sure the last value that was shifted left is set to zero
+            buffer[size - 1] = 0;
+
+            size--;
+        }
     }
 
     /**
@@ -87,6 +127,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
+        if (!isEmpty()) {
+            buffer[size - 1] = 0;
+            size--;
+        }
 
     }
 
@@ -194,13 +238,13 @@ public class ArrayIntList implements IntList {
 //
 //        size = 0;
 
-        buffer = new int[10];
+        buffer = new Integer[10];
         size = 0;
     }
 
     private void resize(int newSize) {
         //create new space, separate from the old space (buffer)
-        int[] newBuffer = new int[newSize];
+        Integer[] newBuffer = new Integer[newSize];
 
         // copy everything over from buffer into newBuffer
         for (int i = 0; i < buffer.length; i++) {
@@ -224,7 +268,7 @@ public class ArrayIntList implements IntList {
     public Iterator<Integer> iterator() {
 
         //iterators are what enables main/client to use a for-each lop on Interfaces.IntList
-        return null;
+        return new IntListIterator();
     }
 
     //create a private helper Iterator class
@@ -258,14 +302,28 @@ public class ArrayIntList implements IntList {
         @Override
         public Integer next() {
             //check to see if i is greater than size
-//            if ( i >= size) {
-//                throw new
-//            }
+            if ( i >= size) {
+                throw new NoSuchElementException("i is now out of bounds");
+            }
             
             int currentValue = buffer[i];
             i++;
             return currentValue;
         }
+
+        @Override
+        public String toString() {
+            return "IntListIterator{" +
+                    "i=" + i +
+                    '}';
+        }
     }
 
+    @Override
+    public String toString() {
+        return "ArrayIntList{" +
+                "size=" + size +
+                ", buffer=" + Arrays.toString(buffer) +
+                '}';
+    }
 }
