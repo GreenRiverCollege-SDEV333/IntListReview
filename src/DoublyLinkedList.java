@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoublyLinkedList implements IntList {
 
@@ -97,7 +98,25 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        if(index > (size - 1) || index < 0 || isEmpty()) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            Node current = pre.next;
+            int counter = 0;
+            while(current.next != null) {
+                if(counter == index) {
+                    Node newNode = new Node();
+                    newNode.data = value;
 
+                    newNode.next = current;
+                    newNode.prev = current.prev;
+                    current.prev = newNode;
+                    newNode.prev.next = newNode;
+                }
+                current = current.next;
+                counter++;
+            }
+        }
     }
 
     /**
@@ -152,7 +171,23 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if(index > (size - 1) || index < 0 || isEmpty()) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            Node current = pre.next;
+            int counter = 0;
+            while(current.next != null) {
+                if(counter == index) {
+                    int removed = current.data;
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                    return removed;
+                }
+                current = current.next;
+                counter++;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -164,7 +199,20 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if(index > (size - 1) || index < 0 || isEmpty()) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            Node current = pre.next;
+            int counter = 0;
+            while(current.next != null) {
+                if(counter == index) {
+                    return current.data;
+                }
+                current = current.next;
+                counter++;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -175,6 +223,15 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        if(!isEmpty()) {
+            Node current = pre.next;
+            while(current.next != null) {
+                if(current.data == value) {
+                    return true;
+                }
+                current = current.next;
+            }
+        }
         return false;
     }
 
@@ -188,7 +245,18 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        if(!isEmpty()) {
+            Node current = pre.next;
+            int counter = 0;
+            while(current.next != null) {
+                if(current.data == value) {
+                    return counter;
+                }
+                current = current.next;
+                counter++;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -198,7 +266,7 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -208,7 +276,7 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return this.size;
     }
 
     /**
@@ -217,7 +285,13 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public void clear() {
+        pre.next = post;
+        post.prev = pre;
 
+        pre.prev = null;
+        post.next = null;
+
+        size = 0;
     }
 
     /**
@@ -227,6 +301,42 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new DoublyLinkedIterator();
+    }
+
+    // helper class/type that defines how the iterator works
+
+    private class DoublyLinkedIterator implements Iterator<Integer> {
+
+        private Node current;
+
+        public DoublyLinkedIterator() {
+            this.current = pre.next;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            int item = current.data;
+            current = current.next;
+            return null;
+        }
     }
 }

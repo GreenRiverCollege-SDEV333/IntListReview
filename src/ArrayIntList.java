@@ -218,7 +218,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new IntListIterator();
     }
 
     private class IntListIterator implements Iterator<Integer> {

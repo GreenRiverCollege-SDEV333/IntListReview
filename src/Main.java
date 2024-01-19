@@ -8,9 +8,20 @@ public class Main {
 
         DoublyLinkedList listOne = new DoublyLinkedList();
 
+
+        listOne.addFront(5);
+        listOne.addFront(4);
         listOne.addFront(3);
         listOne.addFront(2);
         listOne.addFront(1);
+
+        System.out.println(listOne.contains(3));
+        System.out.println(listOne.remove(2));
+        System.out.println(listOne.contains(3));
+
+        listOne.add(2, 3);
+        System.out.println(listOne.contains(3));
+
 
     }
 }
