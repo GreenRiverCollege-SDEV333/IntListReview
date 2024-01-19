@@ -1,8 +1,6 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-//4
-
 public class LinkedIntList implements IntList {
 
     //define what a Node is
@@ -144,27 +142,28 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        // TODO: finish the method
         Node current = head;
 
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
         else {
+
             while (index != 0) {
-                //problem: this loop leaves us one ahead
-                // it leaves us on the node we want gone
-                // we want it on the one before the one we want gone
-                current = current.next;
+                if (index != 1) {
+                    current = current.next;
+                }
                 index--;
             }
 
             int value = current.next.data;
 
             if (current.next.next != null) {
+                //if the node to remove is not the last in the list
                 current.next = current.next.next;
             }
             else {
+                //if the node to remove is the last in the list
                 current.next = null;
             }
 
@@ -183,9 +182,18 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        // TODO: finish the method
+        Node current = head;
 
-        return 0;
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        else {
+            while (index != 0) {
+                current = current.next;
+                index--;
+            }
+            return current.data;
+        }
     }
 
     /**
@@ -196,8 +204,15 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        // TODO: finish the method
+        Node current = head;
 
+        while (current.next != null) {
+            if (current.data == value) {
+                return true;
+            }
+            current = current.next;
+
+        }
         return false;
     }
 
@@ -211,9 +226,18 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        // TODO: finish the method
+        Node current = head;
+        int counter = 0;
 
-        return 0;
+        while (current.next != null) {
+            if (current.data == value) {
+                return counter;
+            }
+            current = current.next;
+            counter++;
+
+        }
+        return -1;
     }
 
     /**
