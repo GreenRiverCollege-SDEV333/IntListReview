@@ -1,4 +1,6 @@
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList {
 
@@ -57,10 +59,10 @@ public class ArrayIntList implements IntList {
     @Override
     public void add(int index, int value) {
         doubleSize();
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index ouf of bounds");
+        if (index < 0 || index > size || size==0) {
+            throw new IndexOutOfBoundsException("Index ouf of bounds. NOPE!");
         } else {
-            for (int i = size; i >= index; i--) {
+            for (int i = size; i > index; i--) {
                 buffer[i] = buffer[i - 1];
             }
             buffer[index] = value;
@@ -76,7 +78,7 @@ public class ArrayIntList implements IntList {
     @Override
     public void removeFront() {
         if (size <= 0) {
-            return;
+            throw new NoSuchElementException("Cannot remove element from empty array");
         } else {
             for (int i = 0; i < size; i++) {
                 buffer[i] = buffer[i + 1];
@@ -93,7 +95,7 @@ public class ArrayIntList implements IntList {
     @Override
     public void removeBack() {
         if (size <= 0) {
-            return;
+            throw new NoSuchElementException("Cannot remove element from empty array");
         } else {
             buffer[size - 1] = 0;
             size--;
@@ -240,6 +242,25 @@ public class ArrayIntList implements IntList {
     @Override
     public Iterator<Integer> iterator() {
         return null;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        if (size > 0) {
+            for (int i = 0; i < size-1; i++){
+                sb.append(buffer[i]);
+                sb.append(',');
+                sb.append(' ');
+            }
+            sb.append(buffer[size-1]);
+            sb.append(']');
+        } else {
+            return "null";
+        }
+        return sb.toString();
     }
 
 private class IntListIterator implements Iterator<Integer> {
