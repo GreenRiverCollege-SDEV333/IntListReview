@@ -175,6 +175,12 @@ public class DoublyLinekdList implements IntList {
 
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        return "doubly";
+    }
+
     /**
      * Returns an iterator over elements of type {@code T}.
      *
