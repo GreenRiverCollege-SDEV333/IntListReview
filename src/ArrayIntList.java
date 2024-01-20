@@ -2,6 +2,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Implementation of an arraylist using hte IntList interface for 333 week 1-3
+ * @author Rob Smith
+ * @version 1.0
+ */
 public class ArrayIntList implements IntList {
 
     private int size;
