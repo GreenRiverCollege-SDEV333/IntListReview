@@ -7,23 +7,30 @@ import interfaces.IntList;
 
 public class LinkedIntList implements IntList {
 
-    // define what a node is
-    private class Node {
-
-        int data;
-        Node next;
-    }
-
-    // set up the head
+    // Fields
     private Node head;
-
-    // set up the size field
     private int size;
 
-    // ad a constructor to initialize the fields
+    // add a constructor to initialize the fields
     public LinkedIntList() {
         head = null;
         size = 0;
+    }
+
+    // define what a node is
+    public class Node {
+        public Integer data;
+        public Node next;
+
+        public Node(Integer data) {
+            this.data = data;
+            this.next = null;
+        }
+
+        public Node(Integer data, Node next) {
+            this.data = data;
+            this.next = next;
+        }
     }
 
 
@@ -36,17 +43,18 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
+
         // set up a new node
-        Node theNewOne = new Node();
+        Node addedToFront = new Node(value);
 
         if (head == null) {
             // the list is currently empty
-            head = theNewOne;
+            head = addedToFront;
             size++;
         } else {
-            // the list cureently has some nodes in it
-            theNewOne.next = head;
-            head = theNewOne;
+            // the list currently has some nodes in it
+            addedToFront.next = head;
+            head = addedToFront;
 
         }
 
@@ -59,6 +67,43 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
+
+        Node addToBack = new Node(value);
+
+        if (head == null) {
+            head = addToBack;
+        } else {
+            Node current = new Node(head.data, head.next);
+
+            while (current.next != null) {
+                current = current.next;
+            }
+
+//            for (int i = 0; i < size; i++) {
+//                current = current.next;
+//            }
+            current.next = addToBack;
+            head = current;
+            System.out.println(current);
+
+
+//            do {
+//                current = current.next;
+//            } while (current.next != null);
+
+//            current.next = addToBack;
+
+//            while (current.next != null) {
+//                current = current.next;
+//                if (current.next == null) {
+//                    current.next = addToBack;
+//                }
+
+//            }
+        }
+
+        size++;
+
 
     }
 
@@ -207,7 +252,7 @@ public class LinkedIntList implements IntList {
 /*            if (current == null) {
                 return false;
             } else {
-                return false;
+                return true;
             }*/
 
             // or....
@@ -230,5 +275,25 @@ public class LinkedIntList implements IntList {
             current = current.next;
             return dataValue;
         }
+    }
+
+    @Override
+    public String toString() {
+        String list = "LinkedIntList{size=" + size + ", list=[";
+        Node current = head;
+
+        if (current == null) {
+            list += "]}";
+        } else {
+            for (Node i = current; i != null; i = current.next) {
+                list += i.data;
+
+                if (i.next != null) {
+                    list += ", ";
+                } else {
+                    list += "]}";
+                }
+            }
+        } return list;
     }
 }

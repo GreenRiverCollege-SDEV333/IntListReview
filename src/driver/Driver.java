@@ -2,6 +2,7 @@ package driver;
 
 import lists.ArrayIntList;
 import  lists.DoublyLinkedIntList;
+import lists.LinkedIntList;
 
 
 /**
@@ -82,40 +83,130 @@ public class Driver {
 //        firstList.printList();
 //        System.out.println(firstList.isEmpty());
 
-        ArrayIntList arrOne = new ArrayIntList();
+//        ArrayIntList arrOne = new ArrayIntList();
+//
+//        System.out.println(arrOne);
+//
+//        arrOne.addFront(3);
+//        arrOne.addFront(2);
+//        arrOne.addFront(1);
+//        arrOne.addFront(0);
+//
+//        arrOne.addBack(4);
+//        arrOne.addBack(5);
+//        arrOne.addBack(6);
+//        arrOne.addBack(7);
+//        arrOne.addBack(8);
+//        arrOne.addBack(9);
+//        arrOne.addBack(10);
+//
+//        arrOne.add(5, 100);
+//        arrOne.add(0, 100);
+//        arrOne.add(13, 100);
+//        arrOne.add(0, 100);
+//
+//
+//        System.out.println(arrOne);
+//        System.out.println();
+//
+//
+//
+//        arrOne.removeFront();
+//        System.out.println(arrOne);
+//        arrOne.removeFront();
+//        System.out.println(arrOne);
+//        arrOne.removeFront();
+//        System.out.println(arrOne);
+//        arrOne.removeFront();
+//        System.out.println(arrOne);
+//        arrOne.removeFront();
+//        System.out.println(arrOne);
+//        arrOne.removeFront();
+//        System.out.println(arrOne);
+//        arrOne.removeFront();
+//        System.out.println(arrOne);
+//        arrOne.removeFront();
+//        System.out.println(arrOne);
+//
+//        arrOne.removeBack();
+//        System.out.println();
+//        System.out.println(arrOne);
+//
+//        // remove back does not stop because isEmpty is not complete
+//
+//        int removed = arrOne.remove(0);
+//        System.out.println(arrOne);
+//        System.out.println(removed);
+//
+//        System.out.println();
+//        System.out.println(arrOne);
+//        int valueAtIndex = arrOne.get(0);
+//        System.out.println(valueAtIndex);
+//
+//        System.out.println(arrOne.indexOf(11));
+//
+//        System.out.println(arrOne.isEmpty());
+//        ArrayIntList emptyArr = new ArrayIntList();
+//        System.out.println(emptyArr.isEmpty());
+//
+//        System.out.println();
+//        System.out.println(arrOne);
+//        arrOne.removeBack();
+//        System.out.println(arrOne);
+//        arrOne.removeBack();
+//        System.out.println(arrOne);
+//        arrOne.removeBack();
+//        System.out.println(arrOne);
+//        arrOne.removeBack();
+//        System.out.println(arrOne);
+//        arrOne.removeBack();
+//        System.out.println(arrOne);
+//        arrOne.removeBack();
+//        System.out.println(arrOne);
+//        arrOne.removeBack();
+//        System.out.println(arrOne);
 
-        System.out.println(arrOne);
 
-        arrOne.addFront(3);
-        arrOne.addFront(2);
-        arrOne.addFront(1);
-        arrOne.addFront(0);
+//        int removed2 = arrOne.remove(2);
+//        System.out.println(arrOne);
+//        System.out.println(removed2);
+//
+//        int removed3 = arrOne.remove(2);
+//        System.out.println(arrOne);
+//        System.out.println(removed3);
+//
+//        int removed4 = arrOne.remove(2);
+//        System.out.println(arrOne);
+//        System.out.println(removed4);
+//
+//        int removed5 = arrOne.remove(2);
+//        System.out.println(arrOne);
+//        System.out.println(removed5);
 
-        arrOne.addBack(4);
-        arrOne.addBack(5);
-        arrOne.addBack(6);
-        arrOne.addBack(7);
-        arrOne.addBack(8);
-        arrOne.addBack(9);
-        arrOne.addBack(10);
-
-        arrOne.add(5, 100);
-        arrOne.add(0, 100);
-        arrOne.add(13, 100);
-        arrOne.add(0, 100);
-
-        
-
-
-
-
-
-
-
-
-
-        System.out.println(arrOne);
         System.out.println();
+        LinkedIntList linkedIntList = new LinkedIntList();
+
+        System.out.println(linkedIntList);
+
+        linkedIntList.addBack(1);
+        System.out.println(linkedIntList);
+        linkedIntList.addBack(2);
+        System.out.println(linkedIntList);
+//
+//        linkedIntList.addBack(2);
+//        System.out.println(linkedIntList);
+
+//        linkedIntList.addFront(3);
+//        System.out.println(linkedIntList);
+////
+//        linkedIntList.addFront(2);
+//        System.out.println(linkedIntList);
+//        linkedIntList.addFront(1);
+//        System.out.println(linkedIntList);
+
+
+
+
 
 
 

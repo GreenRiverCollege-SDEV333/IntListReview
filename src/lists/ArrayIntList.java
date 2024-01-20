@@ -115,11 +115,15 @@ public class ArrayIntList implements IntList {
             for (int i = 0; i <= size - 2; i++) {
                 buffer[i] = buffer[i + 1];
             }
-
-            //Make sure the last value that was shifted left is set to zero
-            buffer[size - 1] = null;
-
             size--;
+
+            //Reduce buffer until original buffer size is reach
+            if (size >= 10) {
+                resize(size);
+            //after buffer becomes 10 set removed values back to null
+            } else {
+                buffer[size] = null;
+            }
         }
     }
 
@@ -130,10 +134,9 @@ public class ArrayIntList implements IntList {
     @Override
     public void removeBack() {
         if (!isEmpty()) {
-            buffer[size - 1] = 0;
+            buffer[size - 1] = null;
             size--;
         }
-
     }
 
     /**
@@ -154,18 +157,23 @@ public class ArrayIntList implements IntList {
             throw new IndexOutOfBoundsException("Index is higher than size");
         }
 
-        // save a copy of the value to be removed so we can return it later
+        // save a copy of the value to be removed so that we can return it later
         int copyOfRemovedValue = buffer[index];
 
-        //shift values to the left
-        for (int i = 0; i <= size - 1; i++) {
-            buffer[i] = buffer[i + 1];
+        // if index is last index with valid data, set data to null
+        if (index == size - 1) {
+            buffer[index] = null;
+        // shift all values over starting at index to be removed
+        } else {
+            for (int i = index; i < size - 1; i++) {
+                    buffer[i] = buffer[i + 1];
+                }
+            }
 
-        }
-
-        buffer[size - 1] = 0;
         size--;
-        
+        // set trailing index to null to account for reduced size
+        buffer[size] = null;
+
         return copyOfRemovedValue;
     }
 
@@ -178,8 +186,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        if (index > size) {
-            throw new IndexOutOfBoundsException("No Such Index Value...");
+
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Specified Index Must Be " +
+                    "In the Range of 0-" + (size - 1));
         }
         return buffer[index];
     }
@@ -192,6 +202,12 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -205,7 +221,12 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
+                return i;
+            }
+        } return -1;
     }
 
     /**
@@ -215,7 +236,11 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        if (size == 0 && buffer[0] == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -225,7 +250,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -234,11 +259,6 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
-//        for (int i = 0; i < size; i++) {
-//            buffer[i] = 0;
-//        }
-//
-//        size = 0;
 
         buffer = new Integer[10];
         size = 0;
@@ -249,9 +269,14 @@ public class ArrayIntList implements IntList {
         Integer[] newBuffer = new Integer[newSize];
 
         // copy everything over from buffer into newBuffer
-        for (int i = 0; i < buffer.length; i++) {
-            newBuffer[i] = buffer[i];
-
+        if (newSize > buffer.length) {
+            for (int i = 0; i < buffer.length; i++) {
+                newBuffer[i] = buffer[i];
+            }
+        } else {
+            for (int i = 0; i < newBuffer.length; i++) {
+                newBuffer[i] = buffer[i];
+            }
         }
 
         // set the new space into buffer
