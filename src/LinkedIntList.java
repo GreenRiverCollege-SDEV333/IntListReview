@@ -86,17 +86,26 @@ public class LinkedIntList implements IntList {
             theNewOne.data = value;
             Node current = head;
 
-            while (index != 0) {
-                current = current.next;
-                index--;
-            }
-            if (current.next == null) {
-                addBack(value);
+            if (size == 0) {
+                head = theNewOne;
             }
             else {
-                theNewOne.next = current.next;
-                current.next = theNewOne;
+                while (index != 0) {
+                    if (index != 1) {
+                        current = current.next;
+                    }
+                    index--;
+                }
+
+                if (current.next == null) {
+                    addBack(value);
+                }
+                else {
+                    theNewOne.next = current.next;
+                    current.next = theNewOne;
+                }
             }
+
             size++;
         }
 
@@ -109,8 +118,11 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-        head = head.next;
-        size--;
+        if (!isEmpty()) {
+            head = head.next;
+            size--;
+        }
+
     }
 
     /**
@@ -121,12 +133,15 @@ public class LinkedIntList implements IntList {
     public void removeBack() {
         Node current = head;
 
-        if (head != null) {
-            while (current.next.next != null) {
-                current = current.next;
+        if (current != null) {
+            if (current.next != null && current.next.next != null) {
+                while (current.next.next != null) {
+                    current = current.next;
+                }
             }
             current.next = null;
             size--;
+
         }
 
     }
@@ -143,6 +158,7 @@ public class LinkedIntList implements IntList {
     @Override
     public int remove(int index) {
         Node current = head;
+        index++;
 
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index out of bounds");
@@ -183,12 +199,12 @@ public class LinkedIntList implements IntList {
     @Override
     public int get(int index) {
         Node current = head;
-
+        index++;
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
         else {
-            while (index != 0) {
+            while (index != 1) {
                 current = current.next;
                 index--;
             }
@@ -206,13 +222,18 @@ public class LinkedIntList implements IntList {
     public boolean contains(int value) {
         Node current = head;
 
-        while (current.next != null) {
-            if (current.data == value) {
-                return true;
+        if (current != null) {
+            if (current.next != null) {
+                while (current.next != null) {
+                    if (current.data == value) {
+                        return true;
+                    }
+                    current = current.next;
+                }
             }
-            current = current.next;
-
+            return current.data == value;
         }
+
         return false;
     }
 
@@ -229,14 +250,25 @@ public class LinkedIntList implements IntList {
         Node current = head;
         int counter = 0;
 
-        while (current.next != null) {
+        if (current != null) {
+            if (current.next != null) {
+                while (current.next != null) {
+                    if (current.data == value) {
+                        return counter;
+                    }
+                    current = current.next;
+                    counter++;
+
+                }
+
+            }
             if (current.data == value) {
                 return counter;
             }
-            current = current.next;
-            counter++;
 
         }
+
+
         return -1;
     }
 
@@ -267,9 +299,11 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-        head.data = 0;
-        head.next = null;
-
+        if (head != null) {
+            head.data = 0;
+            head.next = null;
+            size = 0;
+        }
 
 
     }
