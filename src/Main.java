@@ -1,26 +1,36 @@
 import java.util.Arrays;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+/**
+ * Driver to work with implemented data structures for 333 Weeks 1-3
+ * @author Rob Smith
+ * @version 1.0
+ */
 public class Main {
     public static ArrayIntList testList = new ArrayIntList();
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
+
         System.out.printf("Hello and welcome!");
         System.out.println();
-
-//        for (int i = 1; i <= 5; i++) {
-//            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-//            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-//            System.out.println("i = " + i);
-//        }
-
-
         System.out.println("Is the array empty? " + testList.isEmpty());
-        for(int i = 0; i < 5; i++) {
+        System.out.println("Adding elements 0-4 in reverse order");
+        for (int i = 0; i < 5; i++) {
             testList.addFront(i);
         }
+        System.out.println(testList.toString());
+        System.out.println("Adding the value 5 to index 3");
+        testList.add(3, 5);
+        System.out.println(testList.toString());
+        System.out.println("Does it contain a 1? " + testList.contains(1));
+        System.out.println("3 is located at index: " + testList.indexOf(3));
+        System.out.println("Removing the value 2");
+        testList.remove(2);
+        System.out.println(testList.toString());
+        System.out.println("The array has a size of: " + testList.size());
+        System.out.println("Adding enough elements to force a resize");
+        for (int i = 0; i < 16; i++){
+            testList.addBack(i);
+        }
+        System.out.println("New array size: "+testList.size());
         System.out.println(testList.toString());
     }
 }

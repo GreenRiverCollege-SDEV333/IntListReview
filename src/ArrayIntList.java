@@ -220,7 +220,7 @@ public class ArrayIntList implements IntList {
      * Helper method that doubles the array size using the resize method.
      */
     private void doubleSize() {
-        if (size - 1 == buffer.length) {
+        if (size == buffer.length) {
             resize(buffer.length * 2);
         }
     }
