@@ -19,13 +19,19 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        doubleSize();
-        for (int i = size; i > 0; i--) {
-            buffer[i] = buffer[i - 1];
+        if (size == 0) {
             buffer[0] = value;
+            size++;
+        } else {
+            doubleSize();
+            for (int i = size; i >= 1; i--) {
+                buffer[i] = buffer[i-1];
+            }
+            buffer[0]=value;
             size++;
         }
     }
+
 
     /**
      * Appends (inserts) the specified value at the back of the list (at index size()-1).
@@ -51,7 +57,7 @@ public class ArrayIntList implements IntList {
     @Override
     public void add(int index, int value) {
         doubleSize();
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index ouf of bounds");
         } else {
             for (int i = size; i >= index; i--) {
@@ -113,9 +119,9 @@ public class ArrayIntList implements IntList {
             }
             buffer[size] = 0;
             size--;
-        } else if (index == size-1){
+        } else if (index == size - 1) {
             value = buffer[index];
-            buffer[index]=0;
+            buffer[index] = 0;
             size--;
         } else if (index < 0) {
             throw new IndexOutOfBoundsException("Index cannot be less than 0.");
@@ -134,7 +140,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        if(index >= 0 && index < size) {
+        if (index >= 0 && index < size) {
             return buffer[index];
         } else {
             throw new IndexOutOfBoundsException("Index cannot be outside the size of the array.");
@@ -149,8 +155,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        for(int i = 0; i < size;i++){
-            if(buffer[i] == value){
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
                 return true;
             }
         }
@@ -167,9 +173,9 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        int index=-1;
-        for(int i = 0; i < size;i++){
-            if(buffer[i] == value){
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
                 index = i;
                 return index;
             }
@@ -236,21 +242,21 @@ public class ArrayIntList implements IntList {
         return null;
     }
 
-    private class IntListIterator implements Iterator<Integer> {
-        private int i;
+private class IntListIterator implements Iterator<Integer> {
+    private int i;
 
-        private IntListIterator() {
-            this.i = 0;
-        }
-
-        public boolean hasNext() {
-            return i < size;
-        }
-
-        public Integer next() {
-            int currentValue = buffer[i];
-            i++;
-            return currentValue;
-        }
+    private IntListIterator() {
+        this.i = 0;
     }
+
+    public boolean hasNext() {
+        return i < size;
+    }
+
+    public Integer next() {
+        int currentValue = buffer[i];
+        i++;
+        return currentValue;
+    }
+}
 }
