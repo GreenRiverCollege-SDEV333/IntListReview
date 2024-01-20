@@ -26,17 +26,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        if (size == 0) {
-            buffer[0] = value;
-            size++;
-        } else {
+        if (size != 0) {
             doubleSize();
             for (int i = size; i >= 1; i--) {
-                buffer[i] = buffer[i-1];
+                buffer[i] = buffer[i - 1];
             }
-            buffer[0]=value;
-            size++;
         }
+        buffer[0] = value;
+        size++;
     }
 
 
