@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArrayIntListTest {
@@ -5,7 +7,16 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void addFront() {
+        //catches empty array when a get is used to verify it returns the correct error.
+        try {
+            testList.get(0);
+            fail();
+        } catch (Exception e) {
+            final String expected = "Index cannot be outside the size of the array.";
+            assertEquals(expected, e.getMessage());
+        }
         testList.addFront(3);
+        assertEquals(3, testList.get(0));
         testList.addFront(5);
         assertEquals(5, testList.get(0));
     }
@@ -19,6 +30,16 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void add() {
+
+        //catches an attempt to add a value outside the size of the array
+        try {
+            testList.add(77,1);
+            fail();
+        } catch (Exception e) {
+            final String expected = "Index ouf of bounds. NOPE!";
+            assertEquals(expected, e.getMessage());
+        }
+
         testList.addFront(3);
         for(int i = 0; i < 7; i++) {
             testList.add(i, (i+1)*2);
@@ -30,6 +51,14 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void removeFront() {
+        //catches empty array when an attempt to remove the value from the front of an empty array is made
+        try {
+            testList.removeFront();
+            fail();
+        } catch (Exception e) {
+            final String expected = "Cannot remove element from empty array";
+            assertEquals(expected, e.getMessage());
+        }
         testList.addFront(3);
         testList.addFront(4);
         testList.removeFront();
@@ -38,6 +67,14 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void removeBack() {
+        //catches empty array when an attempt to remove the value from the back of an empty array is made
+        try {
+            testList.removeBack();
+            fail();
+        } catch (Exception e) {
+            final String expected = "Cannot remove element from empty array";
+            assertEquals(expected, e.getMessage());
+        }
         testList.addFront(11);
         testList.addBack(12);
         testList.removeBack();
@@ -46,6 +83,14 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void remove() {
+        //catches empty array when an attempt to remove an element from an empty array is made
+        try {
+            testList.remove(7);
+            fail();
+        } catch (Exception e) {
+            final String expected = "Index cannot be greater than array length";
+            assertEquals(expected, e.getMessage());
+        }
         for(int i = 0; i < 5; i++){
             testList.addFront(i);
         }
@@ -58,6 +103,14 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void get() {
+        //catches empty array when a get is used to verify it returns the correct error.
+        try {
+            testList.get(0);
+            fail();
+        } catch (Exception e) {
+            final String expected = "Index cannot be outside the size of the array.";
+            assertEquals(expected, e.getMessage());
+        }
         for(int i = 0; i < 5; i++){
             testList.addFront(i);
         }
