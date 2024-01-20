@@ -1,8 +1,8 @@
 import java.util.Iterator;
 
-public class LinkedList implements IntList{
+public class LinkedList implements IntList {
 
-    private class Node{
+    private class Node {
         int data;
         Node next;
     }
@@ -10,7 +10,7 @@ public class LinkedList implements IntList{
     private Node head;
     private int size;
 
-    public LinkedList(){
+    public LinkedList() {
         head = null;
         size = 0;
     }
@@ -26,7 +26,7 @@ public class LinkedList implements IntList{
     public void addFront(int value) {
         Node newNode = new Node();
         newNode.data = value;
-        if(head == null){
+        if (head == null) {
             head = newNode;
             this.size++;
         } else {
@@ -43,6 +43,9 @@ public class LinkedList implements IntList{
      */
     @Override
     public void addBack(int value) {
+        if (head == null) {
+            addFront(value);
+        }
 
     }
 
@@ -67,7 +70,9 @@ public class LinkedList implements IntList{
      */
     @Override
     public void removeFront() {
-
+        if (head != null) {
+            head = head.next;
+        }
     }
 
     /**
@@ -102,7 +107,7 @@ public class LinkedList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        return head.data;
     }
 
     /**
@@ -158,6 +163,12 @@ public class LinkedList implements IntList{
 
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        return "List";
+    }
+
     /**
      * Returns an iterator over elements of type {@code T}.
      *
@@ -167,4 +178,6 @@ public class LinkedList implements IntList{
     public Iterator<Integer> iterator() {
         return null;
     }
+
+
 }
