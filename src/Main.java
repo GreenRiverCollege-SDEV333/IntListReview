@@ -27,10 +27,12 @@ public class Main {
         System.out.println(testList.toString());
         System.out.println("The array has a size of: " + testList.size());
         System.out.println("Adding enough elements to force a resize");
-        for (int i = 0; i < 16; i++){
+        for (int i = 0; i < 15; i++){
             testList.addBack(i);
         }
         System.out.println("New array size: "+testList.size());
+        System.out.println(testList.toString());
+        testList.add(3,3);
         System.out.println(testList.toString());
     }
 }

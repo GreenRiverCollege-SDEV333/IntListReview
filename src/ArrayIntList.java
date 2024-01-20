@@ -235,16 +235,9 @@ public class ArrayIntList implements IntList {
     }
 
     /**
-     * Returns an iterator over elements of type {@code T}.
-     *
-     * @return an Iterator.
+     * Custom toString for this arraylist implementation that returns a stringified display of the contents
+     * @return a string of the contents of the arraylist
      */
-    @Override
-    public Iterator<Integer> iterator() {
-        return null;
-    }
-
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -261,6 +254,16 @@ public class ArrayIntList implements IntList {
             return "null";
         }
         return sb.toString();
+    }
+
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator<Integer> iterator() {
+        return new IntListIterator();
     }
 
 private class IntListIterator implements Iterator<Integer> {
