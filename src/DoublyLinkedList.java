@@ -139,6 +139,8 @@ public class DoublyLinkedList implements IntList {
             removed.data = 0;
 
             size--;
+        } else {
+            throw new IndexOutOfBoundsException();
         }
     }
 
@@ -201,7 +203,9 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int get(int index) {
-        if(index > (size - 1) || index < 0 || isEmpty()) {
+        if(isEmpty() && index == 0) {
+            return -1;
+        } else if(index > (size - 1) || index < 0) {
             throw new IndexOutOfBoundsException();
         } else {
             Node current = pre.next;

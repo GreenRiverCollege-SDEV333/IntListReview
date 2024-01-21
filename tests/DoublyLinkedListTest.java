@@ -78,18 +78,59 @@ class DoublyLinkedListTest {
 
     @Test
     void removeFront() {
+        // Test for empty list
+
+        // Test for single item list
+        assertEquals(1, singleValList.get(0));
+        singleValList.removeFront();
+        assertTrue(singleValList.isEmpty());
+
+        // Test for multi val list
+        assertEquals(1, multiValList.get(0));
+        multiValList.removeFront();
+        assertEquals(2, multiValList.get(0));
     }
 
     @Test
     void removeBack() {
+        // Test for empty list
+
+        // Test for single item list
+        assertEquals(1, singleValList.get(singleValList.size() - 1));
+        singleValList.removeBack();
+        assertTrue(singleValList.isEmpty());
+
+        // Test for multi val list
+        assertEquals(10, multiValList.get(multiValList.size() - 1));
+        multiValList.removeBack();
+        assertEquals(9, multiValList.get(multiValList.size() - 1));
     }
 
     @Test
     void remove() {
+        // Test for empty list
+
+        // Test for single item list
+        assertEquals(1, singleValList.get(0));
+        singleValList.remove(0);
+        assertTrue(singleValList.isEmpty());
+
+        // Test for multi val list
+        assertEquals(4, multiValList.get(3));
+        multiValList.remove(3);
+        assertEquals(5, multiValList.get(3));
     }
 
     @Test
     void get() {
+        // Test for empty list
+        assertEquals(-1, emptyList.get(0));
+
+        // Test for single item list
+        assertEquals(1, singleValList.get(0));
+
+        // Test for multi val list
+        assertEquals(10, multiValList.get(9));
     }
 
     @Test
@@ -108,6 +149,14 @@ class DoublyLinkedListTest {
 
     @Test
     void indexOf() {
+        // Test for empty list
+        assertEquals(-1, emptyList.indexOf(5));
+
+        // Test for single item list
+        assertEquals(0, singleValList.indexOf(1));
+
+        // Test for multi val list
+        assertEquals(8, multiValList.indexOf(9));
     }
 
     @Test
@@ -134,7 +183,8 @@ class DoublyLinkedListTest {
     @Test
     void clear() {
         // tests empty list
-        assertEquals(0, emptyList.size());
+        assertTrue(emptyList.isEmpty());
+        emptyList.clear();
 
         // tests single val list
         assertEquals(1, singleValList.size());
@@ -143,9 +193,19 @@ class DoublyLinkedListTest {
 
         // tests multiple val list
         assertEquals(10, multiValList.size());
+        multiValList.clear();
+        assertEquals(0, multiValList.size());
     }
 
     @Test
     void iterator() {
+        // Test for empty list
+        assertEquals(0, emptyList.iterator().next());
+
+        // Test for single item list
+        assertEquals(1, singleValList.iterator().next());
+
+        // Test for multi val list
+        assertEquals(1, multiValList.iterator().next());
     }
 }
