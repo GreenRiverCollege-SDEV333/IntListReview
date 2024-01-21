@@ -117,7 +117,35 @@ public class LinkedList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        int value = 0;
+        if(index < 0 || index >= size){
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        } else if (head == null){
+            throw new NoSuchElementException("Empty List");
+        } else if (index == 0){
+            value = head.data;
+            head.data = 0;
+            head = head.next;
+            size--;
+            return value;
+        }
+
+        Node current = head.next;
+        Node previous = head;
+        int currentIndex=1;
+        while (current !=null){
+            if (currentIndex == index){
+                value = current.data;
+                current.data = 0;
+                previous.next=current.next;
+                size--;
+                return value;
+            }
+            previous = current;
+            current = current.next;
+            currentIndex++;
+        }
+        return value;
     }
 
     /**
