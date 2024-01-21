@@ -37,9 +37,9 @@ public class DoublyLinekdList implements IntList {
     public void addFront(int value) {
         Node newNode = new Node();
         newNode.data = value;
-        newNode.next = pre.next.next;
+        newNode.next = pre.next;
         newNode.prev = pre;
-        pre.next.next = newNode;
+        newNode.next.prev = newNode;
         pre.next = newNode;
         size++;
     }
@@ -163,7 +163,7 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -172,13 +172,28 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public void clear() {
-
+        pre.next = post;
+        post.prev = pre;
+        size=0;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        return "doubly";
+        Node current = pre.next;
+
+        //if the list is empty return just an empty list indicator
+        if (current == post){
+            return "[]";
+        }
+        //build the standard pretty print array display
+        sb.append('[');
+        while (current.next != post){
+            sb.append(current.data).append(", ");
+            current = current.next;
+        }
+        sb.append(current.data).append(']');
+        return sb.toString();
     }
 
     /**
