@@ -103,7 +103,9 @@ public class LinkedList implements IntList {
      */
     @Override
     public void removeFront() {
-        if (head != null) {
+        if (head == null) {
+            throw new NoSuchElementException("The list is empty");
+        } else if (head != null) {
             head = head.next;
         }
     }
@@ -116,7 +118,7 @@ public class LinkedList implements IntList {
     public void removeBack() {
         Node current = head;
         if (head == null) {
-            return;
+            throw new NoSuchElementException("The list is empty");
         } else if (current.next == null) {
             head = null;
             size--;
