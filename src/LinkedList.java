@@ -70,7 +70,30 @@ public class LinkedList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        Node newNode = new Node();
+        newNode.data = value;
+        if(index == 0) {
+            this.addFront(value);
+        } else if (index == size) {
+            this.addBack(value);
+        }else {
+            Node current = head.next;
+            Node previous = head;
+            int currentIndex = 1;
+            while(current != null) {
+                if(currentIndex == index){
+                    newNode.next = current;
+                    previous.next = newNode;
+                    size++;
+                }
+                previous = current;
+                current = current.next;
+                currentIndex++;
+            }
+        }
     }
 
     /**
@@ -92,14 +115,14 @@ public class LinkedList implements IntList {
     @Override
     public void removeBack() {
         Node current = head;
-        if (head == null ){
+        if (head == null) {
             return;
-        } else if (current.next == null){
+        } else if (current.next == null) {
             head = null;
             size--;
             return;
         }
-        while(current.next.next !=null){
+        while (current.next.next != null) {
             current = current.next;
         }
         current.next = null;
@@ -118,11 +141,11 @@ public class LinkedList implements IntList {
     @Override
     public int remove(int index) {
         int value = 0;
-        if(index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of bounds");
-        } else if (head == null){
+        } else if (head == null) {
             throw new NoSuchElementException("Empty List");
-        } else if (index == 0){
+        } else if (index == 0) {
             value = head.data;
             head.data = 0;
             head = head.next;
@@ -132,12 +155,12 @@ public class LinkedList implements IntList {
 
         Node current = head.next;
         Node previous = head;
-        int currentIndex=1;
-        while (current !=null){
-            if (currentIndex == index){
+        int currentIndex = 1;
+        while (current != null) {
+            if (currentIndex == index) {
                 value = current.data;
                 current.data = 0;
-                previous.next=current.next;
+                previous.next = current.next;
                 size--;
                 return value;
             }
@@ -157,16 +180,16 @@ public class LinkedList implements IntList {
      */
     @Override
     public int get(int index) {
-        if(head == null){
+        if (head == null) {
             throw new NoSuchElementException("The list is empty");
-        } else if(index<0){
+        } else if (index < 0) {
             throw new IndexOutOfBoundsException("Index cannot be negative");
         }
-        int value =-1;
-        int currentIndex=0;
+        int value = -1;
+        int currentIndex = 0;
         Node current = head;
-        while(current != null){
-            if(currentIndex == index){
+        while (current != null) {
+            if (currentIndex == index) {
                 return current.data;
             }
             current = current.next;
@@ -183,11 +206,11 @@ public class LinkedList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        if(head == null){
+        if (head == null) {
             return false;
         }
         Node current = head;
-        while (current.next !=null) {
+        while (current.next != null) {
             if (current.data == value) {
                 return true;
             }
@@ -206,13 +229,13 @@ public class LinkedList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        if(head==null){
+        if (head == null) {
             return -1;
         }
         Node current = head;
-        int currentIndex=0;
-        while(current !=null){
-            if(current.data==value){
+        int currentIndex = 0;
+        while (current != null) {
+            if (current.data == value) {
                 return currentIndex;
             }
             current = current.next;
@@ -228,7 +251,7 @@ public class LinkedList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return size==0;
+        return size == 0;
     }
 
     /**
@@ -249,7 +272,7 @@ public class LinkedList implements IntList {
     public void clear() {
         Node current = head;
         //Manually sets all data stores to a value of 0 to ensure no remnants prior to GC are cleanup available.
-        while(current != null) {
+        while (current != null) {
             current.data = 0;
             current = current.next;
         }
@@ -259,6 +282,7 @@ public class LinkedList implements IntList {
 
     /**
      * Pretty Print of the Linked List
+     *
      * @return the formatted string to print
      */
     @Override
