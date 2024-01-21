@@ -15,18 +15,65 @@ class DoublyLinkedListTest {
         return result;
     }
 
+    public static void printList(DoublyLinkedList l) {
+        for(int i = 0; i < l.size(); i++) {
+            System.out.print(l.get(i) + " ");
+        }
+        System.out.println(" ");
+    }
+
     @Test
     void addFront() {
+        // Test for empty list
+        assertTrue(emptyList.isEmpty());
         emptyList.addFront(3);
-        assertFalse(emptyList.isEmpty());
+        assertTrue(emptyList.contains(3));
+
+        // Test for single item list
+        assertFalse(singleValList.contains(3));
+        singleValList.addFront(3);
+        assertTrue(singleValList.contains(3));
+
+        // Test for multi val list
+        assertFalse(multiValList.contains(11));
+        multiValList.addFront(11);
+        assertTrue(multiValList.contains(11));
     }
 
     @Test
     void addBack() {
+        // Test for empty list
+        assertTrue(emptyList.isEmpty());
+        emptyList.addBack(3);
+        assertTrue(emptyList.contains(3));
+
+        // Test for single item list
+        assertFalse(singleValList.contains(3));
+        singleValList.addBack(3);
+        assertTrue(singleValList.contains(3));
+
+        // Test for multi val list
+        assertFalse(multiValList.contains(11));
+        multiValList.addBack(11);
+        assertTrue(multiValList.contains(11));
     }
 
     @Test
     void add() {
+        // Test for empty list
+        assertTrue(emptyList.isEmpty());
+        emptyList.add(0, 1);
+        assertEquals(1, emptyList.get(0));
+
+        // Test for single item list
+        assertEquals(1, singleValList.get(0));
+        singleValList.add(0,3);
+        assertEquals(3, singleValList.get(0));
+
+        // Test for multi val list
+        assertEquals(1, multiValList.get(0));
+        multiValList.add(0,11);
+        assertEquals(11, multiValList.get(0));
     }
 
     @Test

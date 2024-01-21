@@ -98,7 +98,9 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        if(index > (size - 1) || index < 0 || isEmpty()) {
+        if(isEmpty() && index == 0) {
+            addFront(value);
+        } else if(index > (size - 1) || index < 0) {
             throw new IndexOutOfBoundsException();
         } else {
             Node current = pre.next;
@@ -336,7 +338,7 @@ public class DoublyLinkedList implements IntList {
         public Integer next() {
             int item = current.data;
             current = current.next;
-            return null;
+            return item;
         }
     }
 }
