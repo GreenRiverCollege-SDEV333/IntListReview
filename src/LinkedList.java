@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedList implements IntList {
 
@@ -43,10 +44,19 @@ public class LinkedList implements IntList {
      */
     @Override
     public void addBack(int value) {
-        if (head == null) {
-            addFront(value);
-        }
+        Node current = head;
+        Node newNode = new Node();
+        newNode.data = value;
 
+        if (current == null) {
+            addFront(value);
+        } else {
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+            size++;
+        }
     }
 
     /**
@@ -81,7 +91,19 @@ public class LinkedList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        Node current = head;
+        if (head == null ){
+            return;
+        } else if (current.next == null){
+            head = null;
+            size--;
+            return;
+        }
+        while(current.next.next !=null){
+            current = current.next;
+        }
+        current.next = null;
+        size--;
     }
 
     /**
@@ -107,7 +129,22 @@ public class LinkedList implements IntList {
      */
     @Override
     public int get(int index) {
-        return head.data;
+        if(head == null){
+            throw new NoSuchElementException("The list is empty");
+        } else if(index<0){
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
+        int value =-1;
+        int currentIndex=0;
+        Node current = head;
+        while(current != null){
+            if(currentIndex == index){
+                return current.data;
+            }
+            current = current.next;
+            currentIndex++;
+        }
+        throw new IndexOutOfBoundsException("Index beyond size of list");
     }
 
     /**
@@ -118,6 +155,16 @@ public class LinkedList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        if(head == null){
+            return false;
+        }
+        Node current = head;
+        while (current.next !=null) {
+            if (current.data == value) {
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
@@ -131,7 +178,19 @@ public class LinkedList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        if(head==null){
+            return -1;
+        }
+        Node current = head;
+        int currentIndex=0;
+        while(current !=null){
+            if(current.data==value){
+                return currentIndex;
+            }
+            current = current.next;
+            currentIndex++;
+        }
+        return -1;
     }
 
     /**
@@ -141,7 +200,7 @@ public class LinkedList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size==0;
     }
 
     /**
@@ -151,7 +210,7 @@ public class LinkedList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -160,13 +219,38 @@ public class LinkedList implements IntList {
      */
     @Override
     public void clear() {
-
+        Node current = head;
+        //Manually sets all data stores to a value of 0 to ensure no remnants prior to GC are cleanup available.
+        while(current != null) {
+            current.data = 0;
+            current = current.next;
+        }
+        head = null;
+        size = 0;
     }
 
+    /**
+     * Pretty Print of the Linked List
+     * @return the formatted string to print
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        return "List";
+        Node current = head;
+
+        //if the list is empty return just an empty list indicator
+        if (current == null) {
+            return "[]";
+        }
+        // Builds the standard array print out format for Java to make pretty prints
+        sb.append('[');
+        while (current.next != null) {
+            sb.append(current.data).append(", ");
+            current = current.next;
+        }
+        sb.append(current.data);
+        sb.append(']');
+        return sb.toString();
     }
 
     /**
