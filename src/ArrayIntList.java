@@ -1,6 +1,17 @@
 import java.util.Iterator;
 
 public class ArrayIntList implements IntList {
+
+    // fields:
+    private int size;
+    private int[] buffer;
+
+    public ArrayIntList(){
+        // initialize fields
+        size = 0;
+        buffer = new int[10];
+    }
+
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
