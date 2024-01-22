@@ -94,7 +94,15 @@ public class ArrayIntList implements IntList
     @Override
     public void removeFront()
     {
-    
+        //helpers
+        int prev = 0;
+        int curr = 1;
+
+        //reassign values to shift left
+        for(int i = 0; i < size; i++)
+        {
+            buffer[prev] = buffer[curr];
+        }
     }
     
     /**
@@ -104,7 +112,11 @@ public class ArrayIntList implements IntList
     @Override
     public void removeBack()
     {
-    
+        //traverse to end of buffer and set to 0
+        buffer[buffer.length - 1] = 0;
+
+        //decrement size
+        size--;
     }
     
     /**
@@ -119,14 +131,7 @@ public class ArrayIntList implements IntList
     @Override
     public int remove(int index)
     {
-        if (index < 0)
-        {
-            throw new IndexOutOfBoundsException("Index cannot be negative");
-        }
-        else if (index >= size)
-        {
-            throw new IndexOutOfBoundsException("Index is larger than size");
-        }
+        indexOutOfBoundsChecker(index);
         
         int copyOfNewVal = buffer[index];
         
@@ -154,6 +159,8 @@ public class ArrayIntList implements IntList
     @Override
     public int get(int index)
     {
+        indexOutOfBoundsChecker(index);
+
         return buffer[index];
     }
     
@@ -187,7 +194,23 @@ public class ArrayIntList implements IntList
     @Override
     public int indexOf(int value)
     {
-        return 0;
+        //helper
+        int currIndex = 0;
+
+        for(int val:buffer)
+        {
+            if(val == value)
+            {
+                //return index value was found at
+                return currIndex;
+            }
+
+            //increment currIndex
+            currIndex++;
+        }
+
+        //value not found
+        return -1;
     }
     
     /**
@@ -198,12 +221,7 @@ public class ArrayIntList implements IntList
     @Override
     public boolean isEmpty()
     {
-        if (size > 0)
-        {
-            return true;
-        }
-        
-        return false;
+        return size == 0;
     }
     
     /**
@@ -246,18 +264,14 @@ public class ArrayIntList implements IntList
             i = 0;
         }
     
-        /**
-         * @return
-         */
+
         @Override
         public boolean hasNext()
         {
             return i < size;
         }
     
-        /**
-         * @return
-         */
+
         @Override
         public Integer next()
         {
@@ -271,7 +285,12 @@ public class ArrayIntList implements IntList
             return curr;
         }
     }
-    
-    //enables client to use a for-each loop
-    
+
+    private void indexOutOfBoundsChecker(int index)
+    {
+        if(index >= size || size < 0)
+        {
+            throw new IndexOutOfBoundsException("Index out of range");
+        }
+    }
 }
