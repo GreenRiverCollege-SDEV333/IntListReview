@@ -86,7 +86,16 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeFront() {
+        if (isEmpty()){
+            throw new NoSuchElementException("the array is empty");
+        }
 
+        for (int i = 0; i < size - 1; i++){
+            buffer[i] = buffer [i + 1];
+        }
+
+        buffer[size-1] = 0;
+        size--;
     }
 
     /**
@@ -95,7 +104,12 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeBack() {
+        if (isEmpty()){
+            throw new NoSuchElementException("the array is empty");
+        }
 
+        buffer[size-1] = 0;
+        size--;
     }
 
     /**
@@ -172,7 +186,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**

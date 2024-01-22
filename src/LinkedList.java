@@ -25,6 +25,7 @@ public class LinkedList implements IntList{
     @Override
     public void addFront(int value) {
         Node newNode = new Node();
+        newNode.data = value;
         if (head == null){
             head = newNode;
             size++;
