@@ -313,7 +313,7 @@ public class DoublyLinkedIntList implements IntList
 
     private void indexOutOfBoundsChecker(int index)
     {
-        if(index >= size)
+        if(index >= size || size < 0)
         {
             throw new IndexOutOfBoundsException("Index out of range");
         }
