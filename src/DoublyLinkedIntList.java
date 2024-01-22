@@ -2,7 +2,8 @@ import java.util.Iterator;
 
 public class DoublyLinkedIntList implements IntList {
     // private fields
-    private class Node {
+    private class Node
+    {
         int data;
         Node next; // address of the node after this one in line
         Node prev; // address of the node before this one in line

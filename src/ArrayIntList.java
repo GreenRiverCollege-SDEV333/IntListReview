@@ -27,13 +27,10 @@ public class ArrayIntList implements IntList
         if (size == buffer.length) {
             resize(size * 2);
         }
-        for (int i = size; i >= 1; i++) // count 5, 4,3 ,2 ,1
+        for (int i = size; i >= 1; i--) // count 5, 4,3 ,2 ,1
         {
             buffer[i] = buffer[i - 1]; // copy from 4, 3, 2, 1, 0
         }
-        buffer[4] = buffer[3];
-        buffer[3] = buffer[2];
-        buffer[2] = buffer[1];
 
         // put the value at the front of the array at position 0
         buffer[0] = value;
@@ -71,9 +68,13 @@ public class ArrayIntList implements IntList
     public void add(int index, int value)
     {
         if (size == buffer.length) {
-           resize(size * 2);
+           resize(2);
         }
-
+        for(int i = size + 1; i > 0; i--) {
+            buffer[i + 1] = buffer[i];
+        }
+        buffer[index] = value;
+        size++;
     }
 
     /**
@@ -84,6 +85,17 @@ public class ArrayIntList implements IntList
     @Override
     public void removeFront()
     {
+        if (!isEmpty())
+        {
+            for (int i = 0; i <= size - 2; i++)
+            {
+                buffer[i] = buffer[i + 1];
+            }
+
+            //optional but good idea, since moving everything should clear the former last(rightmost) index
+            buffer[size - 1] = 0;
+            size--;
+        }
 
     }
 
@@ -94,7 +106,11 @@ public class ArrayIntList implements IntList
     @Override
     public void removeBack()
     {
-
+        if (!isEmpty())
+        {
+            buffer[size - 1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -107,14 +123,18 @@ public class ArrayIntList implements IntList
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     @Override
-    public int remove(int index) {
-        if (index <= 0) {
+    public int remove(int index)
+    {
+        // first, check the index to see if it is valid
+        if (index < 0) {
             throw new IndexOutOfBoundsException("Index can't be negative");
         }
         else if (index >= size) {
             throw new IndexOutOfBoundsException("Index is higher than size");
         }
-        //save a copy of the value to be removed so we can return it later
+
+
+        //save a copy of the value to be removed, so we can return it later
         int copyOfRemoveValue = buffer[index];
 
         //shift values to the left
@@ -142,6 +162,12 @@ public class ArrayIntList implements IntList
     @Override
     public int get(int index)
     {
+        if (index >= size) {
+            throw new IndexOutOfBoundsException("Index cannot be greater than size");
+        }
+        else if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be less than zero");
+        }
 
         return buffer[index];
     }
@@ -155,6 +181,13 @@ public class ArrayIntList implements IntList
     @Override
     public boolean contains(int value)
     {
+        for (int i = 0; i < size; i++)
+        {
+            if (buffer[i] == value)
+            {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -169,8 +202,15 @@ public class ArrayIntList implements IntList
     @Override
     public int indexOf(int value)
     {
-        return 0;
-    }
+        for (int i = 0; i < size; i++)
+        {
+            if (buffer[i] == value)
+            {
+                return i;
+            }
+        }
+
+        return -1;    }
 
     /**
      * Returns true if this list contains no values.
@@ -180,7 +220,7 @@ public class ArrayIntList implements IntList
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -209,7 +249,7 @@ public class ArrayIntList implements IntList
     }
 
     private void resize(int newSize){
-        //create new space, seperate from the old(buffer)
+        //create new space, separate from the old(buffer)
         int[] newBuffer = new int[newSize];
 
         //copy everything over from buffer into newBuffer
@@ -218,7 +258,7 @@ public class ArrayIntList implements IntList
             newBuffer[i] = buffer[i];
         }
 
-        //set the noew space into buffer
+        //set the new space into buffer
         buffer = newBuffer;
         //old space is no longer "pointed to" and will be cleaned by the garbage collector
     }
@@ -230,16 +270,16 @@ public class ArrayIntList implements IntList
      * @return an Iterator.
      */
     @Override
-    public Iterator<Integer> iterator()
-    {
-        return null;
-
+    public Iterator<Integer> iterator() {
+        IntListIterator IntList = new IntListIterator();
+        return IntList;
+        //return new IntListIterator();
     }
+
+
     //create a private helper iterator class
-
-    //iterators are what enables main/client to use a for-each loop on intList
-
-    private class IntListIterator implements Iterator<Integer> {
+    private class IntListIterator implements Iterator<Integer>
+    {
         //private fields
         private int i;
 
@@ -275,5 +315,8 @@ public class ArrayIntList implements IntList
             return currentValue;
         }
     }
+
+    // iterators are what enables main/client to use a for-each loop
+    // on my IntList
 
 }

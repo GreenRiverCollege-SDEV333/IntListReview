@@ -1,26 +1,68 @@
-import java.util.LinkedList;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
+public class Main
+{
+    public static void main(String[] args)
+    {
         System.out.printf("Hello and welcome!");
+        System.out.println();
 
-        IntList firstList;
+        ArrayIntList arrayList = new ArrayIntList();
+        LinkedIntList linkedList = new LinkedIntList();
+        DoublyLinkedIntList doublyList = new DoublyLinkedIntList();
 
-        ArrayIntList secondList = new ArrayIntList();
+        linkedList.add(0,1);
+        linkedList.add(1, 2);
+        linkedList.add(2, 3);
 
-        IntList thirdList = new ArrayIntList();
-        thirdList.addFront(15);
-        thirdList.addFront(12);
-        thirdList.addBack(8);
-        
-        //where an iterator gets used
-        for (int i = 0; i < 0; i++)
-        {
-            
-        }
+        System.out.println("Linked List: ");
+        linkedList.printList();
+        System.out.println();
+
+        System.out.println("remove: ");
+        linkedList.remove(2);
+        linkedList.printList();
+        System.out.println();
+
+        System.out.println("add to back: ");
+        linkedList.addBack(3);
+        linkedList.printList();
+        System.out.println();
+
+        System.out.println("size: " + linkedList.size());
+
+        System.out.println("clear: ");
+        linkedList.clear();
+        linkedList.printList();
+
+
+
+
+//        for (int i = 1; i <= 5; i++)
+//        {
+//            System.out.println("i = " + i);
+//
+//        }
+
+//        arrayList.add(0, 1);
+//        System.out.println(arrayList.get(0));
+//        linkedList.addBack(3);
+//
+//        for (int num : arrayList) {
+//            System.out.println(num + " ");
+//        }
+
+
+            //where an iterator gets used:
+//            for (int value : thirdList)
+//            {
+//                System.out.println(value);
+//            }
+
+            //alternate way to use an iterator
+//            Iterator<Integer> itr = thirdList.iterator();
+//            while (itr.hasNext())
+//            {
+//                int value = itr.next();
+//                System.out.println(value);
+//            }
     }
 }

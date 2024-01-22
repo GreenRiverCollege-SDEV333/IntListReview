@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedIntList implements IntList {
     // Define what a node is
@@ -30,16 +31,19 @@ public class LinkedIntList implements IntList {
     public void addFront(int value) {
         //set up a new Node
         Node theNewOne = new Node();
+        theNewOne.data = value;
+
         if (head == null) {
             // the list is currently empty
             head = theNewOne;
-            size++;
         }
         else {
             // the list currently has some nodes in it
             theNewOne.next = head;
             head = theNewOne;
         }
+
+        size++;
 
     }
 
@@ -51,6 +55,21 @@ public class LinkedIntList implements IntList {
     @Override
     public void addBack(int value)
     {
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+        // set a marker
+        Node current = head;
+        if (head == null) {
+            head = theNewOne;
+        }
+        else {
+            // Move to the end
+            while(current.next != null) {
+                current = current.next;
+            }
+            current.next = theNewOne;
+        }
+        size++;
 
     }
 
@@ -66,7 +85,22 @@ public class LinkedIntList implements IntList {
     @Override
     public void add(int index, int value)
     {
+        if (index == 0)
+        {
+            head = new Node();
+            head.data = value;
 
+        }else
+        {
+            Node current = head;
+            for (int i = 0; i < index - 1; i++)
+            {
+                current = current.next;
+            }
+            current.next = new Node();
+            current.next.data = value;
+            size++;
+        }
     }
 
     /**
@@ -102,6 +136,21 @@ public class LinkedIntList implements IntList {
     @Override
     public int remove(int index)
     {
+        if (index == 0)
+        {
+            head = head.next;
+        }
+        else {
+            Node current = head;
+            for (int i = 0; i < index - 1; i++)
+            {
+                current = current.next;
+
+            }
+            Node next = current.next.next;
+            current.next = next;
+            size--;
+        }
         return 0;
     }
 
@@ -163,7 +212,7 @@ public class LinkedIntList implements IntList {
     @Override
     public int size()
     {
-        return 0;
+        return size;
     }
 
     /**
@@ -173,7 +222,21 @@ public class LinkedIntList implements IntList {
     @Override
     public void clear()
     {
+        size = 0;
+        head = null;
+    }
 
+    /**
+     * Prints out Linked List
+     */
+    public void printList()
+    {
+        Node current = head;
+        while (current != null)
+        {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
     }
 
     /**
@@ -184,6 +247,41 @@ public class LinkedIntList implements IntList {
     @Override
     public Iterator<Integer> iterator()
     {
-        return null;
+        return new SinglyLinkedIterator();
+    }
+    // helper class/type that defined how iterator works
+    private class SinglyLinkedIterator implements Iterator<Integer>
+    {
+        // private fields
+        private Node current;
+
+        public SinglyLinkedIterator() {
+            current = head;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            if (current != null) {
+                return true;
+            }
+            else {
+                return false;
+            }
+            //return current != null;
+        }
+
+        @Override
+        public Integer next()
+        {
+            if (current == null) {
+                throw new NoSuchElementException("There is no next one to go too!");
+            }
+            else {
+                int item = current.data;
+                current = current.next;
+                return item;
+            }
+        }
     }
 }
