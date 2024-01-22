@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Iterator;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -6,33 +7,97 @@ public class Main {
     public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        System.out.println("Hello and welcome!");
 
-        //you cannot create an object of an interface,
-        //but you can create a class that implements
-        //the methods from the interface to create an object
-        IntList firstList;
+        // create ArrayIntList
+        ArrayIntList testList = new ArrayIntList();
 
-        ArrayIntList secondList = new ArrayIntList();
+        //add methods
+        testList.add(0, 1);
+        testList.add(1, 3);
+        testList.add(2, 5);
+        Iterator<Integer> itr = testList.iterator();
+        System.out.println("add():");
+        printArray(testList, itr);
+        System.out.println();
 
-        IntList thirdList = new ArrayIntList();
-        thirdList.addFront(15);
-        thirdList.addFront(12);
-        thirdList.addBack(8);
+        System.out.println("addFront()");
+        testList.addFront(6);
+        System.out.println("Front: " + testList.get(0));
+        printArray(testList, itr);
 
+        System.out.println();
+        System.out.println("addBack()");
+        testList.addBack(50);
+        printArray(testList, itr);
 
-        // where an iterator gets used:
-        for (int value : thirdList)
+        System.out.println();
+        System.out.println("removeFront()");
+        testList.removeFront();
+        printArray(testList, itr);
+
+        System.out.println();
+        System.out.println("removeBack()");
+        testList.removeBack();
+        printArray(testList, itr);
+
+        System.out.println();
+        System.out.println("remove()");
+        testList.remove(1);
+        printArray(testList, itr);
+
+        System.out.println();
+        System.out.println("get()");
+        System.out.println(testList.get(1));
+
+        System.out.println();
+        System.out.println("contains()");
+        System.out.println("Contains 10: " + testList.contains(10));
+        System.out.println("Contains 1: " + testList.contains(1));
+
+        System.out.println();
+        System.out.println("indexOf()");
+        System.out.println("Index of 1: " + testList.indexOf(1));
+        System.out.println("Index of 5: " + testList.indexOf(5));
+        System.out.println("Index of 3: " + testList.indexOf(3));
+
+        System.out.println();
+        System.out.println("isEmpty()");
+        ArrayIntList emptyList = new ArrayIntList();
+        System.out.println("emptyList: " + emptyList.isEmpty());
+        System.out.println("testList: " + testList.isEmpty());
+
+        System.out.println();
+        System.out.println("size()");
+        System.out.println("Size of testList: " + testList.size());
+
+        System.out.println();
+        System.out.println("resize()");
+        System.out.println("currentList: " + testList.size());
+        testList.resize(20);
+        for (int i = 0; i <= 20; i++)
         {
-            System.out.println(value);
+            testList.add(i, 4);
         }
+        System.out.println(testList.size());
 
-        //alternate way to use an iterator
-        Iterator<Integer> itr = thirdList.iterator();
-        while (itr.hasNext()) {
-            int value = itr.next();
-            System.out.println(value);
-        }
+
+
+
+//        // where an iterator gets used:
+//        for (int value : thirdList)
+//        {
+//            System.out.println(value);
+//        }
+//
+//        //alternate way to use an iterator
+//        Iterator<Integer> itr = thirdList.iterator();
+//        while (itr.hasNext()) {
+//            int value = itr.next();
+//            System.out.println(value);
+//        }
+
+
 
 
 //        for (int i = 1; i <= 5; i++) {
@@ -41,5 +106,16 @@ public class Main {
 //            System.out.println("i = " + i);
 //        }
 
+    }
+
+    public static void printArray(ArrayIntList list, Iterator<Integer> iterator)
+    {
+        System.out.print("testList = {");
+        iterator = list.iterator();
+        while (iterator.hasNext())
+        {
+            System.out.print(iterator.next() + ", ");
+        }
+        System.out.println("}");
     }
 }
