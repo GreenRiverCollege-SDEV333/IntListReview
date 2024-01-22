@@ -12,6 +12,10 @@ public class Main
         linkedList.add(0,1);
         linkedList.add(1, 2);
         linkedList.add(2, 3);
+        linkedList.add(3, 4);
+        linkedList.add(4, 5);
+
+
 
         System.out.println("Linked List: ");
         linkedList.printList();
@@ -22,12 +26,30 @@ public class Main
         linkedList.printList();
         System.out.println();
 
+        System.out.println("remove from back: ");
+        linkedList.removeBack();
+        linkedList.printList();
+        System.out.println();
+
+        System.out.println("Remove front: ");
+        linkedList.removeFront();
+        linkedList.printList();
+        System.out.println();
+
+        System.out.println("add to front: ");
+        linkedList.addFront(1);
+        linkedList.printList();
+        System.out.println();
+
         System.out.println("add to back: ");
         linkedList.addBack(3);
         linkedList.printList();
         System.out.println();
 
+
         System.out.println("size: " + linkedList.size());
+        System.out.println("get: " + linkedList.get(1));
+        System.out.println("indexOf: " + linkedList.indexOf(2));
 
         System.out.println("clear: ");
         linkedList.clear();
