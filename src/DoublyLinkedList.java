@@ -77,23 +77,17 @@ public class DoublyLinkedList implements IntList {
         }
         Node newNode = new Node();
         newNode.data = value;
-        if (index == 0) {
-            this.addFront(value);
-        } else if (index == size) {
-            this.addBack(value);
-        } else {
-            Node current = pre.next.next;
-            int currentIndex = 1;
-            while (currentIndex != index) {
-                current = current.next;
-                currentIndex++;
-            }
-            newNode.next = current;
-            newNode.prev = current.prev;
-            current.prev = newNode;
-            newNode.prev.next = newNode;
-            size++;
+        Node current = pre.next;
+        int currentIndex = 0;
+        while (currentIndex != index){
+            current = current.next;
+            currentIndex++;
         }
+        newNode.next = current;
+        newNode.prev = current.prev;
+        current.prev = newNode;
+        newNode.prev.next = newNode;
+        size++;
     }
 
     /**
@@ -143,6 +137,8 @@ public class DoublyLinkedList implements IntList {
     public int remove(int index) {
         if (size == 0) {
             throw new NoSuchElementException("The list is empty");
+        } else if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
         }
         int currentIndex = 0;
         Node current = pre.next;
@@ -167,10 +163,10 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int get(int index) {
-        if (pre.next == post) {
+        if (size == 0) {
             throw new NoSuchElementException("The list is empty");
-        } else if (index < 0) {
-            throw new IndexOutOfBoundsException("Index cannot be negative");
+        } else if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
         }
         Node current = pre.next;
         int currentIndex = 0;

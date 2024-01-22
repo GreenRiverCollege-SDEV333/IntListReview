@@ -91,12 +91,16 @@ class LinkedListTest {
             final String expected = "Index out of bounds";
             assertEquals(expected, e.getMessage());
         }
+        testLink.addFront(99);
+        testLink.remove(0);
+        assertEquals(0, testLink.size());
+
         for(int i = 0; i < 5; i++){
             testLink.addFront(i);
         }
-        testLink.remove(2);
+        testLink.remove(1);
         assertEquals(4, testLink.get(0));
-        assertEquals(3, testLink.get(1));
+        assertEquals(2, testLink.get(1));
         assertEquals(1, testLink.get(2));
         assertEquals(0, testLink.get(3));
     }

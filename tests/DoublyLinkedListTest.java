@@ -91,6 +91,16 @@ class DoublyLinkedListTest {
             final String expected = "The list is empty";
             assertEquals(expected, e.getMessage());
         }
+
+        try {
+            testDouble.addFront(1);
+            testDouble.remove(7);
+            fail();
+        } catch (Exception e) {
+            final String expected = "Index out of bounds";
+            assertEquals(expected, e.getMessage());
+        }
+
         for (int i = 0; i < 5; i++) {
             testDouble.addFront(i);
         }
@@ -106,11 +116,22 @@ class DoublyLinkedListTest {
         //catches empty array when a get is used to verify it returns the correct error.
         try {
             testDouble.get(0);
+
             fail();
         } catch (Exception e) {
             final String expected = "The list is empty";
             assertEquals(expected, e.getMessage());
         }
+
+        try {
+            testDouble.addFront(1);
+            testDouble.get(99);
+            fail();
+        } catch (Exception e) {
+            final String expected = "Index out of bounds";
+            assertEquals(expected, e.getMessage());
+        }
+
         for (int i = 0; i < 5; i++) {
             testDouble.addFront(i);
         }
@@ -119,6 +140,7 @@ class DoublyLinkedListTest {
         assertEquals(2, testDouble.get(2));
         assertEquals(1, testDouble.get(3));
         assertEquals(0, testDouble.get(4));
+
     }
 
     @Test
