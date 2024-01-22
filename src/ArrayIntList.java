@@ -86,6 +86,9 @@ public class ArrayIntList implements IntList{
                 buffer[i] = buffer[i + 1];
             }
 
+            // optional but a good ide
+            buffer[size - 1] = 0;
+
             size--;
         }
     }
@@ -129,7 +132,7 @@ public class ArrayIntList implements IntList{
         }
         buffer[size - 1] = 0;
 
-        // don't forget to increment size
+        // don't forget to decrement size
         size--;
 
         return copyOfRemovedValue;
@@ -158,6 +161,11 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -171,8 +179,12 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
-    }
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
+                return i; //
+            }
+        }
+        return -1;    }
 
     /**
      * Returns true if this list contains no values.
@@ -181,7 +193,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
