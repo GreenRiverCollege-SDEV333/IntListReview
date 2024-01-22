@@ -3,7 +3,6 @@ import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList
 {
-
     private int size;
     private int[] buffer;
 
@@ -24,15 +23,15 @@ public class ArrayIntList implements IntList
     public void addFront(int value)
     {
         // start at 0, stop at the last element, increase by one
-        for (int i = 0; i <= size; i++)
+        for (int i = size; i >= 0; i--)
         {
             //shift over to the right
             buffer[i + 1] = buffer[i];
         }
-        buffer[4] = buffer[3];
-        buffer[3] = buffer[2];
-        buffer[2] = buffer[1];
-        buffer[1] = buffer[0];
+//        buffer[4] = buffer[3];
+//        buffer[3] = buffer[2];
+//        buffer[2] = buffer[1];
+//        buffer[1] = buffer[0];
 
         // put the value at the front of the array at position 0
         buffer[0] = value;
@@ -73,6 +72,8 @@ public class ArrayIntList implements IntList
         {
             resize(size * 2);
         }
+        buffer[index] = value;
+        size++;
     }
 
     /**
@@ -84,7 +85,7 @@ public class ArrayIntList implements IntList
     public void removeFront()
     {
         if (!isEmpty()) {
-            for (int i = 0; i < size - 2; i++)
+            for (int i = 0; i < size; i++)
             {
                 buffer[i] = buffer[i + 1];
             }
@@ -253,7 +254,7 @@ public class ArrayIntList implements IntList
         //size = 0;
     }
 
-    private void resize(int newSize)
+    public void resize(int newSize)
     {
         //create new space, separate from the old space (buffer)
         int[] newBuffer = new int[newSize];
@@ -279,7 +280,8 @@ public class ArrayIntList implements IntList
     @Override
     public Iterator<Integer> iterator()
     {
-        return null;
+        IntListIterator theIterator = new IntListIterator();
+        return theIterator;
     }
 
     //create a private helper Iterator class
