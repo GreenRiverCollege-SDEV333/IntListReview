@@ -51,10 +51,23 @@ public class LinkedIntList implements IntList {
     @Override
     public void addBack(int value) {
         Node theNewNode = new Node();
-        if(head == null) {
+        theNewNode.data = value;
+        if(size == 0) {
             head = theNewNode;
         } else {
+            // list isn't empty
+            Node current = head;
+            int counter = 0;
+            while(current.next != null) {
+                if(counter == (size - 1)) {
+                    current.next = theNewNode;
+                    break;
+                }
+                current = current.next;
+                counter++;
+            }
         }
+        size++;
     }
 
     /**
@@ -68,7 +81,26 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-
+        if(size == 0 && index == 0) {
+            addFront(value);
+            size++;
+        } else if(size > 0 && index > (size - 1)) {
+            Node current = head;
+            Node newNode = new Node();
+            newNode.data = value;
+            int counter = 0;
+            while(current.next != null) {
+                if(counter == (index - 1)) {
+                    newNode.next = current.next;
+                    current.next = newNode;
+                }
+                current = current.next;
+                counter++;
+            }
+            size++;
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     /**
@@ -78,6 +110,13 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
+        Node placeHolder = head.next;
+        if(size > 0) {
+            // list isn't empty
+            head = placeHolder;
+            size--;
+        }
+
     }
 
     /**
@@ -86,7 +125,20 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        if(size > 0) {
+            // list isn't empty
+            int counter = 0;
+            Node current = head;
+            while(current.next != null) {
+                if(counter == (size - 2)) {
+                    current.next = null;
+                    break;
+                }
+                current = current.next;
+                counter++;
+            }
+            size--;
+        }
     }
 
     /**
@@ -112,7 +164,20 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if(index > (size - 1)) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            Node current = head;
+            int counter = 0;
+            while(current.next != null) {
+                if(counter == index) {
+                    return current.data;
+                }
+                current = current.next;
+                counter++;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -123,6 +188,15 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        if(size > 0) {
+            Node current = head;
+            while(current.next != null) {
+                if(current.data == value) {
+                    return true;
+                }
+                current = current.next;
+            }
+        }
         return false;
     }
 
@@ -136,7 +210,18 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        if(size > 0) {
+            Node current = head;
+            int counter = 0;
+            while(current.next != null) {
+                if(current.data == value) {
+                    return counter;
+                }
+                current = current.next;
+                counter++;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -146,7 +231,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -156,7 +241,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -165,7 +250,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        head = null;
+        size = 0;
     }
 
     /**

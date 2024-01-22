@@ -1,3 +1,8 @@
+/*
+ * Giovan Cervantes
+ * Jan 21st, 2024
+ */
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
