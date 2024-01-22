@@ -75,16 +75,16 @@ public class LinkedList implements IntList {
         }
         Node newNode = new Node();
         newNode.data = value;
-        if(index == 0) {
+        if (index == 0) {
             this.addFront(value);
         } else if (index == size) {
             this.addBack(value);
-        }else {
+        } else {
             Node current = head.next;
             Node previous = head;
             int currentIndex = 1;
-            while(current != null) {
-                if(currentIndex == index){
+            while (current != null) {
+                if (currentIndex == index) {
                     newNode.next = current;
                     previous.next = newNode;
                     size++;
@@ -100,6 +100,8 @@ public class LinkedList implements IntList {
      * Removes the value located at the front of the list
      * (at index 0), if it is present.
      * Shifts any subsequent values to the left.
+     *
+     * @throws NoSuchElementException if the list is empty
      */
     @Override
     public void removeFront() {
@@ -114,6 +116,8 @@ public class LinkedList implements IntList {
     /**
      * Removes the value located at the back of the list
      * (at index size()-1), if it is present.
+     *
+     * @throws NoSuchElementException if the list is empty
      */
     @Override
     public void removeBack() {
@@ -140,6 +144,7 @@ public class LinkedList implements IntList {
      * @param index the index of the value to be removed
      * @return the value previously at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws NoSuchElementException    if the list is empty
      */
     @Override
     public int remove(int index) {
@@ -180,6 +185,7 @@ public class LinkedList implements IntList {
      * @param index index of the value to return
      * @return the value at the specified position in this list
      * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws NoSuchElementException    if the list is empty
      */
     @Override
     public int get(int index) {

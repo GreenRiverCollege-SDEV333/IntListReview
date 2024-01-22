@@ -14,8 +14,8 @@ public class DoublyLinekdList implements IntList {
         }
     }
 
-    private Node pre;
-    private Node post;
+    private final Node pre;
+    private final Node post;
     private int size;
 
     public DoublyLinekdList() {
@@ -100,6 +100,8 @@ public class DoublyLinekdList implements IntList {
      * Removes the value located at the front of the list
      * (at index 0), if it is present.
      * Shifts any subsequent values to the left.
+     *
+     * @throws NoSuchElementException if the list is empty
      */
     @Override
     public void removeFront() {
@@ -114,6 +116,8 @@ public class DoublyLinekdList implements IntList {
     /**
      * Removes the value located at the back of the list
      * (at index size()-1), if it is present.
+     *
+     * @throws NoSuchElementException if the list is empty
      */
     @Override
     public void removeBack() {
@@ -133,10 +137,24 @@ public class DoublyLinekdList implements IntList {
      * @param index the index of the value to be removed
      * @return the value previously at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws NoSuchElementException    if the list is empty
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (size == 0) {
+            throw new NoSuchElementException("The list is empty");
+        }
+        int currentIndex = 0;
+        Node current = pre.next;
+        while (currentIndex != index) {
+            current = current.next;
+            currentIndex++;
+        }
+        int value = current.data;
+        current.prev.next = current.next;
+        current.next.prev = current.prev;
+        size--;
+        return value;
     }
 
     /**
@@ -145,6 +163,7 @@ public class DoublyLinekdList implements IntList {
      * @param index index of the value to return
      * @return the value at the specified position in this list
      * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws NoSuchElementException    if the list is empty
      */
     @Override
     public int get(int index) {
@@ -189,6 +208,7 @@ public class DoublyLinekdList implements IntList {
      * @param value value to search for
      * @return the index of the first occurrence of the specified value in this list
      * or -1 if this list does not contain the value
+     * @throws NoSuchElementException if the list is empty
      */
     @Override
     public int indexOf(int value) {
@@ -197,8 +217,8 @@ public class DoublyLinekdList implements IntList {
         }
         int currentIndex = 0;
         Node current = pre.next;
-        while(current != post) {
-            if (current.data == value){
+        while (current != post) {
+            if (current.data == value) {
                 return currentIndex;
             }
             current = current.next;

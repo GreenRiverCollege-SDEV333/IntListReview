@@ -9,12 +9,14 @@ public interface IntList extends Iterable<Integer> {
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
      * subsequent values to the right.
+     *
      * @param value value to be inserted
      */
     void addFront(int value);
 
     /**
      * Appends (inserts) the specified value at the back of the list (at index size()-1).
+     *
      * @param value value to be inserted
      */
     void addBack(int value);
@@ -23,6 +25,7 @@ public interface IntList extends Iterable<Integer> {
      * Inserts the specified value at the specified position in this list.
      * Shifts the value currently at that position (if any) and any subsequent
      * values to the right.
+     *
      * @param index index at which the specified value is to be inserted
      * @param value value to be inserted
      * @throws IndexOutOfBoundsException if the index is out of range
@@ -46,6 +49,7 @@ public interface IntList extends Iterable<Integer> {
      * Removes the value at the specified position in this list.
      * Shifts any subsequent values to the left. Returns the value
      * that was removed from the list.
+     *
      * @param index the index of the value to be removed
      * @return the value previously at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range
@@ -54,6 +58,7 @@ public interface IntList extends Iterable<Integer> {
 
     /**
      * Returns the value at the specified position in the list.
+     *
      * @param index index of the value to return
      * @return the value at the specified position in this list
      * @throws IndexOutOfBoundsException if the index is out of range
@@ -62,6 +67,7 @@ public interface IntList extends Iterable<Integer> {
 
     /**
      * Returns true if this list contains the specified value.
+     *
      * @param value value whose presence in this list is to be searched for
      * @return true if this list contains the specified value
      */
@@ -70,6 +76,7 @@ public interface IntList extends Iterable<Integer> {
     /**
      * Returns the index of the first occurrence of the specified value
      * in this list, or -1 if this list does not contain the value.
+     *
      * @param value value to search for
      * @return the index of the first occurrence of the specified value in this list
      * or -1 if this list does not contain the value
@@ -78,12 +85,14 @@ public interface IntList extends Iterable<Integer> {
 
     /**
      * Returns true if this list contains no values.
+     *
      * @return true if this list contains no values
      */
     boolean isEmpty();
 
     /**
      * Returns the number of values in this list.
+     *
      * @return the number of values in this list
      */
     int size();

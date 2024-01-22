@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DoublyLinekdListTest {
     DoublyLinekdList testDouble = new DoublyLinekdList();
+
     @Test
     void addFront() {
         //catches empty array when a get is used to verify it returns the correct error.
@@ -32,7 +33,7 @@ class DoublyLinekdListTest {
 
         //catches an attempt to add a value outside the size of the array
         try {
-            testDouble.add(77,1);
+            testDouble.add(77, 1);
             fail();
         } catch (Exception e) {
             final String expected = "Index out of bounds";
@@ -40,11 +41,11 @@ class DoublyLinekdListTest {
         }
 
         testDouble.addFront(3);
-        for(int i = 0; i < 7; i++) {
-            testDouble.add(i, (i+1)*2);
+        for (int i = 0; i < 7; i++) {
+            testDouble.add(i, (i + 1) * 2);
         }
         assertEquals(2, testDouble.get(0));
-        testDouble.add(7,66);
+        testDouble.add(7, 66);
         assertEquals(66, testDouble.get(7));
     }
 
@@ -87,10 +88,10 @@ class DoublyLinekdListTest {
             testDouble.remove(7);
             fail();
         } catch (Exception e) {
-            final String expected = "Index out of bounds";
+            final String expected = "The list is empty";
             assertEquals(expected, e.getMessage());
         }
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             testDouble.addFront(i);
         }
         testDouble.remove(2);
@@ -110,7 +111,7 @@ class DoublyLinekdListTest {
             final String expected = "The list is empty";
             assertEquals(expected, e.getMessage());
         }
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             testDouble.addFront(i);
         }
         assertEquals(4, testDouble.get(0));
@@ -122,7 +123,7 @@ class DoublyLinekdListTest {
 
     @Test
     void contains() {
-        for(int i = 5; i < 10; i++){
+        for (int i = 5; i < 10; i++) {
             testDouble.addFront(i);
         }
         assertTrue(testDouble.contains(6));
@@ -133,7 +134,7 @@ class DoublyLinekdListTest {
 
     @Test
     void indexOf() {
-        for(int i = 5; i < 10; i++){
+        for (int i = 5; i < 10; i++) {
             testDouble.addFront(i);
         }
         assertEquals(-1, testDouble.indexOf(4));
@@ -154,7 +155,7 @@ class DoublyLinekdListTest {
         assertEquals(0, testDouble.size());
         testDouble.addFront(1);
         assertEquals(1, testDouble.size());
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             testDouble.addFront(i);
         }
         assertEquals(6, testDouble.size());
