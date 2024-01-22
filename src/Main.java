@@ -34,6 +34,11 @@ public class Main {
 
         printList(list);
 
+        System.out.println("Contains 5: " + list.contains(5));
+        System.out.println("Contains 7: " + list.contains(7));
+        System.out.println("Index of value \"1\": " + list.indexOf(1));
+        System.out.println("Index of value \"7\": " + list.indexOf(7));
+        System.out.println("Get value at index \"4\": " +list.get(4));
 
     }
 
