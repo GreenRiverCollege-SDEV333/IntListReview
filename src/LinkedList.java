@@ -107,6 +107,7 @@ public class LinkedList implements IntList {
             throw new NoSuchElementException("The list is empty");
         } else if (head != null) {
             head = head.next;
+            size--;
         }
     }
 

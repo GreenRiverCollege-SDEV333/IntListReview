@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoublyLinekdList implements IntList {
 
@@ -7,7 +8,7 @@ public class DoublyLinekdList implements IntList {
         Node next;
         Node prev;
 
-        public Node(){
+        public Node() {
             next = null;
             prev = null;
         }
@@ -17,13 +18,13 @@ public class DoublyLinekdList implements IntList {
     private Node post;
     private int size;
 
-    public DoublyLinekdList (){
+    public DoublyLinekdList() {
         // on empty list, create the 2 sentinel nodes
         pre = new Node();
         post = new Node();
         pre.next = post;
         post.prev = pre;
-        this.size=0;
+        this.size = 0;
     }
 
     /**
@@ -55,7 +56,7 @@ public class DoublyLinekdList implements IntList {
         newNode.data = value;
         newNode.next = post;
         newNode.prev = post.prev;
-        post.prev.next = newNode;
+        newNode.prev.next = newNode;
         post.prev = newNode;
         size++;
     }
@@ -71,7 +72,28 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        Node newNode = new Node();
+        newNode.data = value;
+        if (index == 0) {
+            this.addFront(value);
+        } else if (index == size) {
+            this.addBack(value);
+        } else {
+            Node current = pre.next.next;
+            int currentIndex = 1;
+            while (currentIndex != index) {
+                current = current.next;
+                currentIndex++;
+            }
+            newNode.next = current;
+            newNode.prev = current.prev;
+            current.prev = newNode;
+            newNode.prev.next = newNode;
+            size++;
+        }
     }
 
     /**
@@ -81,7 +103,12 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        if (size == 0) {
+            throw new NoSuchElementException("The list is empty");
+        }
+        pre.next.next.prev = pre;
+        pre.next = pre.next.next;
+        size--;
     }
 
     /**
@@ -90,8 +117,10 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public void removeBack() {
-        if(size == 0)return;
-        post.prev = post.prev.prev.prev;
+        if (size == 0) {
+            throw new NoSuchElementException("The list is empty");
+        }
+        post.prev = post.prev;
         post.prev.prev.next = post;
         size--;
     }
@@ -119,7 +148,19 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (pre.next == post) {
+            throw new NoSuchElementException("The list is empty");
+        } else if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
+        Node current = pre.next;
+        int value = -1;
+        int currentIndex = 0;
+        while (currentIndex != index) {
+            current = current.next;
+            currentIndex++;
+        }
+        return current.data;
     }
 
     /**
@@ -130,6 +171,14 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        if (size == 0) return false;
+        Node current = pre.next;
+        while (current != post) {
+            if (current.data == value) {
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
@@ -143,7 +192,19 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        if (size == 0) {
+            throw new NoSuchElementException("The list is empty");
+        }
+        int currentIndex = 0;
+        Node current = pre.next;
+        while(current != post) {
+            if (current.data == value){
+                return currentIndex;
+            }
+            current = current.next;
+            currentIndex++;
+        }
+        return -1;
     }
 
     /**
@@ -153,7 +214,7 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -172,9 +233,15 @@ public class DoublyLinekdList implements IntList {
      */
     @Override
     public void clear() {
+        Node current = pre.next;
+        //Manually sets all data stores to a value of 0 to ensure no remnants prior to GC are cleanup available.
+        while (current != post) {
+            current.data = 0;
+            current = current.next;
+        }
         pre.next = post;
         post.prev = pre;
-        size=0;
+        size = 0;
     }
 
     @Override
@@ -183,12 +250,12 @@ public class DoublyLinekdList implements IntList {
         Node current = pre.next;
 
         //if the list is empty return just an empty list indicator
-        if (current == post){
+        if (current == post) {
             return "[]";
         }
         //build the standard pretty print array display
         sb.append('[');
-        while (current.next != post){
+        while (current.next != post) {
             sb.append(current.data).append(", ");
             current = current.next;
         }
