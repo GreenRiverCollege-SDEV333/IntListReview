@@ -6,10 +6,41 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        // test addFront
+        LinkedIntList list = new LinkedIntList();
+        list.addFront(1);
+        list.addFront(2);
+        list.addFront(3);
+
+        printList(list);
+
+        // test addBack
+        list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+        list.addBack(3);
+
+        printList(list);
+
+        // test add
+        list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+        list.addBack(3);
+        list.add(0,5); // test add front
+        list.add(1, 5); // test add mid
+        list.add(5, 5); // test add end
+
+
+        printList(list);
+
+
+    }
+
+    public static void printList(IntList list) {
+        for (var i : list) {
+            System.out.println(i);
         }
+        System.out.println();
     }
 }

@@ -1,6 +1,15 @@
 import java.util.Iterator;
 
 public class ArrayIntList implements IntList {
+
+    int[] array;
+    int size;
+
+    public ArrayIntList() {
+        size = 10;
+        array = new int[100];
+    }
+
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -10,7 +19,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-
+        int[] buffer = new int[array.length];
     }
 
     /**

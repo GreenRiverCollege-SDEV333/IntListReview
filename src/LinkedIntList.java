@@ -86,16 +86,28 @@ public class LinkedIntList implements IntList {
     public void add(int index, int value) {
 
         // do not allow scrolling passed size
-        if (index >= size) throw new IndexOutOfBoundsException();
+        if (index > size) throw new IndexOutOfBoundsException();
+
+        // if adding to index 0, do this instead. that way we don't need null checks
+        if (index == 0) {
+            addFront(value);
+            return;
+        }
+
+        size += 1;
 
         // move to index
         Node current = head;
+        Node prev = head;
         for (int i = 0; i < index; i++) {
+            prev = current;
             current = current.next;
         }
 
         // insert node
-        current.next = new Node(value, current.next);
+        prev.next = new Node(value, current);
+
+
     }
 
     /**
@@ -105,7 +117,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        // if the head exists, make head = head.next, let garbage collection eat the current head
+        if (head != null) head = head.next;
     }
 
     /**
@@ -114,6 +127,29 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
+        removeBack(head, head);
+    }
+
+    // recursive implementation
+    private void removeBack(Node cur, Node prev) {
+        // if current is null, the list is already empty, terminate here
+        if (cur == null) return;
+
+        // if the size is 0, just delete the head. terminate here
+        if (size() == 1)
+        {
+            size = 0;
+            head = null;
+        }
+
+        // if current.next = null, we are at the end. delete the next element of prev and terminate here
+        else if (cur.next == null) {
+            size -= 1;
+            prev.next = null;
+        }
+
+        // otherwise, continue to end
+        else removeBack(cur.next, cur);
 
     }
 
@@ -140,7 +176,16 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        // do not scroll past size
+        if (index >= size) throw new IndexOutOfBoundsException();
+
+        // move to value
+        Node cur = head;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+
+        return cur.data;
     }
 
     /**
@@ -151,6 +196,10 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        // because we implemented iterator, we should be able to use an enhanced for loop
+        for (var checkVal : this) {
+            if (checkVal == value ) return true;
+        }
         return false;
     }
 
@@ -164,7 +213,16 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node cur = head;
+
+        // find the value, if present, by looping through the list
+        for (int i = 0; i < size; i++) {
+            if (cur.data == value) return i;
+            cur = cur.next;
+        }
+
+        // nothing was found, return invalid index
+        return -1;
     }
 
     /**
@@ -174,7 +232,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     /**
@@ -184,7 +242,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -193,7 +251,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        size = 0;
+        head = null;
     }
 
     /**
