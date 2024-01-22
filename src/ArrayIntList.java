@@ -21,7 +21,13 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
+        for (int i = size; i >= 1; i--){
+            buffer[i] = buffer[i-1];
+        }
 
+        // put the value at the front of the array at position 0
+        buffer[0] = value;
+        size++;
     }
 
     /**
@@ -31,7 +37,16 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-
+        // TODO: check to see if we are full - if so, we need to create a larger buffer
+        if(size == buffer.length){
+            int[] newBuffer = new int[size * 2];
+            for(int i = 0; i < size; i++){
+                newBuffer[i] = buffer[i];
+            }
+            buffer = newBuffer;
+        }
+        buffer[size] = value;
+        size++;
     }
 
     /**
@@ -45,7 +60,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-
+        if (isEmpty() || index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+        for (int i = size; i >= index; i--){
+            buffer[i] = buffer[i-1];
+        }
+        buffer[index] = value;
+        size++;
     }
 
     /**
