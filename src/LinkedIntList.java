@@ -74,14 +74,11 @@ public class LinkedIntList implements IntList {
         }
 
         //otherwise, assign the current.next to the new value
-        if (current.next != null)
+        while (current.next != null)
         {
             current = current.next;
         }
-        else
-        {
-            current.next = node;
-        }
+        current.next = node;
     }
 
     /**
@@ -205,7 +202,7 @@ public class LinkedIntList implements IntList {
         Node current = head;
         int currentIndex = 0;
 
-        while (currentIndex != index)
+        while (currentIndex != index && current.next != null)
         {
             current = current.next;
             currentIndex++;
@@ -271,12 +268,13 @@ public class LinkedIntList implements IntList {
     @Override
     public int size()
     {
-        Iterator
-        while (LinkedIntList.hasNext())
+        Node current = head;
+        while (current != null)
         {
             size++;
+            current = current.next;
         }
-        return size;
+        return size - 1;
     }
 
     /**
