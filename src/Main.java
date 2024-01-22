@@ -6,6 +6,11 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.printf("Hello and welcome!");
 
+        System.out.println("Array tests:");
+
+
+
+        System.out.println("Linked list tests: ");
         // test addFront
         LinkedIntList list = new LinkedIntList();
         list.addFront(1);

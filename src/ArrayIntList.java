@@ -2,6 +2,7 @@ import java.util.Iterator;
 
 public class ArrayIntList implements IntList {
 
+    private final int STEP = 100;
     int[] array;
     int size;
 
@@ -99,6 +100,9 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        for (var i : this) {
+            if (value == i) return true;
+        }
         return false;
     }
 
@@ -112,7 +116,11 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        // loop through array, find value, or return invalid index
+        for (int i = 0; i < size(); i++) {
+            if (value == array[i]) return i;
+        }
+        return -1;
     }
 
     /**
@@ -122,7 +130,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     /**
@@ -132,7 +140,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -141,8 +149,43 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
+        array = new int[100];
+        size = 0;
+    }
+
+    // resizes array based on size/array capacity
+    private void autoResize() {
+        // on reach capacity
+        if (size() == array.length - 1 ) {
+            // create a new array with more space
+            int[] buffer = new int[array.length + STEP];
+
+            // copy array values to buffer
+            for (int i = 0; i < size(); i++) {
+                buffer[i] = array[i];
+            }
+
+            // assign array to buffer
+            array = buffer;
+        }
+
+        // on too much capacity
+        else if (size() < array.length - STEP) {
+            // create new array with less space
+            int[] buffer = new int[array.length - STEP];
+
+            // copy array values to buffer
+            for (int i = 0; i < size(); i++) {
+                buffer[i] = array[i];
+            }
+
+            // and assign buffer to array
+            array = buffer;
+        }
 
     }
+
+
 
     /**
      * Returns an iterator over elements of type {@code T}.
@@ -151,6 +194,17 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new Iterator<Integer>() {
+            int index = 0;
+            @Override
+            public boolean hasNext() {
+                return index < size();
+            }
+
+            @Override
+            public Integer next() {
+                return array[index++];
+            }
+        };
     }
 }
