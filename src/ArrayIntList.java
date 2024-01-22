@@ -44,16 +44,13 @@ public class ArrayIntList implements IntList
     public void addFront(int value)
     {
         sizeCheck();
-        
-        int curr = value;
-        int next = curr;
-    
-        for (int i = 0; i < size + 1; i++)
+
+        for (int i = size; i > 0; i--)
         {
-            curr = next;
-            next = buffer[i];
-            buffer[i] = curr;
+            buffer[i] = buffer[i - 1];
         }
+
+        buffer[0] = value;
         size++;
     }
     
@@ -132,21 +129,16 @@ public class ArrayIntList implements IntList
     public int remove(int index)
     {
         indexOutOfBoundsChecker(index);
-        
-        int copyOfNewVal = buffer[index];
-        
-        int curr = index;
-        int next = index + 1;
-        
-        while (index < size)
+
+        int removedValue = buffer[index];
+
+        for (int i = index; i < size - 1; i++)
         {
-            buffer[curr] = buffer[next];
-            curr = next;
-            next += 1;
+            buffer[i] = buffer[i + 1];
         }
-        
+
         size--;
-        return copyOfNewVal;
+        return removedValue;
     }
     
     /**
@@ -232,7 +224,7 @@ public class ArrayIntList implements IntList
     @Override
     public int size()
     {
-        return buffer.length;
+        return size;
     }
     
     /**
