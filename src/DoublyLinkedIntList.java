@@ -96,6 +96,7 @@ public class DoublyLinkedIntList implements IntList
         while(currIndex < index)
         {
             currNode = currNode.next;
+            currIndex++;
         }
 
         //insert new node
@@ -171,6 +172,7 @@ public class DoublyLinkedIntList implements IntList
         while(currIndex < index)
         {
             currNode = currNode.next;
+            currIndex++;
         }
 
         //reassign nodes surrounding currNode
@@ -203,6 +205,7 @@ public class DoublyLinkedIntList implements IntList
         while(currIndex < index)
         {
             currNode = currNode.next;
+            currIndex++;
         }
 
         return currNode.data;
@@ -227,6 +230,7 @@ public class DoublyLinkedIntList implements IntList
             {
                 return true;
             }
+            currNode = currNode.next;
         }
 
         //return false if value not found
@@ -256,6 +260,8 @@ public class DoublyLinkedIntList implements IntList
                 return index;
             }
 
+            currNode = currNode.next;
+
             index++;
         }
 
@@ -272,12 +278,7 @@ public class DoublyLinkedIntList implements IntList
     public boolean isEmpty()
     {
         //if size is greater than 0, list is not empty
-        if(size > 0)
-        {
-            return false;
-        }
-
-        return true;
+        return size <= 0;
     }
     
     /**
