@@ -11,7 +11,6 @@ public class LinkedIntList implements IntList {
 
     // set up the head field
     private Node head;
-    private Node current;
 
     // set up the size field
     private int size;
@@ -21,7 +20,6 @@ public class LinkedIntList implements IntList {
     {
         head = null;
         size = 0;
-        current = null;
     }
 
     /**
@@ -34,19 +32,21 @@ public class LinkedIntList implements IntList {
     @Override
     public void addFront(int value)
     {
+        //considerations: empty list
+
         // set up a new node
-        Node theNewOne = new Node();
+        Node newNode = new Node();
 
         if (head == null) {
             // the list is currently empty
-            head = theNewOne;
+            head = newNode;
             head.data = value;
             size++;
         }
         else {
             // the list currently has some nodes in it
-            theNewOne.next = head;
-            head = theNewOne;
+            newNode.next = head;
+            head = newNode;
             head.data = value;
             size++;
         }
@@ -60,14 +60,18 @@ public class LinkedIntList implements IntList {
     @Override
     public void addBack(int value)
     {
+        //considerations: empty list
         //create a current to traverse list
         //create new node
         Node current = head;
         Node node = new Node();
-
         node.data = value;
-        //if the next doesn't equals null,
-        //continue
+
+        if (head == null) {
+            // the list is currently empty
+            head.data = node.data;
+            size++;
+        }
 
         //otherwise, assign the current.next to the new value
         if (current.next != null)
@@ -92,9 +96,12 @@ public class LinkedIntList implements IntList {
     @Override
     public void add(int index, int value)
     {
+        //considerations: empty list or invalid index
+
         //keep track of current
         Node current = head;
         int currentIndex = 0;
+
         Node newNode = new Node();
         newNode.data = value;
 
@@ -116,7 +123,7 @@ public class LinkedIntList implements IntList {
                 current = current.next;
                 currentIndex++;
             }
-            current = newNode;
+            current.data = newNode.data;
         }
     }
 
@@ -128,11 +135,13 @@ public class LinkedIntList implements IntList {
     @Override
     public void removeFront()
     {
+        Node current = head;
+        //consider: empty list
         if (head == null)
         {
             throw new NoSuchElementException("The list is empty");
         }
-        head = head.next;
+        head = current.next;
     }
 
     /**
@@ -170,6 +179,7 @@ public class LinkedIntList implements IntList {
         {
             previous = current;
             current = current.next;
+            currentIndex++;
         }
         previous = current.next;
 
@@ -185,7 +195,15 @@ public class LinkedIntList implements IntList {
     @Override
     public int get(int index)
     {
+        Node current = head;
+        int currentIndex = 0;
 
+        while (currentIndex != index)
+        {
+            current = current.next;
+            currentIndex++;
+        }
+        return current.data;
     }
 
     /**
@@ -197,7 +215,13 @@ public class LinkedIntList implements IntList {
     @Override
     public boolean contains(int value)
     {
-        return false;
+        Node current = head;
+        while (current.data != value && current.next != null)
+        {
+            current = current.next;
+        }
+        if (current.next == null) return false;
+        else return true;
     }
 
     /**
@@ -211,7 +235,14 @@ public class LinkedIntList implements IntList {
     @Override
     public int indexOf(int value)
     {
-        return 0;
+        Node current = head;
+        int currentIndex = 0;
+        while (current.data != value)
+        {
+            current = current.next;
+            currentIndex++;
+        }
+        return currentIndex;
     }
 
     /**
@@ -222,7 +253,7 @@ public class LinkedIntList implements IntList {
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return head.next == null;
     }
 
     /**
@@ -233,7 +264,12 @@ public class LinkedIntList implements IntList {
     @Override
     public int size()
     {
-        return 0;
+        int size = 0;
+        while (iterator().hasNext())
+        {
+            size++;
+        }
+        return size;
     }
 
     /**
@@ -243,7 +279,7 @@ public class LinkedIntList implements IntList {
     @Override
     public void clear()
     {
-
+        head = null;
     }
 
     /**
