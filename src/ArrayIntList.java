@@ -3,6 +3,7 @@ import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList
 {
+
     private int size;
     private int[] buffer;
 
@@ -82,13 +83,22 @@ public class ArrayIntList implements IntList
     @Override
     public void removeFront()
     {
+        if (!isEmpty()) {
+            for (int i = 0; i < size - 2; i++)
+            {
+                buffer[i] = buffer[i + 1];
+            }
+
+            //optional, but a good idea - since we shifted everything to the left by 1
+            // we want to clear out the right-most value to be zero
+            buffer[size - 1] = 0;
+            
+            size--;
+        }
         // for loop to shift elements to the left
         // buffer[0] = buffer[1]
         // buffer[1] = buffer[2]
-        for (int i = 0; i < size - 1; i++)
-        {
-            buffer[i] = buffer[i + 1];
-        }
+
     }
 
     /**
@@ -98,7 +108,10 @@ public class ArrayIntList implements IntList
     @Override
     public void removeBack()
     {
-        buffer[size - 1] = 0;
+        if (!isEmpty()) {
+            buffer[size - 1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -176,7 +189,17 @@ public class ArrayIntList implements IntList
     @Override
     public int indexOf(int value)
     {
-        return 0;
+        //run through the array using a for loop
+        for (int i = 0; i < size; i++)
+        {
+            //if the buffer[] == value, return the index
+            if (buffer[i] == value)
+            {
+                return i;
+            }
+        }
+        //otherwise, return a -1
+        return -1;
     }
 
     /**
@@ -187,7 +210,7 @@ public class ArrayIntList implements IntList
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return size == 0;
     }
 
     /**
