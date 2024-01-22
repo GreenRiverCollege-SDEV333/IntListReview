@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedIntList implements IntList
 {
@@ -46,17 +47,25 @@ public class LinkedIntList implements IntList
         Node newNode = new Node();
         newNode.data = value;
 
-        //helper node
-        Node temp = head;
-
-        //traverse to end of list
-        while(temp.next != null)
+        //check if list is empty
+        if(head == null)
         {
-            temp = temp.next;
+            head = newNode;
         }
+        else
+        {
+            //helper node
+            Node temp = head;
 
-        //assign former tail pointer to new tail
-        temp.next = newNode;
+            //traverse to end of list
+            while(temp.next != null)
+            {
+                temp = temp.next;
+            }
+
+            //assign former tail pointer to new tail
+            temp.next = newNode;
+        }
 
         //increment size
         size++;
@@ -81,20 +90,36 @@ public class LinkedIntList implements IntList
         Node newNode = new Node();
         newNode.data = value;
 
+        //if node is added at the end
+        if (index == size)
+        {
+            addBack(value);
+            return;
+        }
+
         //create helpers
         Node temp = head;
+        Node prev = null;
         int currIndex = 0;
 
         //traverse to specified index
         while(currIndex != index)
         {
+            prev = temp;
             temp = temp.next;
             currIndex++;
         }
 
         //change pointers
-        newNode.next = temp.next;
-        temp.next = newNode;
+        newNode.next = temp;
+        if (prev != null)
+        {
+            prev.next = newNode;
+        }
+        else
+        {
+            head = newNode;
+        }
 
         //increment size
         size++;
@@ -111,6 +136,7 @@ public class LinkedIntList implements IntList
         if(size > 0)
         {
             head = head.next;
+            size--;
         }
     }
     
@@ -123,14 +149,25 @@ public class LinkedIntList implements IntList
     {
         if(size > 0)
         {
-            Node temp = head;
-
-            while(temp.next.next != null)
+            //if list is size 1 remove set head to null
+            if(size == 1)
             {
-                temp = temp.next;
+                head = null;
+            }
+            else
+            {
+                Node temp = head;
+
+                while(temp.next.next != null)
+                {
+                    temp = temp.next;
+                }
+
+                temp.next = null;
             }
 
-            temp.next = null;
+            //decrement size
+            size--;
         }
     }
     
@@ -148,23 +185,43 @@ public class LinkedIntList implements IntList
     {
         indexOutOfBoundsChecker(index);
 
+        //if index 0
+        if(index == 0)
+        {
+            if(head == null)
+            {
+                throw new IndexOutOfBoundsException("Index out of range");
+            }
+
+            int removedValue = head.data;
+            head = head.next;
+            size--;
+            return removedValue;
+        }
+
         //helpers
         Node temp = head;
-        Node prev = temp;
+        Node prev = null;
         int currIndex = 0;
 
         //traverse to index
         while(currIndex != index)
         {
+            if (temp == null)
+            {
+                throw new IndexOutOfBoundsException("Index out of range");
+            }
+
             prev = temp;
             temp = temp.next;
             currIndex++;
         }
 
         //remove node
-        prev = temp.next;
+        prev.next = temp.next;
 
-        //return value that was removed
+        //return value that was removed and decrement size
+        size--;
         return temp.data;
     }
     
@@ -187,8 +244,17 @@ public class LinkedIntList implements IntList
         //traverse to index
         while(currIndex != index)
         {
+            if (temp == null)
+            {
+                throw new IndexOutOfBoundsException("Index out of range");
+            }
             temp = temp.next;
             currIndex++;
+        }
+
+        if (temp == null)
+        {
+            throw new IndexOutOfBoundsException("Index out of range");
         }
 
         return temp.data;
@@ -285,8 +351,18 @@ public class LinkedIntList implements IntList
     @Override
     public void clear()
     {
+        //if list is empty
+        if(head == null)
+        {
+            return;
+        }
+
         //reassign head to point to null
         head.next = null;
+        head = null;
+
+        //set size to 0
+        size = 0;
     }
     
     @Override
@@ -308,21 +384,27 @@ public class LinkedIntList implements IntList
         @Override
         public boolean hasNext()
         {
-            return curr.next != null;
+            return curr != null;
         }
     
         @Override
         public Integer next()
         {
+            if (!hasNext())
+            {
+                throw new NoSuchElementException("Iterator at end");
+            }
+
+            int data = curr.data;
             curr = curr.next;
-            
-            return curr.data;
+
+            return data;
         }
     }
 
     private void indexOutOfBoundsChecker(int index)
     {
-        if(index >= size || size < 0)
+        if(index > size || index < 0)
         {
             throw new IndexOutOfBoundsException("Index out of range");
         }
