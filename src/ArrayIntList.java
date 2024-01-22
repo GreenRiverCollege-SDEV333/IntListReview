@@ -61,7 +61,9 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-
+        if (size == buffer.length)   {
+            resize(size * 2);
+        }
     }
 
     /**
@@ -94,7 +96,26 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+
+    if (index < 0) {
+        throw new IndexOutOfBoundsException("Index can not be negative");
+    }
+    else if (index >= size){
+        throw new IndexOutOfBoundsException("Index is higher than size");
+    }
+
+    //save a copy of the value to be removed, so we can return it later
+    int copyOfRemovalValue = buffer[index];
+
+    // shift values to the left
+        for (int i = index; i <= size - 1 ; i++) {
+            buffer[i] =buffer[i+1];
+        }
+
+        //decrement size
+        size--;
+
+        return copyOfRemovalValue;
     }
 
     /**
@@ -140,7 +161,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0 ;
     }
 
     /**
@@ -150,7 +171,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -159,9 +180,24 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void clear() {
-
+    buffer = new int[10];
+    size = 0;
     }
 
+    private void resize(int newSize){
+        //Create new space, separate from
+        int[] newBuffer = new int[newSize];
+
+        //copy everything from buffer to new buffer
+        for (int i = 0; i < buffer.length; i++) {
+            newBuffer[i] = buffer[i];
+        }
+        //set the new space into buffer
+        buffer = newBuffer;
+
+        //the old space is no longer "pointed to" and will eventually
+        //be cleaned up by the garbage collector
+    }
     /**
      * Returns an iterator over elements of type {@code T}.
      *
