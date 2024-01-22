@@ -1,7 +1,7 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class DoublyLinekdList implements IntList {
+public class DoublyLinkedList implements IntList {
 
     private class Node {
         int data;
@@ -18,7 +18,7 @@ public class DoublyLinekdList implements IntList {
     private final Node post;
     private int size;
 
-    public DoublyLinekdList() {
+    public DoublyLinkedList() {
         // on empty list, create the 2 sentinel nodes
         pre = new Node();
         post = new Node();
@@ -124,8 +124,8 @@ public class DoublyLinekdList implements IntList {
         if (size == 0) {
             throw new NoSuchElementException("The list is empty");
         }
-        post.prev = post.prev;
         post.prev.prev.next = post;
+        post.prev = post.prev.prev;
         size--;
     }
 
@@ -173,7 +173,6 @@ public class DoublyLinekdList implements IntList {
             throw new IndexOutOfBoundsException("Index cannot be negative");
         }
         Node current = pre.next;
-        int value = -1;
         int currentIndex = 0;
         while (currentIndex != index) {
             current = current.next;

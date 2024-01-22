@@ -1,5 +1,3 @@
-import java.util.NoSuchElementException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArrayIntListTest {
@@ -19,13 +17,16 @@ class ArrayIntListTest {
         assertEquals(3, testList.get(0));
         testList.addFront(5);
         assertEquals(5, testList.get(0));
+        assertEquals(2, testList.size());
     }
 
     @org.junit.jupiter.api.Test
     void addBack() {
         testList.addBack(4);
+        assertEquals(4, testList.get(testList.size() - 1));
         testList.addBack(7);
         assertEquals(7, testList.get(testList.size() - 1));
+        assertEquals(2, testList.size());
     }
 
     @org.junit.jupiter.api.Test
@@ -47,6 +48,7 @@ class ArrayIntListTest {
         assertEquals(2, testList.get(0));
         testList.add(7,66);
         assertEquals(66, testList.get(7));
+        assertEquals(9, testList.size());
     }
 
     @org.junit.jupiter.api.Test
@@ -59,10 +61,15 @@ class ArrayIntListTest {
             final String expected = "Cannot remove element from empty array";
             assertEquals(expected, e.getMessage());
         }
-        testList.addFront(3);
         testList.addFront(4);
         testList.removeFront();
-        assertEquals(3, testList.get(0));
+        assertEquals(0, testList.size());
+        testList.addFront(3);
+        testList.addFront(4);
+        testList.addFront(5);
+        testList.removeFront();
+        assertEquals(4, testList.get(0));
+        assertEquals(2, testList.size());
     }
 
     @org.junit.jupiter.api.Test
@@ -77,8 +84,11 @@ class ArrayIntListTest {
         }
         testList.addFront(11);
         testList.addBack(12);
+        testList.addBack(13);
         testList.removeBack();
-        assertEquals(11, testList.get(testList.size() - 1));
+        assertEquals(12, testList.get(testList.size() - 1));
+        assertEquals(2, testList.size());
+
     }
 
     @org.junit.jupiter.api.Test

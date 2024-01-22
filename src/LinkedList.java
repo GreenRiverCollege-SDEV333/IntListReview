@@ -27,14 +27,11 @@ public class LinkedList implements IntList {
     public void addFront(int value) {
         Node newNode = new Node();
         newNode.data = value;
-        if (head == null) {
-            head = newNode;
-            this.size++;
-        } else {
+        if (head != null) {
             newNode.next = head;
-            head = newNode;
-            this.size++;
         }
+        head = newNode;
+        this.size++;
     }
 
     /**
@@ -107,7 +104,7 @@ public class LinkedList implements IntList {
     public void removeFront() {
         if (head == null) {
             throw new NoSuchElementException("The list is empty");
-        } else if (head != null) {
+        } else {
             head = head.next;
             size--;
         }
@@ -194,7 +191,6 @@ public class LinkedList implements IntList {
         } else if (index < 0) {
             throw new IndexOutOfBoundsException("Index cannot be negative");
         }
-        int value = -1;
         int currentIndex = 0;
         Node current = head;
         while (current != null) {

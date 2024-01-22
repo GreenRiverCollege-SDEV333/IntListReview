@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -237,7 +236,7 @@ public class ArrayIntList implements IntList {
     }
 
     /**
-     * Custom toString for this arraylist implementation that returns a stringified display of the contents
+     * Custom toString for this arraylist implementation that returns a pretty print display of the contents
      * @return a string of the contents of the arraylist
      */
     @Override
