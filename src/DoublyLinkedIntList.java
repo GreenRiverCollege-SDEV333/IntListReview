@@ -8,11 +8,11 @@ public class DoublyLinkedIntList implements IntList
     private class Node {
         int data;
         Node next;      //address of the node "after" this one in line
-        Node previous;      //address of the node "before" this one in line
+        Node last;      //address of the node "before" this one in line
 
         public Node() {
             next = null;
-            previous = null;
+            last = null;
         }
     }
 
@@ -24,7 +24,7 @@ public class DoublyLinkedIntList implements IntList
         head = new Node();
         tail = new Node();
         head.next = tail;
-        tail.previous = head;
+        tail.last = head;
         size = 0;
     }
 
@@ -39,19 +39,19 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void addFront(int value)
     {
-        Node theLastOne = tail.previous;
+        Node previousNode = tail.last;
 
         // set up my new node and fill it out (data, prev, next)
-        Node theNewOne = new Node();
-        theNewOne.data = value;
-        theNewOne.next = tail;
-        theNewOne.previous = theLastOne;
+        Node newNode = new Node();
+        newNode.data = value;
+        newNode.next = tail;
+        newNode.last = previousNode;
 
         //go to the end of the list's sentinel, and update its prev
-        tail.previous = theNewOne;
+        tail.last = newNode;
 
         //go to the node before the new one, and update its next
-        theLastOne.next = theNewOne;
+        previousNode.next = newNode;
 
         size++;
     }
@@ -102,14 +102,14 @@ public class DoublyLinkedIntList implements IntList
     {
         if (size > 0) {
             //set up a temporary variable for convenience
-            Node theOneToRemove = tail.previous;
+            Node theOneToRemove = tail.last;
 
-            theOneToRemove.previous.next = tail;
-            tail.previous = theOneToRemove.previous;
+            theOneToRemove.last.next = tail;
+            tail.last = theOneToRemove.last;
 
             //optional, but strongly recommended to clean up
             theOneToRemove.next = null;
-            theOneToRemove.previous = null;
+            theOneToRemove.last = null;
             theOneToRemove.data = 0;
 
             size--;
