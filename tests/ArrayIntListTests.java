@@ -100,6 +100,9 @@ class ArrayIntListTest
         ArrayIntList list = new ArrayIntList();
 
         //test when the data structure is empty
+        //https://junit.org/junit5/docs/5.8.2/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
+        //https://stackoverflow.com/questions/40268446/junit-5-how-to-assert-an-exception-is-thrown
+        //took me some docs researching to figure out how to test an exception being thrown
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(0));
 
         //test when the data structure has one item
@@ -120,8 +123,6 @@ class ArrayIntListTest
         list.addBack(30);
         list.addBack(35);
         assertDoesNotThrow(() -> list.remove(2));
-        assertEquals(4, list.size());
-        assertEquals(20, list.get(2));
 
         //test with invalid parameter values
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(5));

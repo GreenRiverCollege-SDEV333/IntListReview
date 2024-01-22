@@ -121,6 +121,7 @@ class LinkedIntListTest
     {
         //test on empty list
         //https://junit.org/junit5/docs/5.8.2/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
+        //https://stackoverflow.com/questions/40268446/junit-5-how-to-assert-an-exception-is-thrown
         //took me some docs researching to figure out how to test an exception being thrown
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.remove(0));
 
