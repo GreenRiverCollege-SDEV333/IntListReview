@@ -121,13 +121,18 @@ public class LinkedIntList implements IntList {
         }
         else //if head && current.next are not null
         {
+            Node previousNode = current;
+
             //move through until you get to the last
           while (currentIndex != index && current.next != null)
           {
+              previousNode = current;
               current = current.next;
               currentIndex++;
           }
-          current.next = newNode;
+          previousNode.next = newNode;
+          newNode.next = current.next;
+          //shift everything over by reassigning
         }
     }
 
@@ -224,8 +229,7 @@ public class LinkedIntList implements IntList {
         {
             current = current.next;
         }
-        if (current.next == null) return false;
-        else return true;
+        return true;
     }
 
     /**
@@ -257,7 +261,7 @@ public class LinkedIntList implements IntList {
     @Override
     public boolean isEmpty()
     {
-        return head.next == null;
+        return head == null;
     }
 
     /**
@@ -297,7 +301,6 @@ public class LinkedIntList implements IntList {
     {
         SinglyLinkedIterator theIterator = new SinglyLinkedIterator();
         return theIterator;
-//        return new SinglyLinkedIterator();
     }
 
     //helper class/type that defines how the iterator works
