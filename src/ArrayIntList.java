@@ -91,14 +91,13 @@ public class ArrayIntList implements IntList
     @Override
     public void removeFront()
     {
-        //helpers
-        int prev = 0;
-        int curr = 1;
-
-        //reassign values to shift left
-        for(int i = 0; i < size; i++)
+        if (size > 0)
         {
-            buffer[prev] = buffer[curr];
+            for (int i = 0; i < size - 1; i++)
+            {
+                buffer[i] = buffer[i + 1];
+            }
+            size--;
         }
     }
     
@@ -109,11 +108,11 @@ public class ArrayIntList implements IntList
     @Override
     public void removeBack()
     {
-        //traverse to end of buffer and set to 0
-        buffer[buffer.length - 1] = 0;
-
-        //decrement size
-        size--;
+        if (size > 0)
+        {
+            size--;
+            buffer[size] = 0;
+        }
     }
     
     /**
@@ -132,12 +131,14 @@ public class ArrayIntList implements IntList
 
         int removedValue = buffer[index];
 
+        //shift all to left
         for (int i = index; i < size - 1; i++)
         {
             buffer[i] = buffer[i + 1];
         }
 
         size--;
+
         return removedValue;
     }
     
