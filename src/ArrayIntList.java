@@ -77,7 +77,17 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeFront() {
+        // call remove(0)
+        if(!isEmpty()) {
+            for (int i = 0; i <= size - 2; i++) {
+                buffer[i] = buffer[i + 1];
+            }
+            // optional but a good idea - since we shifted everything to the left by 1
+            // we want to clear out the right-most value to be zero
+            buffer[size - 1] = 0;
 
+            size--;
+        }
     }
 
     /**
@@ -86,7 +96,11 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        // call remove(size - 1)
+        if(!isEmpty()){
+            buffer[size - 1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -100,7 +114,16 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (isEmpty() || index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+        int remove = buffer[index];
+        for(int i = index; i < size; i++){
+            buffer[i] = buffer[i + 1];
+        }
+        buffer[size-1] = 0;
+        size--;
+        return remove;
     }
 
     /**
