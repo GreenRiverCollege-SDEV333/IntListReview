@@ -82,7 +82,7 @@ public class Driver {
 //        firstList.clear();
 //        firstList.printList();
 //        System.out.println(firstList.isEmpty());
-
+//
 //        ArrayIntList arrOne = new ArrayIntList();
 //
 //        System.out.println(arrOne);
@@ -140,7 +140,7 @@ public class Driver {
 //
 //        System.out.println();
 //        System.out.println(arrOne);
-//        int valueAtIndex = arrOne.get(0);
+//        valueAtIndex = arrOne.get(0);
 //        System.out.println(valueAtIndex);
 //
 //        System.out.println(arrOne.indexOf(11));
@@ -165,8 +165,8 @@ public class Driver {
 //        System.out.println(arrOne);
 //        arrOne.removeBack();
 //        System.out.println(arrOne);
-
-
+//
+//
 //        int removed2 = arrOne.remove(2);
 //        System.out.println(arrOne);
 //        System.out.println(removed2);
@@ -182,27 +182,109 @@ public class Driver {
 //        int removed5 = arrOne.remove(2);
 //        System.out.println(arrOne);
 //        System.out.println(removed5);
-
-        System.out.println();
-        LinkedIntList linkedIntList = new LinkedIntList();
-
-        System.out.println(linkedIntList);
-
-        linkedIntList.addBack(1);
-        System.out.println(linkedIntList);
-        linkedIntList.addBack(2);
-        System.out.println(linkedIntList);
 //
-//        linkedIntList.addBack(2);
-//        System.out.println(linkedIntList);
-
-//        linkedIntList.addFront(3);
-//        System.out.println(linkedIntList);
-////
-//        linkedIntList.addFront(2);
-//        System.out.println(linkedIntList);
+//        System.out.println();
+//        LinkedIntList linkedIntList = new LinkedIntList();
+//
+////        System.out.println(linkedIntList);
+//
 //        linkedIntList.addFront(1);
 //        System.out.println(linkedIntList);
+//        linkedIntList.addFront(2);
+//        System.out.println(linkedIntList);
+////
+//        linkedIntList.addBack(2);
+//        System.out.println(linkedIntList);
+//
+//        linkedIntList.addBack(3);
+//        System.out.println(linkedIntList);
+//
+//        linkedIntList.removeFront();
+//        System.out.println(linkedIntList);
+//        linkedIntList.removeFront();
+//        System.out.println(linkedIntList);
+//        linkedIntList.removeFront();
+//        System.out.println(linkedIntList);
+//        //iterate to make sure last node is eliminated
+//        linkedIntList.removeFront();
+//        System.out.println(linkedIntList);
+//        //iterate to make sure last node is eliminated
+//        linkedIntList.removeFront();
+//        System.out.println(linkedIntList);
+//
+//        LinkedIntList list = new LinkedIntList();
+//        linkedIntList.addFront(3);
+//        linkedIntList.addFront(2);
+//        linkedIntList.addFront(1);
+//        System.out.println(linkedIntList);
+//
+//        System.out.println(linkedIntList.get(2));
+//
+//
+//        System.out.println();
+//        System.out.println(linkedIntList);
+//        System.out.println(linkedIntList.remove(1));
+//
+//        System.out.println(linkedIntList);
+//        linkedIntList.add(1,4);
+//        System.out.println(linkedIntList);
+//
+//
+//        System.out.println(linkedIntList.contains(0));
+//        System.out.println(linkedIntList.isEmpty());
+//        System.out.println(linkedIntList);
+//        System.out.println(linkedIntList.indexOf(0));
+//        System.out.println(linkedIntList.size());
+//        linkedIntList.clear();
+//        System.out.println(linkedIntList);
+//        System.out.println(linkedIntList.size());
+//
+//        System.out.println(linkedIntList);
+//
+//
+//
+//        System.out.println(linkedIntList);
+//        linkedIntList.removeBack();
+//        System.out.println(linkedIntList);
+//        linkedIntList.removeBack();
+//        System.out.println(linkedIntList);
+//        linkedIntList.removeBack();
+//        System.out.println(linkedIntList);
+//        linkedIntList.removeBack();
+//        System.out.println(linkedIntList);
+//        linkedIntList.removeBack();
+//        System.out.println(linkedIntList);
+//
+//        ArrayIntList array = new ArrayIntList();
+//        array.addFront(3);
+//        array.addFront(2);
+//        array.addFront(1);
+//        System.out.println(array);
+//
+//        System.out.println(array.get(0));
+//        array.addFront(0);
+//        System.out.println(array);
+//
+//        array.add(-1, 1000);
+
+        LinkedIntList list = new LinkedIntList();
+        System.out.println(list);
+        list.addFront(3);
+        list.addFront(2);
+        list.addFront(1);
+        System.out.println(list);
+
+        list.addBack(4);
+        list.addBack(5);
+        list.addBack(6);
+        System.out.println(list);
+
+        list.clear();
+        System.out.println(list);
+
+
+
+
 
 
 

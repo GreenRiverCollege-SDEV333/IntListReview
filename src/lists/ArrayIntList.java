@@ -168,9 +168,7 @@ public class ArrayIntList implements IntList {
             for (int i = index; i < size - 1; i++) {
                     buffer[i] = buffer[i + 1];
                 }
-            }
-
-        size--;
+            } size--;
         // set trailing index to null to account for reduced size
         buffer[size] = null;
 
@@ -187,11 +185,19 @@ public class ArrayIntList implements IntList {
     @Override
     public int get(int index) {
 
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Specified Index Must Be " +
-                    "In the Range of 0-" + (size - 1));
-        }
-        return buffer[index];
+        if (index < 0 ) {
+            throw new IndexOutOfBoundsException(
+                    "Index must be greater than 0");
+        } else if (index >= size ) {
+            if (size == 0) {
+                throw new IndexOutOfBoundsException(
+                        "This list is empty");
+            } else {
+                throw new IndexOutOfBoundsException(
+                        "Specified Index Must Be " +
+                        "In the Range of 0-" + (size - 1));
+            }
+        } return buffer[index];
     }
 
     /**
@@ -236,11 +242,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        if (size == 0 && buffer[0] == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return size == 0 && buffer[0] == null;
     }
 
     /**
@@ -264,6 +266,11 @@ public class ArrayIntList implements IntList {
         size = 0;
     }
 
+    /**
+     * Helper method to resize ArrayIntlist to support
+     * more data
+     * @param newSize the new size of the internal Array
+     */
     private void resize(int newSize) {
         //create new space, separate from the old space (buffer)
         Integer[] newBuffer = new Integer[newSize];
@@ -302,10 +309,10 @@ public class ArrayIntList implements IntList {
     private class IntListIterator implements Iterator<Integer> {
 
         // private fields:
-        private int i;
+        private int index;
 
         private IntListIterator() {
-            i = 0;
+            index = 0;
         }
 
         /**
@@ -317,7 +324,7 @@ public class ArrayIntList implements IntList {
          */
         @Override
         public boolean hasNext() {
-            return i < size;
+            return index < size;
         }
 
         /**
@@ -329,19 +336,19 @@ public class ArrayIntList implements IntList {
         @Override
         public Integer next() {
             //check to see if i is greater than size
-            if ( i >= size) {
+            if ( index >= size) {
                 throw new NoSuchElementException("i is now out of bounds");
             }
             
-            int currentValue = buffer[i];
-            i++;
+            int currentValue = buffer[index];
+            index++;
             return currentValue;
         }
 
         @Override
         public String toString() {
             return "IntListIterator{" +
-                    "i=" + i +
+                    "i=" + index +
                     '}';
         }
     }
