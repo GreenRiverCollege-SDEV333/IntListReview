@@ -19,19 +19,12 @@ public class ArrayList implements IntList{
      */
     @Override
     public void addFront(int value) {
-
-        for (int i = size; i <= 0; i--){
-            buffer[i] = buffer[i - 1];
-            buffer[0] = value;
-            size++;
-            // or
-
-          //  for (int i = size - 1; i>=0; i--){
-              //  buffer[i+1] = buffer[i];
-           // }
-
+        for (int i = size - 1; i>=0; i--){ // shift elements
+        buffer[i+1] = buffer[i];
+           }
+        buffer[0] = value;
+        size++;
         }
-    }
 
     /**
      * Appends (inserts) the specified value at the back of the list (at index size()-1).
@@ -40,6 +33,9 @@ public class ArrayList implements IntList{
      */
     @Override
     public void addBack(int value) {
+        if (size == buffer.length) {
+            resize(size * 2);
+        }
         buffer[size] = value;
         size++;
     }
@@ -58,18 +54,13 @@ public class ArrayList implements IntList{
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("index not in range"); // throw exception. get used to this!!
         }
-
-        if (size == buffer.length) {
-            int[] largeBuffer = new int[buffer.length * 2]; //create a bigger array if array isn't of size, (I needed to look this up)
-            System.arraycopy(buffer, 0, largeBuffer, 0, size);
-            buffer = largeBuffer;
+        if (size == buffer.length) { //double array size to assure space for new element
+            resize(size * 2);
         }
-
-        for (int i = size; i > index; i--) {
-            buffer[i] = buffer[i - 1]; // shift elements to the right. used in alot of methods
+        for (int i = size - 1; i >= 0; i--) { // shift elements to the right
+            buffer[i + 1] = buffer[i];
         }
-
-        buffer[index] = value; //insert new value. should always be the final step!!!
+        buffer[index] = value; //insert the new value at the given index
         size++;
     }
 
@@ -80,8 +71,8 @@ public class ArrayList implements IntList{
      */
     @Override
     public void removeFront() {
-        if (size < 0){
-            for (int i = 0; i < 0; i--) {
+        if (size > 0){
+            for (int i = 0; i <= size - 2; i++) {
                 buffer[i] = buffer[i + 1];
             }
             size--;
@@ -94,7 +85,10 @@ public class ArrayList implements IntList{
      */
     @Override
     public void removeBack() {
-        if (size < 0) {
+        if (isEmpty()) {
+            throw new IndexOutOfBoundsException("Cannot remove from an empty list");
+        }else{
+            buffer[size - 1] = 0;
             size--;
         }
     }
@@ -110,17 +104,15 @@ public class ArrayList implements IntList{
      */
     @Override
     public int remove(int index) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index >= size) { //or do an if else instead of on "or" so I can be more specific with my error messages
             throw new IndexOutOfBoundsException("number not in array");
         }
-
         int numberRemoved = buffer[index];
-
         // Shift elements to the left (taken from remove front)
         for (int i = index; i < size - 1; i++) {
             buffer[i] = buffer[i + 1];
         }
-
+        buffer[size -1] = 0;
         size--;
         return numberRemoved; //return the number removed from the position
     }
@@ -193,7 +185,7 @@ public class ArrayList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -202,7 +194,8 @@ public class ArrayList implements IntList{
      */
     @Override
     public void clear() {
-    size = 0;
+        buffer = new int[10];
+        size = 0;
     }
 
     /**
@@ -213,5 +206,48 @@ public class ArrayList implements IntList{
     @Override
     public Iterator<Integer> iterator() {
         return null;
+    }
+    //create a private helper iterator class
+    private class IntListIterator implements Iterator<Integer>{
+        private int i;
+        private IntListIterator(){
+            i = 0;
+        }
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return i < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws @NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            int currentValue = buffer[i];
+            i++;
+            return null;
+        }
+    }
+    //iterators enables main/client to use a for-each loop
+    // on my intlist
+
+    @Override
+    public void resize(int newSize){
+        int[] newBuffer = new int[newSize]; //create a new array that will be larger
+        for (int i = 0; i < buffer.length; i++){
+            newBuffer[i] = buffer[i];
+        }
+        buffer = newBuffer;
+        // this overwrites the previous array with our new larger array
     }
 }
