@@ -175,6 +175,13 @@ public class ArrayIntList implements IntList
     @Override
     public boolean contains(int value)
     {
+        for (int i = 0; i < size; i++)
+        {
+            if (buffer[i] == value)
+            {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -189,6 +196,11 @@ public class ArrayIntList implements IntList
     @Override
     public int indexOf(int value)
     {
+        if (isEmpty())
+        {
+            return -1;
+        }
+
         //run through the array using a for loop
         for (int i = 0; i < size; i++)
         {
