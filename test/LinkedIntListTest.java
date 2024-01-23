@@ -4,67 +4,148 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void addFront() {
-        LinkedIntList list = new LinkedIntList();
+        IntList list = new LinkedIntList();
         list.addFront(1);
         list.addFront(2);
+
+        assertEquals(list.get(0), 2);
 
     }
 
     @org.junit.jupiter.api.Test
     void addBack() {
+        IntList list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+
+        assertEquals(list.get(0), 1);
     }
 
     @org.junit.jupiter.api.Test
     void add() {
+        IntList list = new LinkedIntList();
+        list.add(0, 1);
+        list.add(0, 2);
+
+        assertEquals(list.get(0),2);
+        assertEquals(list.get(1),1);
+
     }
 
     @org.junit.jupiter.api.Test
     void removeFront() {
-        fail();
+        IntList list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+
+        list.removeFront();
+        assertEquals(list.get(0), 2);
     }
 
     @org.junit.jupiter.api.Test
     void removeBack() {
-        fail();
+        IntList list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+
+        list.removeBack();
+        assertEquals(list.get(0), 1);
     }
 
     @org.junit.jupiter.api.Test
     void remove() {
-        fail();
+        IntList list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+        list.addBack(3);
+
+        int value = list.remove(1);
+        assertEquals(list.get(0),1);
+        assertEquals(value, 2);
+        assertEquals(list.get(1),3);
+
+
     }
 
     @org.junit.jupiter.api.Test
     void get() {
-        fail();
+        IntList list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+        list.addBack(3);
+
+        assertEquals(list.get(1), 2);
     }
 
     @org.junit.jupiter.api.Test
     void contains() {
-        fail();
+        IntList list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+        list.addBack(3);
+
+        assertTrue(list.contains(1));
+        assertFalse(list.contains(4));
     }
 
     @org.junit.jupiter.api.Test
     void indexOf() {
-        fail();
+        IntList list = new LinkedIntList();
+        list.addBack(1);
+        list.addBack(2);
+        list.addBack(3);
+
+        assertEquals(list.indexOf(1), 0);
+        assertEquals(list.indexOf(4), -1);
     }
 
     @org.junit.jupiter.api.Test
     void isEmpty() {
-        fail();
+        IntList list = new LinkedIntList();
+        assertTrue(list.isEmpty());
+        list.addBack(1);
+        assertFalse(list.isEmpty());
+        list.removeBack();
+        assertTrue(list.isEmpty());
     }
 
     @org.junit.jupiter.api.Test
     void size() {
-        fail();
+        IntList list = new LinkedIntList();
+        assertEquals(list.size(), 0);
+        list.addFront(1);
+        assertEquals(list.size(), 1);
+        list.removeFront();
+        assertEquals(list.size(), 0);
     }
 
     @org.junit.jupiter.api.Test
     void clear() {
-        fail();
+        IntList list = new LinkedIntList();
+        list.clear();
+        list.addFront(1);
+        list.clear();
+        assertEquals(list.size(), 0);
     }
 
     @org.junit.jupiter.api.Test
     void iterator() {
-        fail();
+        IntList list = new LinkedIntList();
+
+        int count = 0;
+        for(var i : list ) count++;
+        assertEquals(count, 0);
+
+        count = 0;
+        list.addFront(1);
+        for(var i : list ) count++;
+        assertEquals(count, 1);
+
+        count = 0;
+        list.addFront(1);
+        for(var i : list ) count++;
+        assertEquals(count, 2);
+
+
     }
 }

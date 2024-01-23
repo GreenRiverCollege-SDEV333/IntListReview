@@ -63,7 +63,7 @@ public class LinkedIntList implements IntList {
 
         // if cur.next is null, we found the last element - terminate here
         else if ( cur.next == null ) {
-            size += 1;
+            size ++;
             cur.next = new Node(value);
         }
 
@@ -94,7 +94,7 @@ public class LinkedIntList implements IntList {
             return;
         }
 
-        size += 1;
+        size++;
 
         // move to index
         Node current = head;
@@ -118,7 +118,9 @@ public class LinkedIntList implements IntList {
     @Override
     public void removeFront() {
         // if the head exists, make head = head.next, let garbage collection eat the current head
-        if (head != null) head = head.next;
+        if (head != null) {
+            head = head.next;
+            size--;};
     }
 
     /**
@@ -144,7 +146,7 @@ public class LinkedIntList implements IntList {
 
         // if current.next = null, we are at the end. delete the next element of prev and terminate here
         else if (cur.next == null) {
-            size -= 1;
+            size --;
             prev.next = null;
         }
 
