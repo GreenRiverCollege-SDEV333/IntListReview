@@ -29,6 +29,8 @@ class ArrayIntListTest {
         assertEquals(list.get(0),2);
         assertEquals(list.get(1),1);
 
+        assertThrows(IndexOutOfBoundsException.class, () -> list.add(4, 1));
+
     }
 
     @org.junit.jupiter.api.Test
@@ -63,6 +65,7 @@ class ArrayIntListTest {
         assertEquals(value, 2);
         assertEquals(list.get(1),3);
 
+        assertThrows(IndexOutOfBoundsException.class, () -> list.remove(4));
 
     }
 
@@ -74,6 +77,8 @@ class ArrayIntListTest {
         list.addBack(3);
 
         assertEquals(list.get(1), 2);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(4));
     }
 
     @org.junit.jupiter.api.Test

@@ -56,6 +56,8 @@ public class ArrayIntList implements IntList {
     public void add(int index, int value) {
         autoResize();
 
+        if (index > size()) throw new IndexOutOfBoundsException();
+
         // shift all rhs right by 1
         for (int i = size(); i > index; i--) {
             array[i] = array[i - 1];
@@ -117,11 +119,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int remove(int index) {
+        // skip if empty
+        if (size() == 0 || index > size()) throw new IndexOutOfBoundsException();
 
         int value = get(index);
-
-        // skip if empty
-        if (size() == 0) throw new IndexOutOfBoundsException();
 
         // shift all values left
         for (int i = index; i < size() ; i++) {
