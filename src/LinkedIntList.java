@@ -210,6 +210,7 @@ public class LinkedIntList implements IntList{
             }
             indexNode = head.next;
         }
+
         return -1;
     }
 
