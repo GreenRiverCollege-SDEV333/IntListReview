@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedIntList implements IntList{
 
@@ -30,7 +31,20 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void addFront(int value) {
+        // set up a new node
+        Node theNewOne = new Node();
+        theNewOne.data = value;
 
+        if (head == null){
+            // the list is currently empty
+            head = theNewOne;
+        }
+        else {
+            // the list is currently has some nodes in it
+            theNewOne.next = head;
+            head = theNewOne;
+        }
+        size++;
     }
 
     /**
@@ -40,7 +54,19 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
-
+        Node theLastOne = new Node();
+        if (head == null){
+            theLastOne.data = value;
+            head = theLastOne;
+        } else {
+            while(head.next != null){
+                theLastOne = head.next;
+        }
+        Node newNode = new Node();
+        newNode.data = value;
+        theLastOne.next = newNode;
+        }
+        size++;
     }
 
     /**
@@ -54,6 +80,15 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
+        Node indexNode = new Node();
+        for(int i  = 0; i < index; i++){
+            indexNode = head.next;
+        }
+        Node newNode = new Node();
+        newNode.data = value;
+        indexNode.next = new Node();
+
+        size++;
 
     }
 
@@ -162,6 +197,33 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        SinglyLinkedIterator theIterator = new SinglyLinkedIterator();
+        return theIterator;
+    }
+
+    // helper class/type that defines how the iterator works
+    private class SinglyLinkedIterator implements Iterator<Integer> {
+
+        // private int i;       // the index of the item I am on in the arraylist
+        private Node current;
+
+        public SinglyLinkedIterator(){
+            current = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Integer next() {
+            if(current == null){
+                throw new NoSuchElementException("There is no next one to go to!");
+            }
+            int item = current.data;
+            current = current.next;
+            return item;
+        }
     }
 }
