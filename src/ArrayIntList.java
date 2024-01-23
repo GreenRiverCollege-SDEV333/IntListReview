@@ -93,7 +93,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
-        autoResize();
+
 
         // skip if empty
         if (size() == 0) return;
@@ -101,6 +101,8 @@ public class ArrayIntList implements IntList {
         // just decrement the size, in my opinion there's no need to change the value at size,
         // since it will be overwritten when adding new elements.
         size -= 1;
+
+        autoResize();
 
     }
 
@@ -115,9 +117,23 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        autoResize();
-        return 0;
 
+        int value = get(index);
+
+        // skip if empty
+        if (size() == 0) throw new IndexOutOfBoundsException();
+
+        // shift all values left
+        for (int i = index; i < size() ; i++) {
+            array[i] = array[i+1];
+        }
+
+        // lower size by 1
+        size -= 1;
+
+        autoResize();
+
+        return value;
     }
 
     /**
