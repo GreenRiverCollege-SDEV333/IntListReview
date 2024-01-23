@@ -45,6 +45,12 @@ public class ArrayIntList implements IntList
     {
         //TODO: check to see if we are full - if so, we need to create a larger buffer
 
+        //if the buffer is full, double the size.
+        if (size == buffer.length)
+        {
+            resize(size * 2);
+        }
+
         buffer[size] = value;
         size++;
     }
