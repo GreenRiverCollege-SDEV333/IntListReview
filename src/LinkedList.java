@@ -93,6 +93,15 @@ public class LinkedList implements IntList {
         }
     }
 
+//    private void add(int index, int value, int iterator, Node current, Node previous, Node newNode){
+//        if(iterator == index){
+//            Node
+//        }
+//        iterator++;
+//        current=current.next;
+//        add(index, value, iterator,current, previous, newNode);
+//    }
+
     /**
      * Removes the value located at the front of the list
      * (at index 0), if it is present.
