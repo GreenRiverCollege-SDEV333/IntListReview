@@ -145,7 +145,9 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (index >= size()) throw new IndexOutOfBoundsException();
+
+        return array[index];
     }
 
     /**
