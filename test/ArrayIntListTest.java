@@ -1,10 +1,9 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-class LinkedIntListTest {
-
+class ArrayIntListTest {
     @org.junit.jupiter.api.Test
     void addFront() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.addFront(1);
         list.addFront(2);
 
@@ -14,7 +13,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void addBack() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.addBack(1);
         list.addBack(2);
 
@@ -23,7 +22,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void add() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.add(0, 1);
         list.add(0, 2);
 
@@ -34,7 +33,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void removeFront() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.addBack(1);
         list.addBack(2);
 
@@ -44,7 +43,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void removeBack() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.addBack(1);
         list.addBack(2);
 
@@ -54,7 +53,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void remove() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.addBack(1);
         list.addBack(2);
         list.addBack(3);
@@ -69,7 +68,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void get() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.addBack(1);
         list.addBack(2);
         list.addBack(3);
@@ -79,7 +78,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void contains() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.addBack(1);
         list.addBack(2);
         list.addBack(3);
@@ -90,7 +89,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void indexOf() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.addBack(1);
         list.addBack(2);
         list.addBack(3);
@@ -101,7 +100,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void isEmpty() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         assertTrue(list.isEmpty());
         list.addBack(1);
         assertFalse(list.isEmpty());
@@ -111,7 +110,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void size() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         assertEquals(list.size(), 0);
         list.addFront(1);
         assertEquals(list.size(), 1);
@@ -121,7 +120,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void clear() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
         list.clear();
         list.addFront(1);
         list.clear();
@@ -130,7 +129,7 @@ class LinkedIntListTest {
 
     @org.junit.jupiter.api.Test
     void iterator() {
-        IntList list = new LinkedIntList();
+        IntList list = new ArrayIntList();
 
         int count = 0;
         for(var i : list ) count++;
