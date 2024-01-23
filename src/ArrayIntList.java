@@ -7,7 +7,7 @@ public class ArrayIntList implements IntList {
     int size;
 
     public ArrayIntList() {
-        size = 10;
+        size = 0;
         array = new int[100];
     }
 
@@ -20,7 +20,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        int[] buffer = new int[array.length];
+        autoResize();
+
+        // shift all right
+        for (int i = size(); i > 0; i--) {
+            array[i] = array[i-1];
+        }
+        array[0] = value;
+        size += 1;
     }
 
     /**
@@ -30,7 +37,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
+        autoResize();
 
+        array[size] = value;
+        size += 1;
     }
 
     /**
@@ -44,7 +54,15 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        autoResize();
 
+        // shift all rhs right by 1
+        for (int i = size(); i > index; i--) {
+            array[i] = array[i - 1];
+        }
+
+        array[index] = value;
+        size += 1;
     }
 
     /**
@@ -55,6 +73,18 @@ public class ArrayIntList implements IntList {
     @Override
     public void removeFront() {
 
+        // skip if empty
+        if (size() == 0) return;
+
+        // shift all values left
+        for (int i = 0; i < size() ; i++) {
+            array[i] = array[i+1];
+        }
+
+        // lower size by 1
+        size -= 1;
+
+        autoResize();
     }
 
     /**
@@ -63,6 +93,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
+        autoResize();
+
+        // skip if empty
+        if (size() == 0) return;
+
+        // just decrement the size, in my opinion there's no need to change the value at size,
+        // since it will be overwritten when adding new elements.
+        size -= 1;
 
     }
 
@@ -77,7 +115,9 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int remove(int index) {
+        autoResize();
         return 0;
+
     }
 
     /**
