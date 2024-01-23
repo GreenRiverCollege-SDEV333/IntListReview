@@ -290,36 +290,10 @@ public class LinkedList implements IntList {
         return contains(value, current);
     }
 
-//    /**
-//     * Returns the index of the first occurrence of the specified value
-//     * in this list, or -1 if this list does not contain the value.
-//     * Iterative Version.
-//     *
-//     * @param value value to search for
-//     * @return the index of the first occurrence of the specified value in this list
-//     * or -1 if this list does not contain the value
-//     */
-//    @Override
-//    public int indexOf(int value) {
-//        if (head == null) {
-//            return -1;
-//        }
-//        Node current = head;
-//        int currentIndex = 0;
-//        while (current != null) {
-//            if (current.data == value) {
-//                return currentIndex;
-//            }
-//            current = current.next;
-//            currentIndex++;
-//        }
-//        return -1;
-//    }
-
     /**
      * Returns the index of the first occurrence of the specified value
      * in this list, or -1 if this list does not contain the value.
-     * Recursive Version.
+     * Iterative Version.
      *
      * @param value value to search for
      * @return the index of the first occurrence of the specified value in this list
@@ -331,19 +305,45 @@ public class LinkedList implements IntList {
             return -1;
         }
         Node current = head;
-        return indexOf(value, 0, current);
+        int currentIndex = 0;
+        while (current != null) {
+            if (current.data == value) {
+                return currentIndex;
+            }
+            current = current.next;
+            currentIndex++;
+        }
+        return -1;
     }
 
-    private int indexOf(int value, int iterator, Node current) {
-        if(current.data == value) {
-            return iterator;
-        } else if (current.next == null) {
-            return -1;
-        }
-        iterator++;
-        current = current.next;
-        return indexOf(value, iterator, current);
-    }
+//    /**
+//     * Returns the index of the first occurrence of the specified value
+//     * in this list, or -1 if this list does not contain the value.
+//     * Recursive Version.
+//     *
+//     * @param value value to search for
+//     * @return the index of the first occurrence of the specified value in this list
+//     * or -1 if this list does not contain the value
+//     */
+//    @Override
+//    public int indexOf(int value) {
+//        if (head == null) {
+//            return -1;
+//        }
+//        Node current = head;
+//        return indexOf(value, 0, current);
+//    }
+//
+//    private int indexOf(int value, int iterator, Node current) {
+//        if(current.data == value) {
+//            return iterator;
+//        } else if (current.next == null) {
+//            return -1;
+//        }
+//        iterator++;
+//        current = current.next;
+//        return indexOf(value, iterator, current);
+//    }
 
     /**
      * Returns true if this list contains no values.
