@@ -24,20 +24,32 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void addFront(int value) {
+        //check if the buffer is full
+        if (size == buffer.length) {
+            resize(size * 2);
+        }
+        //crete space for the new value
+        size++;
 
+        //Shift all the number after index 0 to the right
+        for (int i = size; i > 0 ; i-- ){
+            buffer[i] = buffer[i - 1];
+        }
+        //set the value in the front
+        buffer[0] = value;
+
+        /*In class
         for (int i = size; i >= 1; i--)
         {
             buffer[i] = buffer[i - 1];
         }
-
             buffer[4] = buffer[3];
             buffer[3] = buffer[2];
             buffer[2] = buffer[1];
             buffer[1] = buffer[0];
             buffer[0] = value;
-            size++;
+            size++;*/
     }
-
     /**
      * Appends (inserts) the specified value at the back of the list (at index size()-1).
      *
@@ -92,8 +104,15 @@ public class ArrayIntList implements IntList{
     @Override
     public void removeFront() {
 
+        //remove the front value and shift the rest of the code to the left
+        // shift to the left which replace index 0 with index 1
+        for (int i = 0; i < size - 1; i++){
+            buffer[i] = buffer[i+1];
+        }
+        buffer[size - 1] = 0;
+        size--;
+}
 
-    }
 
     /**
      * Removes the value located at the back of the list
@@ -101,7 +120,12 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeBack() {
-
+        //set the end of the buffer to 0
+        if(size > 0)
+       {
+        //reduce size of buffer
+        size--;
+        }
     }
 
     /**

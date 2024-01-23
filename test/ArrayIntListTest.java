@@ -4,6 +4,15 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void addFront() {
+        ArrayIntList list = new ArrayIntList();
+        list.addFront(10);
+        list.addFront(20);
+        list.addFront(30);
+        list.addFront(100);
+
+        //100, 30, 20, 10
+        assertEquals(100, list.get(0));
+
     }
 
     @org.junit.jupiter.api.Test
@@ -42,10 +51,28 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void removeFront() {
+        ArrayIntList list = new ArrayIntList();
+        list.addFront(10);
+        list.addFront(20);
+        list.addFront(30);
+        //30, 20, 10
+        list.removeFront();
+        //20, 10
+        assertEquals(20, list.get(0));
+        assertEquals(10, list.get(1));
+        assertEquals(2, list.size());
     }
 
     @org.junit.jupiter.api.Test
     void removeBack() {
+        ArrayIntList list = new ArrayIntList();
+        list.addFront(10);
+        list.addFront(20);
+        list.addFront(30);
+        //30, 20, 10
+        list.removeBack();
+        //30, 20
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(2));
     }
 
     @org.junit.jupiter.api.Test
@@ -54,6 +81,20 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void get() {
+        ArrayIntList list = new ArrayIntList();
+        list.add(0,0);
+        list.add(1,1);
+        list.add(2,2);
+        list.add(3,3);
+        // 0, 1, 2, 3
+
+        //after add method, 10, 20, 100, 20, 40
+        assertEquals(0, list.get(0));
+        assertEquals(1, list.get(1));
+        assertEquals(2, list.get(2));
+        assertEquals(3, list.get(3));
+
+
     }
 
     @org.junit.jupiter.api.Test
