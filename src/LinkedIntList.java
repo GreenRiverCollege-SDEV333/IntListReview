@@ -12,7 +12,6 @@ public class LinkedIntList implements IntList {
 
     // set up the head field
     private Node head;
-
     // set up the size field
     private int size;
 
@@ -33,6 +32,7 @@ public class LinkedIntList implements IntList {
     public void addFront(int value) {
         // set up a new node
         Node theNewOne = new Node();
+        theNewOne.data = value; // set the data of the new node
 
         if (head == null) {
             // the list is currently empty
@@ -53,7 +53,20 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
+        Node newNode = new Node();
+        newNode.data = value;
 
+        if (head == null) {
+            // If the list is empty, addFront can be used
+            addFront(value);
+        } else {
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+            size++;
+        }
     }
 
     /**
@@ -67,7 +80,29 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        if (index > size || index < 0) {
+            throw new IndexOutOfBoundsException("Index is out of bound.");
+        }
+        //create new node
+        Node node = new Node();
+        //set new value to new node
+        node.data = value;
+        Node current = head;
+        // if index = 0 add the value to front
+        if (index == 0) {
+            this.addFront(value);
+            //if value = to size, add the value to the end of the node
+        } else if (index == size) {
+            this.addBack(value);
+        } else {
 
+            for (int i = 0; i < index -1; i++) {
+                current = current.next;
+            }
+            node.next = current.next;
+            current.next = node;
+            size++;
+        }
     }
 
     /**
@@ -77,6 +112,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
+    //check whether the linklist is emty or not
 
     }
 
@@ -112,7 +148,21 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (head == null) {
+            throw new NoSuchElementException("The list is empty");
+        } else if (index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
+        int newIndex = 0;
+        Node current = head;
+        while (current != null) {
+            if (newIndex == index) {
+                return current.data;
+            }
+            current = current.next;
+            newIndex++;
+        }
+        throw new IndexOutOfBoundsException("Index beyond size of list");
     }
 
     /**
