@@ -151,7 +151,7 @@ public class ArrayIntList implements IntList{
     int copyOfRemovalValue = buffer[index];
 
     // shift values to the left
-        for (int i = index; i <= size - 1 ; i++) {
+        for (int i = index; i < size - 1 ; i++) {
             buffer[i] =buffer[i+1];
         }
 
@@ -185,7 +185,16 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        // go through each index in the buffer
+        for (int i = 0; i < size ; i++) {
+            //if buffer equal value return true
+            if (buffer[i] == value){
+                return true;
+            }
+        }
+        //if not match return false
         return false;
+
     }
 
     /**
@@ -198,7 +207,13 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value){
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**

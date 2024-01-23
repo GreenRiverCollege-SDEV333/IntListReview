@@ -77,6 +77,16 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void remove() {
+        ArrayIntList list = new ArrayIntList();
+        list.addFront(3);
+        list.addFront(2);
+        list.addFront(1);
+        //1 ,2 ,3
+        list.remove(1);
+        //1, 3
+        assertEquals(1,list.get(0));
+        assertEquals(3,list.get(1));
+
     }
 
     @org.junit.jupiter.api.Test
@@ -99,10 +109,28 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void contains() {
+        ArrayIntList list = new ArrayIntList();
+        list.addFront(10);
+        list.addFront(20);
+        list.addFront(30);
+
+        assertTrue(list.contains(10));
+        assertTrue(list.contains(20));
+        assertTrue(list.contains(30));
+        assertFalse(list.contains(40));
     }
 
     @org.junit.jupiter.api.Test
     void indexOf() {
+        ArrayIntList list = new ArrayIntList();
+        list.addFront(10);
+        list.addFront(20);
+        list.addFront(30);
+
+        assertEquals(2,list.indexOf(10));
+        assertEquals(1,list.indexOf(20));
+        assertEquals(0,list.indexOf(30));
+
     }
 
     @org.junit.jupiter.api.Test
@@ -133,6 +161,12 @@ class ArrayIntListTest {
 
     @org.junit.jupiter.api.Test
     void clear() {
+        ArrayIntList list = new ArrayIntList();
+        list.addBack(1);
+        list.addBack(2);
+        list.addBack(3);
+        list.clear();
+        assertTrue(list.isEmpty());
     }
 
     @org.junit.jupiter.api.Test
