@@ -1,5 +1,5 @@
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList {
 
@@ -38,6 +38,9 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
+        if (size == buffer.length){
+            resize(size + 2);
+        }
         buffer[size] = value;
         size++;
     }
@@ -53,7 +56,15 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        if (size == buffer.length){
+            resize(size + 2);
+        }
 
+        for (int i = size; i > index; i--) {
+            buffer[i] = buffer[i-1];
+        }
+        buffer[index] = value;
+        size++;
     }
 
     /**
@@ -63,7 +74,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        if(!isEmpty()) {
+            for (int i = 0; i <= size - 2; i++) {
+                buffer[i] = buffer[i + 1];
+            }
+            //zero out the far right since everything was shifted to the left
+            buffer[size -1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -72,7 +90,10 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        if (!isEmpty()){
+            buffer[size-1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -101,7 +122,7 @@ public class ArrayIntList implements IntList {
             buffer[i] = buffer[i+1];
         }
         buffer[size - 1] = 0;
-        // dont forget to decrement size
+        // don't forget to decrement size
         size--;
 
         return copyOfRemovedValue;
@@ -117,7 +138,14 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if(index < 0){
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
+        else if (index >= size){
+            throw new IndexOutOfBoundsException("Index is higher than size");
+        }
+
+        return buffer[index];
     }
 
     /**
@@ -128,6 +156,11 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        for (int i = 0; i < size; i++) {
+            if(buffer[i] == value){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -141,7 +174,12 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        for (int i = 0; i < size; i++) {
+            if(buffer[i] == value){
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -151,7 +189,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -161,7 +199,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -170,9 +208,24 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        buffer = new int[10];
+        size = 0;
     }
 
+    private void resize(int newSize){
+        //create new space, separate from the old space (buffer)
+        int[] newBuffer = new int[newSize];
+
+        //copy everything over from buffer into newBuffer
+        for (int i = 0; i < buffer.length; i++) {
+            newBuffer[i] = buffer[i];
+        }
+        //
+        buffer = newBuffer;
+
+        // the old space is no longer "pointed to" and will eventually
+        // be cleaned up by the garbage collector
+    }
     /**
      * Returns an iterator over elements of type {@code T}.
      *
@@ -180,7 +233,48 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new IntListIterator();
     }
+
+
+    //create a private helper
+    private class IntListIterator implements Iterator<Integer> {
+
+        private int i;
+        private void IntListIterator(){
+            i = 0;
+        }
+
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return i < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            if (i > size){
+                 throw new NoSuchElementException("i is now out of bounds");
+            }
+            int currentValue = buffer[i];
+            i++;
+            return currentValue;
+        }
+
+    }
+
 }
 
