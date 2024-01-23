@@ -1,30 +1,19 @@
 import java.util.Iterator;
 
-public class DoublyLinkedIntList implements IntList {
+public class SinglyLinkedIntList implements IntList {
 
     private class Node {
         int data;
         Node next;
-        Node prev;
-
-        public Node() {
-            next = null;
-            prev = null;
-        }
     }
 
     private Node head;
-    private Node tail;
     private int size;
 
-    public DoublyLinkedIntList() {
-        head = new Node();
-        tail = new Node();
-        head.next = tail;
-        tail.prev = head;
+    public SinglyLinkedIntList() {
+        head = null;
         size = 0;
     }
-
 
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
@@ -35,13 +24,17 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        Node first = new Node();
+        Node newNode = new Node();
+        newNode.data = value;
 
-        first.data = value;
-        first.next = head.next;
-        first.prev = head;
-        head.next.prev = first;
-        head.next = first;
+        if (head == null) {
+            head = newNode;
+            size++;
+        }
+        else {
+            newNode.next = head;
+            head = newNode;
+        }
 
         size++;
     }
@@ -53,14 +46,18 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-        Node theLastOne = tail.prev;
-        Node theNextOne = new Node();
+        Node newNode = new Node();
+        newNode.data = value;
 
-        theNextOne.data = value;
-        theNextOne.next = tail;
-        theNextOne.prev = theLastOne;
-        tail.prev = theNextOne;
-        theLastOne.next = theNextOne;
+        if (head == null) {
+            head = newNode;
+        }
+        else {
+            Node current = head;
+            while (current.next != null) {
+                current.next = newNode;
+            }
+        }
 
         size++;
     }
@@ -80,26 +77,26 @@ public class DoublyLinkedIntList implements IntList {
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
 
-        if (index == size) {
+        if (index ==0) {
+            addFront(value);
+        }
+        else if (index == size) {
             addBack(value);
         }
         else {
             Node newNode = new Node();
             newNode.data = value;
 
-            Node current = head.next;
+            Node current = head;
             for (int i = 0; i < index; i++) {
                 current = current.next;
             }
 
-            newNode.next = current;
-            newNode.prev = current.prev;
-            current.prev.next = newNode;
-            current.prev = newNode;
+            newNode.next = current.next;
+            current.next = newNode;
 
             size++;
         }
-
     }
 
     /**
@@ -109,11 +106,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-        if (size > 0) {
-            Node first = head.next;
-            head.next = first.next;
-            first.next.prev = head;
-
+        if (head != null) {
+            head = head.next;
             size--;
         }
     }
@@ -124,19 +118,19 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
-        if (size > 0) {
-            Node theOneToRemove = tail.prev;
-
-            theOneToRemove.prev.next = tail;
-            tail.prev = theOneToRemove.prev;
-
-            theOneToRemove.next = null;
-            theOneToRemove.prev = null;
-            theOneToRemove.data = 0;
-
+        if (head != null) {
+            if (head.next == null) {
+                head = null;
+            }
+            else {
+                Node current = head;
+                while (current.next.next != null) {
+                    current = current.next;
+                }
+                current.next = null;
+            }
             size--;
         }
-
     }
 
     /**
@@ -154,17 +148,23 @@ public class DoublyLinkedIntList implements IntList {
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
 
-        Node current = head.next;
-        for (int i = 0; i < index; i++) {
-            current = current.next;
+        int removedValue;
+
+        if (index == 0) {
+            removedValue = head.data;
+            head = head.next;
+        }
+        else {
+            Node current = head;
+            for (int i = 0; i < index - 1; i++) {
+                current= current.next;
+            }
+
+            removedValue = current.next.data;
+            current.next = current.next.next;
         }
 
-        current.prev.next = current.next;
-        current.next.prev = current.prev;
-        int removedValue = current.data;
-
         size--;
-
         return removedValue;
     }
 
@@ -181,7 +181,7 @@ public class DoublyLinkedIntList implements IntList {
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
 
-        Node current = head.next;
+        Node current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
@@ -197,8 +197,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        Node current = head.next;
-        while (current != tail) {
+        Node current = head;
+        while (current != null) {
             if (current.data == value) {
                 return true;
             }
@@ -217,14 +217,11 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        Node current = head.next;
-        int index = 0;
-        while (current != tail) {
+        Node current = head;
+        for (int i = 0; i < size; i++) {
             if (current.data == value) {
-                return index;
+                return i;
             }
-            current = current.next;
-            index++;
         }
         return -1;
     }
@@ -255,8 +252,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-        head.next = tail;
-        tail.prev = head;
+        head = null;
         size = 0;
     }
 
@@ -272,11 +268,11 @@ public class DoublyLinkedIntList implements IntList {
 
     // Private helper class for iterator
     private class intListHelper implements Iterator<Integer> {
-        private Node current = head.next;
+        private Node current = head;
 
         @Override
         public boolean hasNext() {
-            return current != tail;
+            return current != null;
         }
 
         @Override
@@ -284,7 +280,6 @@ public class DoublyLinkedIntList implements IntList {
             if (!hasNext()) {
                 throw new UnsupportedOperationException("No more elements in list");
             }
-
             int value = current.data;
             current = current.next;
             return value;
