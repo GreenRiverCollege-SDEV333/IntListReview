@@ -32,12 +32,14 @@ public class LinkedIntList implements IntList {
     @Override
     public void addFront(int value) {
         Node theNewNode = new Node();
-        if(head == null) {
+        theNewNode.data = value;
+        Node placeHolder = head;
+        if(size == 0) {
             // list is empty
             head = theNewNode;
         } else {
             // list isn't empty
-            theNewNode.next = head;
+            theNewNode.next = placeHolder;
             head = theNewNode;
         }
         size++;
@@ -81,10 +83,10 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        if(size == 0 && index == 0) {
+        if((size == 0 && index == 0) || (size == 1 && index == 0)) {
             addFront(value);
             size++;
-        } else if(size > 0 && index > (size - 1)) {
+        } else if(size > 0 && index < size && index >= 0) {
             Node current = head;
             Node newNode = new Node();
             newNode.data = value;
@@ -152,6 +154,20 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
+        if(size > 0 && index < (size - 1) && index > 0) {
+            Node current = head;
+            int counter = 0;
+            while(current.next != null) {
+                if(counter == (index - 1)) {
+                    int removed = current.next.data;
+                    current.next = current.next.next;
+                    size--;
+                    return removed;
+                }
+                current = current.next;
+                counter++;
+            }
+        }
         return 0;
     }
 
@@ -164,12 +180,12 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        if(index > (size - 1)) {
+        if(index > (size - 1) || index < 0) {
             throw new IndexOutOfBoundsException();
         } else {
             Node current = head;
             int counter = 0;
-            while(current.next != null) {
+            while(current != null) {
                 if(counter == index) {
                     return current.data;
                 }
@@ -190,7 +206,7 @@ public class LinkedIntList implements IntList {
     public boolean contains(int value) {
         if(size > 0) {
             Node current = head;
-            while(current.next != null) {
+            while(current != null) {
                 if(current.data == value) {
                     return true;
                 }
@@ -213,7 +229,7 @@ public class LinkedIntList implements IntList {
         if(size > 0) {
             Node current = head;
             int counter = 0;
-            while(current.next != null) {
+            while(current != null) {
                 if(current.data == value) {
                     return counter;
                 }
