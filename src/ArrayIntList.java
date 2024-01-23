@@ -127,7 +127,7 @@ public class ArrayIntList implements IntList{
     @Override
     public int remove(int index) {
         //out of bounds
-        if (index >= size || index < 0){
+        if (index >= buffer.length  || index < 0){
             throw new IndexOutOfBoundsException("Invalid index");
         }
 
@@ -155,6 +155,10 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int get(int index) {
+        if (index >= buffer.length || index < 0){
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
         return buffer[index];
     }
 
@@ -166,6 +170,12 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        //loop through the list
+        for (int i = 0; i <= size; i++) {
+            if (buffer[i] == value){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -179,7 +189,15 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return buffer[value];
+        //loop through the array
+        for (int i = 0; i < buffer.length; i++){
+            //if found matching value return index
+            if (buffer[i] == value){
+                return i;
+            }
+        }
+            //not found, return -1
+            return -1;
     }
 
     /**
