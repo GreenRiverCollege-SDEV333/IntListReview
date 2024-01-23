@@ -26,7 +26,6 @@ public class ArrayIntList implements IntList {
         if (size == buffer.length) {
             resize(size * 2);
         }
-
         //4 <- 3
         //3 <- 2
         //2 <- 1
@@ -238,7 +237,7 @@ public class ArrayIntList implements IntList {
         for (int i = 0; i < buffer.length; i++) {
             newBuffer[i] = buffer[i];
         }
-
+//        System.arraycopy(buffer, 0, buffer, 0, size);
         //set the new space into buffer
         buffer = newBuffer;
 

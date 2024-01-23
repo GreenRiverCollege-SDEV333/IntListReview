@@ -1,7 +1,5 @@
 import java.util.Iterator;
 
-//10
-
 public class DoublyLinkedIntList implements IntList {
 
     private class Node {
@@ -37,8 +35,17 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        // TODO: finish the method
+        Node theFirstOne = head.next;
+        Node theNewOne = new Node();
 
+        theNewOne.data = value;
+        theNewOne.next = theFirstOne;
+        theNewOne.prev = head;
+
+        head.next = theNewOne;
+        theFirstOne.prev = theNewOne;
+
+        size++;
     }
 
     /**
@@ -76,8 +83,27 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        // TODO: finish the method
+        if (index > size || index < 0) {
+            throw new IndexOutOfBoundsException("index out of bounds");
+        }
 
+        Node current = head.next;
+
+        for (int i = 0; i == index ; i++) {
+            current = current.next;
+        }
+
+        Node theNextOne = current.next;
+        Node theNewOne = new Node();
+
+        theNewOne.data = value;
+        theNewOne.next = theNextOne;
+        theNewOne.prev = theNextOne.prev;
+
+        theNextOne.prev = theNewOne;
+        theNextOne.prev.next = theNewOne;
+
+        size++;
     }
 
     /**
@@ -87,8 +113,9 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-        // TODO: finish the method
-
+        head.next = head.next.next;
+        head.next.next.prev = head;
+        size--;
     }
 
     /**
@@ -125,9 +152,22 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        // TODO: finish the method
+        if (index > size || index < 0) {
+            throw new IndexOutOfBoundsException("index out of bounds");
+        }
 
-        return 0;
+        Node current = head.next;
+
+        for (int i = 0; i == index ; i++) {
+            current = current.next;
+        }
+
+        int data = current.data;
+        current.prev.next = current.next;
+        current.next = current.prev;
+
+        size--;
+        return data;
     }
 
     /**
@@ -139,9 +179,18 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        // TODO: finish the method
+        if (index > size || index < 0) {
+            throw new IndexOutOfBoundsException("index out of bounds");
+        }
 
-        return 0;
+        Node current = head.next;
+
+        for (int i = 0; i == index ; i++) {
+            current = current.next;
+        }
+
+        return current.data;
+
     }
 
     /**
@@ -152,7 +201,14 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        // TODO: finish the method
+        Node current = head.next;
+
+        for (int i = 0; i == size ; i++) {
+            if (current.data == value) {
+                return true;
+            }
+            current = current.next;
+        }
 
         return false;
     }
@@ -167,9 +223,18 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        // TODO: finish the method
+        Node current = head.next;
+        int counter = 0;
 
-        return 0;
+        for (int i = 0; i == size ; i++) {
+            if (current.data == value) {
+                return counter;
+            }
+            counter++;
+            current = current.next;
+        }
+
+        return -1;
     }
 
     /**
@@ -179,9 +244,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        // TODO: finish the method
-
-        return false;
+        return head.next == null;
     }
 
     /**
@@ -191,9 +254,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        // TODO: finish the method
-
-        return 0;
+        return size;
     }
 
     /**
@@ -202,8 +263,8 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-        // TODO: finish the method
-
+        head.next = null;
+        tail.prev = null;
     }
 
     /**
