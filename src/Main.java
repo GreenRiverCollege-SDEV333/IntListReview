@@ -18,18 +18,18 @@ public class Main {
         thirdList.addBack(8);
 
         //where an iterator gets used:
-        for (int value : thirdList)
-        {
-            System.out.println(value);
-        }
-
-//        alternate way to use an iterator
-//        Iterator<Integer> itr = thirdList.iterator();
-//        while(itr.hasNext())
+//        for (int value : thirdList)
 //        {
-//            int value = itr.next();
 //            System.out.println(value);
 //        }
+
+//        alternate way to use an iterator
+        Iterator<Integer> itr = thirdList.iterator();
+        while(itr.hasNext())
+        {
+            int value = itr.next();
+            System.out.println(value);
+        }
     }
 
     public static double findAverage(IntList theList)

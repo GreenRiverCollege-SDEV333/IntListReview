@@ -74,8 +74,21 @@ public class ArrayIntList implements IntList
      */
     @java.lang.Override
     public void removeFront()
-    {
+    {   if (!isEmpty())
+        {
+            for (int i = 0; i <= size - 2; i++)
+            {
+                buffer[i] = buffer[i + 1];
+            }
 
+            //clearing out the rightmost index
+            buffer[size - 1] = 0;
+            size--;
+        }
+        else
+        {
+            System.out.println("List is empty. Nothing to remove.");
+        }
     }
 
     /**
@@ -85,7 +98,15 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public void removeBack()
     {
-
+        if (!isEmpty())
+        {
+            buffer[size - 1] = 0;
+            size--;
+        }
+        else
+        {
+            System.out.println("List is empty. Nothing to remove.");
+        }
     }
 
     /**
@@ -230,7 +251,7 @@ public class ArrayIntList implements IntList
     public Iterator<Integer> iterator()
     {
 
-        return null;
+        return new IntListIterator();
     }
 
     //create a private helper Iterator class
