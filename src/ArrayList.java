@@ -2,7 +2,7 @@ import java.util.Iterator;
 
 public class ArrayList implements IntList {
     /*
-        This is supposed to be called ArrayIntList, but renaming it breaks some other things.
+        This is supposed to be called ArrayIntList, but renaming it breaks some other things so I just have the wrong name for it
      */
     private int size;
     private int[] buffer;
@@ -67,6 +67,11 @@ public class ArrayList implements IntList {
         if (size == buffer.length) {
             resize(size * 2);
         }
+        for (int i = size + 1; i > index; i--) {
+            buffer[i] = buffer[i - 1];
+        }
+        buffer[index] = value;
+        size++;
     }
 
     /**
@@ -76,9 +81,12 @@ public class ArrayList implements IntList {
      */
     @Override
     public void removeFront() {
-        for (int i = 0; i < size; i++) {
-            buffer[i + 1] = buffer[i];
+        for (int i = 0; i < size - 2; i++) {
+            buffer[i] = buffer[i + 1];
+
+            buffer[size - 1] = 0;
         }
+        size--;
     }
 
     /**
@@ -87,7 +95,10 @@ public class ArrayList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        if (!isEmpty()) {
+            buffer[size - 1] = 0;
+            size--;
+        }
     }
 
     /**
@@ -145,8 +156,13 @@ public class ArrayList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == value) {
+                return true;
+            }
+        }
         return false;
-    }
+     }
 
     /**
      * Returns the index of the first occurrence of the specified value
@@ -158,7 +174,12 @@ public class ArrayList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        for (int i = 0;i < size; i++) {
+            if (buffer[i] == value) {
+                return i;
+            }
+        }
+        return -404;
     }
 
     /**
@@ -168,7 +189,7 @@ public class ArrayList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -200,6 +221,27 @@ public class ArrayList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+
+        return new IntListIterator();
+    }
+
+    private class IntListIterator implements Iterator<Integer> {
+        private int i;
+        private IntListIterator() {
+            i = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+                if (buffer[i + 1] != 0) {
+                    return true;
+                }
+                return false;
+        }
+
+        @Override
+        public Integer next() {
+            return buffer[++i];
+        }
     }
 }

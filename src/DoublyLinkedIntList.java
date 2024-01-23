@@ -73,6 +73,14 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        Node finder = pre;
+        for (int i = 0; i < index; i++) {
+            finder = finder.next;
+            }
+        Node newNode = new Node();
+        finder.prev.next = newNode;
+        newNode.prev = finder.prev;
+        newNode.next = finder;
     }
 
     /**
@@ -82,7 +90,11 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
+        pre.next.data = 0;
+        pre.next.next.prev = pre;
+        pre.next = pre.next.next;
 
+        size--;
     }
 
     /**
@@ -113,9 +125,18 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        Node finder = pre;
+        for (int i = 0; i < index; i++) {
+            finder = finder.next;
+        }
+        finder.prev.next = finder.next;
+        finder.next.prev = finder.prev;
+        finder.data = 0;
+        finder.prev = null;
+        finder.next = null;
+        size--;
+        return finder.data;
     }
-
     /**
      * Returns the value at the specified position in the list.
      *
@@ -125,7 +146,11 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        Node finder = pre;
+        for (int i = 0; i < index; i++) {
+            finder = finder.next;
+        }
+        return finder.data;
     }
 
     /**
@@ -136,6 +161,13 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        Node finder = pre;
+        while (finder != post) {
+            if (finder.data == value) {
+                return true;
+            }
+            finder = finder.next;
+        }
         return false;
     }
 
@@ -149,7 +181,14 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node finder = pre;
+        for (int i = 0; finder != post; i++) {
+            if (finder.data == value) {
+                return i;
+            }
+            finder = finder.next;
+        }
+        return -404;
     }
 
     /**
@@ -159,7 +198,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size > 0;
     }
 
     /**
@@ -169,7 +208,7 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -178,7 +217,9 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        pre.next = post;
+        post.prev = pre;
+        size = 0;
     }
 
     /**
