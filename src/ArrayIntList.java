@@ -3,13 +3,6 @@ import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList{
 
-    private class Node {
-        int data;
-        Node next;
-    }
-    //set up head field
-    private Node head;
-
     //fields:
     private int size;
     private int[] buffer;
@@ -76,7 +69,17 @@ public class ArrayIntList implements IntList{
         if (size == buffer.length){
             resize(size * 2);
         }
+        if (index >= buffer.length || index < 0){
+            throw new IndexOutOfBoundsException("index is not within range");
+        }
 
+        //shift everything over right by 1
+        for(int i = size; i >= index; i--){
+            buffer[i+1] = buffer[i];
+        }
+        //add at the index position
+        buffer[index] = value;
+        size++;
     }
 
     /**
@@ -128,7 +131,7 @@ public class ArrayIntList implements IntList{
             throw new IndexOutOfBoundsException("Invalid index");
         }
 
-        // save a copy of the value to be removed so we can return it later
+        // save a copy of the value to be removed, so we can return it later
         int removedValue = buffer[index];
 
         //removing and transferring values
@@ -152,7 +155,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        return buffer[index];
     }
 
     /**
@@ -196,7 +199,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -230,7 +233,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new IntListIterator();
     }
 
     private class IntListIterator implements Iterator<Integer>{
