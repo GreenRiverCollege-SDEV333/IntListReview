@@ -164,7 +164,32 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+
+        if (index >= size()) throw new IndexOutOfBoundsException();
+
+        // on 1 element list, get the head and delete the list
+        if (size() == 1) {
+            int value = head.data;
+            head = null;
+            size = 0;
+            return value;
+        }
+
+        Node cur = head, prev=head;
+
+        // move to index
+        for (int i = 0; i < index; i++) {
+            prev = cur;
+            cur = cur.next;
+        }
+
+        // get return value
+        int value = cur.data;
+
+        // prev.next = cur.next will remove value
+        prev.next = cur.next;
+
+        return value;
     }
 
     /**
