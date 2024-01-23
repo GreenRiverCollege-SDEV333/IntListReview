@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayIntList implements IntList {
 
@@ -21,6 +22,15 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
+        // if buffer is full
+        if(size == buffer.length){
+            int[] newBuffer = new int[size * 2];
+            for(int i = 0; i < size; i++){
+                newBuffer[i] = buffer[i];
+            }
+            buffer = newBuffer;
+        }
+
         for (int i = size; i >= 1; i--){
             buffer[i] = buffer[i-1];
         }
@@ -60,6 +70,15 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        // if buffer is full
+        if(size == buffer.length){
+            int[] newBuffer = new int[size * 2];
+            for(int i = 0; i < size; i++){
+                newBuffer[i] = buffer[i];
+            }
+            buffer = newBuffer;
+        }
+
         if (isEmpty() || index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index is out of range");
         }
@@ -118,7 +137,7 @@ public class ArrayIntList implements IntList {
             throw new IndexOutOfBoundsException("Index is out of range");
         }
         int remove = buffer[index];
-        for(int i = index; i < size; i++){
+        for(int i = index; i < size - 1; i++){
             buffer[i] = buffer[i + 1];
         }
         buffer[size-1] = 0;
@@ -201,7 +220,8 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        buffer = new int[10];
+        size = 0;
     }
 
     /**
@@ -211,6 +231,47 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new IntListIterator();
     }
+
+    // create a private helper Iterator class
+    private class IntListIterator implements Iterator<Integer> {
+        // private fields
+        private int i;
+
+        private IntListIterator(){
+            i = 0;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return i < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            if (i >= size){
+                throw new NoSuchElementException("i is now out of bounds");
+            }
+            int currentValue = buffer[i];
+            i++;
+            return currentValue;
+        }
+    }
+
+    // iterators are what enables main/client to use a for-each loop
+    // on my IntList
 }
