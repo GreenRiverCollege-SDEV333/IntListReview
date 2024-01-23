@@ -7,7 +7,6 @@ public class DoublyLinkedIntListTest {
     @Test
     void addFront() {
         LinkedIntList array = new LinkedIntList();
-
         for (int i = 0; i < 20; i++) {
             array.addFront(i);
             assertEquals(array.get(0), i);
