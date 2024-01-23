@@ -285,6 +285,21 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new Iterator<Integer>(){
+            Node current = pre.next;
+
+            @Override
+            public boolean hasNext(){
+                return current != null;
+            }
+
+            @Override
+            public Integer next() {
+                if (current == null) throw new IndexOutOfBoundsException();
+                int data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
     }
 }
