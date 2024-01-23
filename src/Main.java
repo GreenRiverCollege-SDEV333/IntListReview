@@ -4,18 +4,71 @@ public class Main
     {
         System.out.printf("Hello and welcome!");
         System.out.println();
-
         ArrayIntList arrayList = new ArrayIntList();
+
+        arrayList.add(0,1);
+        arrayList.add(1, 2);
+        arrayList.add(2, 3);
+        arrayList.add(3, 4);
+        arrayList.add(4, 5);
+
+        System.out.println("Array List: ");
+        for (int num : arrayList)
+        {
+            System.out.print(num + ", ");
+
+        }
+
+        System.out.println("remove: " + arrayList.remove(2));
+
+        System.out.println("remove from back: ");
+        arrayList.removeBack();
+
+        System.out.println("Remove front: ");
+        arrayList.removeFront();
+
+        System.out.println("Array List: ");
+        for (int num : arrayList)
+        {
+            System.out.print(num + ", ");
+
+        }
+        System.out.println("add to front: ");
+        arrayList.addFront(1);
+
+        System.out.println("add to back: ");
+        arrayList.addBack(4);
+
+        System.out.println("Array List: ");
+        for (int num : arrayList)
+        {
+            System.out.print(num + ", ");
+
+        }
+
+        System.out.println("size: " + arrayList.size());
+        System.out.println("get: " + arrayList.get(1));
+        System.out.println("indexOf: " + arrayList.indexOf(2));
+
+        System.out.println("clear: ");
+        arrayList.clear();
+
+        System.out.println("Array List: ");
+        for (int num : arrayList)
+        {
+            System.out.print(num + ", ");
+
+        }
+
+        System.out.println();
+        //Linked list tests
         LinkedIntList linkedList = new LinkedIntList();
-        DoublyLinkedIntList doublyList = new DoublyLinkedIntList();
 
         linkedList.add(0,1);
         linkedList.add(1, 2);
         linkedList.add(2, 3);
         linkedList.add(3, 4);
         linkedList.add(4, 5);
-
-
 
         System.out.println("Linked List: ");
         linkedList.printList();
@@ -57,6 +110,8 @@ public class Main
 
 
 
+        //test DoublyLinkedList
+        DoublyLinkedIntList doublyList = new DoublyLinkedIntList();
 
 //        for (int i = 1; i <= 5; i++)
 //        {
@@ -87,4 +142,5 @@ public class Main
 //                System.out.println(value);
 //            }
     }
+
 }
