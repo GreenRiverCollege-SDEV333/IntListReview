@@ -30,16 +30,13 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        //set up a new node
         Node theNewOne = new Node();
 
         if (head == null) {
-            // the list is currently empty
             head = theNewOne;
             size++;
 
         } else {
-            // the list currently has some nodes in it.
             theNewOne.next = head;
             head = theNewOne;
 
@@ -53,7 +50,21 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
+        Node newNode = new Node();
+        newNode.data = value;
+        newNode.next = null;
 
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+
+        size++;
     }
 
     /**
@@ -67,7 +78,28 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
 
+        if (index == 0) {
+            addFront(value);
+        } else if (index == size) {
+            addBack(value);
+        } else {
+            Node newNode = new Node();
+            newNode.data = value;
+
+            Node current = head;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+
+            newNode.next = current.next;
+            current.next = newNode;
+
+            size++;
+        }
     }
 
     /**
@@ -77,7 +109,10 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        if (head != null) {
+            head = head.next;
+            size--;
+        }
     }
 
     /**
@@ -86,7 +121,18 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        if (head != null) {
+            if (size == 1) {
+                head = null;
+            } else {
+                Node current = head;
+                while (current.next.next != null) {
+                    current = current.next;
+                }
+                current.next = null;
+            }
+            size--;
+        }
     }
 
     /**
@@ -100,7 +146,26 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+
+        int removedValue;
+
+        if (index == 0) {
+            removedValue = head.data;
+            head = head.next;
+        } else {
+            Node current = head;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+            removedValue = current.next.data;
+            current.next = current.next.next;
+        }
+
+        size--;
+        return removedValue;
     }
 
     /**
@@ -112,7 +177,15 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+
+        Node current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current.data;
     }
 
     /**
@@ -123,6 +196,13 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        Node current = head;
+        while (current != null) {
+            if (current.data == value) {
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
@@ -136,7 +216,16 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node current = head;
+        int index = 0;
+        while (current != null) {
+            if (current.data == value) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
     }
 
     /**
@@ -146,7 +235,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -156,7 +245,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -165,7 +254,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        head = null;
+        size = 0;
     }
 
     /**
