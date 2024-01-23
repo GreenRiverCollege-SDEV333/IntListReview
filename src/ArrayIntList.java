@@ -32,6 +32,8 @@ public class ArrayIntList implements IntList {
         buffer[2] = buffer[1];
         buffer[1] = buffer[0];
 
+        // System.arraycopy(buffer, 0, buffer, 1, size);
+
         buffer[0] = value;
         size++;
     }
