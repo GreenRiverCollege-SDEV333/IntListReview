@@ -46,7 +46,14 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-
+        Node finder = head;
+        for (int i = 0; finder.next != null; i++) {
+            finder = finder.next;
+        }
+        Node toAdd = new Node();
+        toAdd.data = value;
+        finder.next = toAdd;
+        size++;
     }
 
     /**
@@ -60,7 +67,15 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-
+        Node finder = head;
+        for (int i = 0; i < index - 1; i++) {
+            finder = finder.next;
+        }
+        Node toAdd = new Node();
+        toAdd.next = finder.next;
+        toAdd.data = value;
+        finder.next = toAdd;
+        size++;
     }
 
     /**
@@ -70,7 +85,9 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        head.data = 0;
+        head = head.next;
+        size--;
     }
 
     /**
@@ -79,7 +96,12 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        Node finder = head;
+        for (int i = 0; i < size - 1; i++) {
+            finder = finder.next;
+        }
+        finder.next = null;
+        size--;
     }
 
     /**
@@ -93,7 +115,13 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        Node finder = head;
+        for (int i = 0; i < index - 1; i++) {
+            finder = finder.next;
+        }
+        finder.next = null;
+        size--;
+        return index;
     }
 
     /**
@@ -105,7 +133,11 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        Node finder = head;
+        for (int i = 0; i < index - 1; i++) {
+            finder = finder.next;
+        }
+        return finder.data;
     }
 
     /**
@@ -116,6 +148,13 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        Node finder = head;
+        for (int i = 0; i < size - 1; i++) {
+            if (finder.data == value) {
+                return true;
+            }
+            finder = finder.next;
+        }
         return false;
     }
 
@@ -129,7 +168,14 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node finder = head;
+        for (int i = 0; i < size - 1; i++) {
+            if (finder.data == value) {
+                return i;
+            }
+            finder = finder.next;
+        }
+        return -404;
     }
 
     /**
@@ -139,7 +185,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -149,7 +195,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -158,7 +204,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-
+        head = null;
+        size = 0;
     }
 
     /**

@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -27,6 +29,31 @@ public class Main {
         for (int value : thirdList) {
             System.out.println(value);
         }
+
+        LinkedIntList linkedList = new LinkedIntList();
+        linkedList.addFront(1);
+        linkedList.addBack(2);
+        linkedList.add(1, 3);
+
+        linkedList.removeFront();
+        linkedList.removeBack();
+        linkedList.remove(0);
+
+        linkedList.addFront(1);
+        linkedList.addBack(2);
+        linkedList.addBack(3);
+
+        System.out.printf("Value at 1 is %d\n", linkedList.get(1));
+        System.out.printf("It is %b that the list contains %d\n", linkedList.contains(3), 3);
+        System.out.printf("It is %b that the list is empty\n", linkedList.isEmpty());
+
+        System.out.printf("The list contains %d things\n", linkedList.size());
+        linkedList.clear();
+        System.out.printf("The list contains %d things after clearing it\n", linkedList.size());
+
+        Iterator<Integer> linkedItr = linkedList.iterator();
+
+
 
 //        DoublyLinkedIntList testing = new DoublyLinkedIntList();
 //        testing.addFront(333);
