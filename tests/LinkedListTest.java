@@ -127,6 +127,7 @@ class LinkedListTest {
 
     @Test
     void contains() {
+        assertFalse(testLink.contains(2));
         for(int i = 5; i < 10; i++){
             testLink.addFront(i);
         }

@@ -176,8 +176,37 @@ public class LinkedList implements IntList {
         return value;
     }
 
+//    /**
+//     * Returns the value at the specified position in the list.
+//     * Iterative version.
+//     *
+//     * @param index index of the value to return
+//     * @return the value at the specified position in this list
+//     * @throws IndexOutOfBoundsException if the index is out of range
+//     * @throws NoSuchElementException    if the list is empty
+//     */
+//    @Override
+//    public int get(int index) {
+//        if (head == null) {
+//            throw new NoSuchElementException("The list is empty");
+//        } else if (index < 0) {
+//            throw new IndexOutOfBoundsException("Index cannot be negative");
+//        }
+//        int currentIndex = 0;
+//        Node current = head;
+//        while (current != null) {
+//            if (currentIndex == index) {
+//                return current.data;
+//            }
+//            current = current.next;
+//            currentIndex++;
+//        }
+//        throw new IndexOutOfBoundsException("Index beyond size of list");
+//    }
+
     /**
      * Returns the value at the specified position in the list.
+     * Recursive version.
      *
      * @param index index of the value to return
      * @return the value at the specified position in this list
@@ -191,20 +220,44 @@ public class LinkedList implements IntList {
         } else if (index < 0) {
             throw new IndexOutOfBoundsException("Index cannot be negative");
         }
-        int currentIndex = 0;
         Node current = head;
-        while (current != null) {
-            if (currentIndex == index) {
-                return current.data;
-            }
-            current = current.next;
-            currentIndex++;
-        }
-        throw new IndexOutOfBoundsException("Index beyond size of list");
+        return get(index, 0, current);
     }
+
+    private int get(int index, int iterator, Node current){
+        if (iterator == index){
+            return current.data;
+        }
+        current = current.next;
+        iterator++;
+        return get(index, iterator, current);
+    }
+
+//    /**
+//     * Returns true if this list contains the specified value.
+//     * Iterative version.
+//     *
+//     * @param value value whose presence in this list is to be searched for
+//     * @return true if this list contains the specified value
+//     */
+//    @Override
+//    public boolean contains(int value) {
+//        if (head == null) {
+//            return false;
+//        }
+//        Node current = head;
+//        while (current.next != null) {
+//            if (current.data == value) {
+//                return true;
+//            }
+//            current = current.next;
+//        }
+//        return false;
+//    }
 
     /**
      * Returns true if this list contains the specified value.
+     * Recursive version.
      *
      * @param value value whose presence in this list is to be searched for
      * @return true if this list contains the specified value
@@ -215,18 +268,49 @@ public class LinkedList implements IntList {
             return false;
         }
         Node current = head;
-        while (current.next != null) {
-            if (current.data == value) {
-                return true;
-            }
-            current = current.next;
-        }
-        return false;
+        return contains(value, current);
     }
+
+    private boolean contains(int value, Node current){
+        if(current.data == value){
+            return true;
+        } else if (current.next == null){
+            return false;
+        }
+        current = current.next;
+        return contains(value, current);
+    }
+
+//    /**
+//     * Returns the index of the first occurrence of the specified value
+//     * in this list, or -1 if this list does not contain the value.
+//     * Iterative Version.
+//     *
+//     * @param value value to search for
+//     * @return the index of the first occurrence of the specified value in this list
+//     * or -1 if this list does not contain the value
+//     */
+//    @Override
+//    public int indexOf(int value) {
+//        if (head == null) {
+//            return -1;
+//        }
+//        Node current = head;
+//        int currentIndex = 0;
+//        while (current != null) {
+//            if (current.data == value) {
+//                return currentIndex;
+//            }
+//            current = current.next;
+//            currentIndex++;
+//        }
+//        return -1;
+//    }
 
     /**
      * Returns the index of the first occurrence of the specified value
      * in this list, or -1 if this list does not contain the value.
+     * Recursive Version.
      *
      * @param value value to search for
      * @return the index of the first occurrence of the specified value in this list
@@ -238,15 +322,18 @@ public class LinkedList implements IntList {
             return -1;
         }
         Node current = head;
-        int currentIndex = 0;
-        while (current != null) {
-            if (current.data == value) {
-                return currentIndex;
-            }
-            current = current.next;
-            currentIndex++;
+        return indexOf(value, 0, current);
+    }
+
+    private int indexOf(int value, int iterator, Node current) {
+        if(current.data == value) {
+            return iterator;
+        } else if (current.next == null) {
+            return -1;
         }
-        return -1;
+        iterator++;
+        current = current.next;
+        return indexOf(value, iterator, current);
     }
 
     /**
