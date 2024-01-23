@@ -41,6 +41,25 @@ public class Main {
         System.out.println("Index of value \"7\": " + list.indexOf(7));
         System.out.println("Get value at index \"4\": " +list.get(4));
 
+        // test removals
+        System.out.println("Remove front");
+        printList(list);
+        list.removeFront();
+        printList(list);
+
+        System.out.println("Remove back");
+        printList(list);
+        list.removeBack();
+        printList(list);
+
+        System.out.println("Remove at specific index 2");
+        printList(list);
+        int val = list.remove(2);
+        printList(list);
+        System.out.println("Value removed: " + val);
+
+
+
         System.out.println();
         System.out.println("******************");
         System.out.println("Linked list tests: ");
@@ -77,6 +96,23 @@ public class Main {
         System.out.println("Index of value \"1\": " + list.indexOf(1));
         System.out.println("Index of value \"7\": " + list.indexOf(7));
         System.out.println("Get value at index \"4\": " +list.get(4));
+
+        // test removals
+        System.out.println("Remove front");
+        printList(list);
+        list.removeFront();
+        printList(list);
+
+        System.out.println("Remove back");
+        printList(list);
+        list.removeBack();
+        printList(list);
+
+        System.out.println("Remove at specific index 2");
+        printList(list);
+        val = list.remove(2);
+        printList(list);
+        System.out.println("Value removed: " + val);
 
     }
 
