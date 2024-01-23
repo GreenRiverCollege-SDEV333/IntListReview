@@ -31,18 +31,20 @@ public class LinkedIntList implements IntList {
     @Override
     public void addFront(int value) {
         // set up a new node
-        Node theNewOne = new Node();
-        theNewOne.data = value; // set the data of the new node
+        Node newNode = new Node();
 
         if (head == null) {
             // the list is currently empty
-            head = theNewOne;
+            head = newNode;
+            head.data = value;
             size++;
         }
         else {
             // the list currently has some nodes in it
-            theNewOne.next = head;
-            head = theNewOne;
+            newNode.next = head;
+            head = newNode;
+            head.data = value;
+            size++;
         }
     }
 
@@ -96,7 +98,7 @@ public class LinkedIntList implements IntList {
             this.addBack(value);
         } else {
 
-            for (int i = 0; i < index -1; i++) {
+            for (int i = 0; i < index - 1; i++) {
                 current = current.next;
             }
             node.next = current.next;
@@ -112,8 +114,13 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-    //check whether the linklist is emty or not
-
+        //check whether the linklist is empty or not
+        if (head == null) {
+            return;
+        }
+        //set head to the next index and reduce size
+        head = head.next;
+        size--;
     }
 
     /**
@@ -122,7 +129,19 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
+        //check if the linklist is empty
+        //if there is only 1 value in the linklist, set the value to null
+        if (head == null || head.next == null) {
+            head = null;
+        } else {
+            Node current = head;
 
+            while (current.next.next != null) {
+                current = current.next;
+            }
+            current.next = null;
+        }
+        size--; // Decrement the size
     }
 
     /**
@@ -196,7 +215,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -206,7 +225,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
