@@ -46,6 +46,11 @@ public class ArrayIntList implements IntList{
     @Override
     public void addBack(int value) {
         // TODO: check to see if we are full - if so, we need to create a larger buffer
+        //This if statement will check whether the buffer is full
+        // if the buffer is full the size is double to make room
+        if(size == buffer.length){
+            resize(size * 2);
+        }
         buffer [size] = value;
         size++;
     }
@@ -61,9 +66,22 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-        if (size == buffer.length)   {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of range");
+        }
+        //resize if the index is bigger than the size
+        if (size == buffer.length) {
             resize(size * 2);
         }
+
+
+        //This for loop will shift the number at and after index to the right
+        for (int i = size; i > index; i--) {
+            buffer[i] =buffer[i - 1];
+        }
+        //add the new value to the desire index
+        buffer[index] = value;
+        size++;
     }
 
     /**
@@ -73,6 +91,7 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void removeFront() {
+
 
     }
 
@@ -127,7 +146,11 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        //check if the index is out of range
+        if (index < 0 || index >= size) {//promo out of bound when index is less than 0 or more than size
+            throw new IndexOutOfBoundsException("Index out of range");
+            }
+                 return buffer[index];
     }
 
     /**
