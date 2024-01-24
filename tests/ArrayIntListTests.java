@@ -9,18 +9,18 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         list.addFront(5);
         assertEquals(1, list.size());
         assertEquals(5, list.get(0));
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(10);
         assertEquals(2, list.size());
         assertEquals(10, list.get(0));
         assertEquals(5, list.get(1));
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addFront(15);
         assertEquals(3, list.size());
         assertEquals(15, list.get(0));
@@ -33,18 +33,18 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         list.addBack(5);
         assertEquals(1, list.size());
         assertEquals(5, list.get(0));
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addBack(10);
         assertEquals(2, list.size());
         assertEquals(5, list.get(0));
         assertEquals(10, list.get(1));
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(15);
         assertEquals(3, list.size());
         assertEquals(5, list.get(0));
@@ -57,15 +57,15 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         assertDoesNotThrow(list::removeFront);
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertDoesNotThrow(list::removeFront);
         assertTrue(list.isEmpty());
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertDoesNotThrow(list::removeFront);
@@ -78,15 +78,15 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         assertDoesNotThrow(list::removeBack);
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertDoesNotThrow(list::removeBack);
         assertTrue(list.isEmpty());
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertDoesNotThrow(list::removeBack);
@@ -99,25 +99,25 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         //https://junit.org/junit5/docs/5.8.2/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
         //https://stackoverflow.com/questions/40268446/junit-5-how-to-assert-an-exception-is-thrown
         //took me some docs researching to figure out how to test an exception being thrown
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(0));
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertDoesNotThrow(() -> list.remove(0));
         assertTrue(list.isEmpty());
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertDoesNotThrow(() -> list.remove(1));
         assertEquals(1, list.size());
         assertEquals(10, list.get(0));
 
-        //test when the data structure is "full"
+        //test when the list is "full"
         list.addBack(20);
         list.addBack(25);
         list.addBack(30);
@@ -134,14 +134,14 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertEquals(5, list.get(0));
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertEquals(10, list.get(1));
@@ -156,14 +156,14 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         assertFalse(list.contains(5));
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertTrue(list.contains(5));
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertTrue(list.contains(10));
@@ -175,14 +175,14 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         assertEquals(-1, list.indexOf(5));
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertEquals(0, list.indexOf(5));
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertEquals(1, list.indexOf(10));
@@ -194,14 +194,14 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         assertTrue(list.isEmpty());
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertFalse(list.isEmpty());
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertFalse(list.isEmpty());
@@ -212,14 +212,14 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         assertEquals(0, list.size());
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertEquals(1, list.size());
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertEquals(3, list.size());
@@ -230,16 +230,16 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         list.clear();
         assertTrue(list.isEmpty());
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         list.clear();
         assertTrue(list.isEmpty());
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         list.clear();
@@ -251,14 +251,14 @@ class ArrayIntListTest
     {
         ArrayIntList list = new ArrayIntList();
 
-        //test when the data structure is empty
+        //test when the list is empty
         assertFalse(list.iterator().hasNext());
 
-        //test when the data structure has one item
+        //test when the list has one item
         list.addFront(5);
         assertTrue(list.iterator().hasNext());
 
-        //test when the data structure has 2 or more items
+        //test when the list has 2 or more items
         list.addBack(10);
         list.addBack(15);
         assertTrue(list.iterator().hasNext());

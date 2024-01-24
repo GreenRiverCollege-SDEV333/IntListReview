@@ -334,11 +334,42 @@ public class DoublyLinkedIntList implements IntList
         //set size to 0
         size = 0;
     }
-    
+
     @Override
     public Iterator<Integer> iterator()
     {
-        return null;
+        return new DoublyLinkedIntList.DoublyLinkedIterator();
+    }
+
+    //helper class that defines how the iterator works
+    private class DoublyLinkedIterator implements Iterator<Integer>
+    {
+        private DoublyLinkedIntList.Node curr;
+
+        public DoublyLinkedIterator()
+        {
+            curr = pre;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            return curr != null;
+        }
+
+        @Override
+        public Integer next()
+        {
+            if (!hasNext())
+            {
+                throw new NoSuchElementException("Iterator at end");
+            }
+
+            int data = curr.data;
+            curr = curr.next;
+
+            return data;
+        }
     }
 
     private void indexOutOfBoundsChecker(int index)
