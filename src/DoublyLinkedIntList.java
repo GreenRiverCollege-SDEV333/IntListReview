@@ -65,7 +65,16 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void addBack(int value)
     {
+        //create node with new value
+        Node newNode = new Node();
+        newNode.data = value;
 
+        //assign the next node of tail to new node
+        //reassign the tail to the new node
+        //increase size
+        tail.next = newNode;
+        tail = tail.next;
+        size++;
     }
 
     /**
@@ -80,7 +89,32 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void add(int index, int value)
     {
+        //throw out of bounds exception if out of range
+        if (index < size || index > size)
+        {
+            throw new IndexOutOfBoundsException("The given index is out of range");
+        }
 
+        //keep track of index, current node, previous node, and create new node
+        int currentIndex = 0;
+        Node current = head;
+        Node newNode = new Node();
+        newNode.data = value;
+        Node previousNode = current.last;
+
+        //traverse list - while currentIndex does not equal the index
+        while (currentIndex != index)
+        {
+            previousNode = current;
+            current = current.next;
+        }
+        //if found, add the node by connecting the previous.next, next.previous
+        //to the new node
+        previousNode.next = newNode;
+        newNode.last = previousNode;
+        newNode.next = current.next;
+        current.next.last = newNode;
+        size++;
     }
 
     /**
@@ -176,10 +210,11 @@ public class DoublyLinkedIntList implements IntList
         // create current node
         Node current = head;
 
-        // also check if the next node is null
         // run through list until you hit the value
         while (current.data != value)
         {
+            // check if the next node is null (this means we've hit the
+            // end of the list and the value does not exist
             if (current.next == null)
             {
                 return false;
@@ -200,7 +235,17 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public int indexOf(int value)
     {
-        return 0;
+        // create current node and currentIndex
+        Node current = head;
+        int currentIndex = 0;
+
+        // run through list until you hit the value
+        while (current.data != value)
+        {
+            current = current.next;
+            currentIndex++;
+        }
+        return currentIndex;
     }
 
     /**
