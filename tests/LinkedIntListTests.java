@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedIntListTest
 {
-
     private LinkedIntList emptyList;
     private LinkedIntList oneItemList;
     private LinkedIntList multiItemList;
@@ -13,9 +12,10 @@ class LinkedIntListTest
     void setUp()
     {
         emptyList = new LinkedIntList();
+
         oneItemList = new LinkedIntList();
-        //adding one item
-        oneItemList.addFront(42);
+        oneItemList.addFront(5);
+
         multiItemList = new LinkedIntList();
         multiItemList.addBack(10);
         multiItemList.addBack(20);
@@ -32,7 +32,7 @@ class LinkedIntListTest
         //test on one item list
         oneItemList.addFront(15);
         assertEquals(15, oneItemList.get(0));
-        assertEquals(42, oneItemList.get(1));
+        assertEquals(5, oneItemList.get(1));
 
         //test on multi-item list
         multiItemList.addFront(5);
@@ -51,7 +51,7 @@ class LinkedIntListTest
 
         //test on one item list
         oneItemList.addBack(18);
-        assertEquals(42, oneItemList.get(0));
+        assertEquals(5, oneItemList.get(0));
         assertEquals(18, oneItemList.get(1));
 
         //test on multi-item list
@@ -71,7 +71,7 @@ class LinkedIntListTest
 
         //test on one item list
         oneItemList.add(1, 15);
-        assertEquals(42, oneItemList.get(0));
+        assertEquals(5, oneItemList.get(0));
         assertEquals(15, oneItemList.get(1));
 
         //test on multi-item list
@@ -126,7 +126,7 @@ class LinkedIntListTest
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.remove(0));
 
         //test on one item list
-        assertEquals(42, oneItemList.remove(0));
+        assertEquals(5, oneItemList.remove(0));
         assertTrue(oneItemList.isEmpty());
 
         //test on multi-item list
@@ -142,7 +142,7 @@ class LinkedIntListTest
         assertThrows(IndexOutOfBoundsException.class, () -> emptyList.get(0));
 
         //test on one item list
-        assertEquals(42, oneItemList.get(0));
+        assertEquals(5, oneItemList.get(0));
 
         //test on multi-item list
         assertEquals(20, multiItemList.get(1));
@@ -155,8 +155,8 @@ class LinkedIntListTest
         assertFalse(emptyList.contains(5));
 
         //test on one item list
-        assertTrue(oneItemList.contains(42));
-        assertFalse(oneItemList.contains(5));
+        assertTrue(oneItemList.contains(5));
+        assertFalse(oneItemList.contains(55));
 
         //test on multi-item list
         assertTrue(multiItemList.contains(20));
@@ -170,8 +170,8 @@ class LinkedIntListTest
         assertEquals(-1, emptyList.indexOf(5));
 
         //test on one item list
-        assertEquals(0, oneItemList.indexOf(42));
-        assertEquals(-1, oneItemList.indexOf(5));
+        assertEquals(0, oneItemList.indexOf(5));
+        assertEquals(-1, oneItemList.indexOf(55));
 
         //test on multi-item list
         assertEquals(1, multiItemList.indexOf(20));

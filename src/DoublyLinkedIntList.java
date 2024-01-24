@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoublyLinkedIntList implements IntList
 {
@@ -90,7 +91,7 @@ public class DoublyLinkedIntList implements IntList
 
         //helpers
         int currIndex = 0;
-        Node currNode = pre.next;
+        Node currNode = pre;
 
         //traverse to specified index
         while(currIndex < index)
@@ -120,11 +121,27 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void removeFront()
     {
+        //check if list is empty
+        if (size == 0)
+        {
+            throw new NoSuchElementException("Cannot remove from an empty list");
+        }
+
         //reassign pre
         pre.next = pre.next.next;
 
         //reassign new head.prev
-        pre.next.prev = pre;
+        if(pre.next != null)
+        {
+            pre.next.prev = pre;
+        }
+        else
+        {
+            post.prev = pre;
+        }
+
+        //decrement size
+        size--;
     }
     
     /**
@@ -140,11 +157,6 @@ public class DoublyLinkedIntList implements IntList
     
             removeNode.prev.next = post; //set the proceeding node's next pointer to post
             post.prev = removeNode.prev; //set the prev pointer of post to the node proceeding the removed node
-            
-            //set node to null for garbage collector to clean up
-            removeNode.data = 0;
-            removeNode.next = null;
-            removeNode.prev = null;
             
             size--; //decrement size of linkedlist
         }
@@ -162,7 +174,10 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public int remove(int index)
     {
-        indexOutOfBoundsChecker(index);
+        if(index < 0 || index >= size)
+        {
+            throw new IndexOutOfBoundsException("Index out of range");
+        }
 
         //helpers
         int currIndex = 0;
@@ -177,7 +192,16 @@ public class DoublyLinkedIntList implements IntList
 
         //reassign nodes surrounding currNode
         currNode.prev.next = currNode.next;
-        currNode.next.prev = currNode.prev;
+
+        //check if currNode.next is not null
+        if(currNode.next != null)
+        {
+            currNode.next.prev = currNode.prev;
+        }
+        else
+        {
+            post.prev = currNode.prev;
+        }
 
         //decrement size
         size--;
@@ -195,7 +219,10 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public int get(int index)
     {
-        indexOutOfBoundsChecker(index);
+        if(index >= size || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Index out of range");
+        }
 
         //helpers
         int currIndex = 0;
@@ -250,7 +277,7 @@ public class DoublyLinkedIntList implements IntList
     {
         //helpers
         int index = 0;
-        Node currNode = pre;
+        Node currNode = pre.next;
 
         //traverse list, if value found return true
         while(currNode != null)
@@ -303,6 +330,9 @@ public class DoublyLinkedIntList implements IntList
         //reassign pre and post to each other
         pre.next = post;
         post.prev = pre;
+
+        //set size to 0
+        size = 0;
     }
     
     @Override
@@ -313,7 +343,7 @@ public class DoublyLinkedIntList implements IntList
 
     private void indexOutOfBoundsChecker(int index)
     {
-        if(index >= size || size < 0)
+        if(index > size || index < 0)
         {
             throw new IndexOutOfBoundsException("Index out of range");
         }
