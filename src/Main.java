@@ -55,18 +55,41 @@ public class Main {
 
 
 
-//        DoublyLinkedIntList testing = new DoublyLinkedIntList();
-//        testing.addFront(333);
-//        testing.addBack(123);
-//        testing.addBack(357);
-//        System.out.println(testing.contains(333));
-//        System.out.println(testing.contains(123));
-//        System.out.println(testing.contains(135));
-//        System.out.println(testing.contains(357));
-//
-//        System.out.println(testing.indexOf(333));
-//        System.out.println(testing.indexOf(123));
-//        System.out.println(testing.indexOf(135));
-//        System.out.println(testing.indexOf(357));
+        DoublyLinkedIntList testing = new DoublyLinkedIntList();
+        testing.addBack(333);
+        testing.addBack(123);
+        testing.addBack(357);
+        testing.addFront(135);
+        testing.add(2, 444);
+
+        System.out.println(testing.get(2));
+
+        System.out.println(testing.size());
+
+        System.out.println(testing.contains(333));
+
+        System.out.println(testing.contains(333));
+        System.out.println(testing.contains(123));
+        System.out.println(testing.contains(135));
+        System.out.println(testing.contains(357));
+        System.out.println(testing.contains(444));
+
+        System.out.println(testing.indexOf(333));
+        System.out.println(testing.indexOf(123));
+        System.out.println(testing.indexOf(135));
+        System.out.println(testing.indexOf(357));
+        System.out.println(testing.indexOf(444));
+
+        testing.clear();
+        System.out.println(testing.size());
+
+        testing.addFront(1);
+        testing.addBack(2);
+        testing.removeFront();
+        testing.removeBack();
+
+        testing.addFront(1);
+        testing.addBack(2);
+
     }
 }

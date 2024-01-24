@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoublyLinkedIntList implements IntList {
     private class Node {
@@ -37,8 +38,9 @@ public class DoublyLinkedIntList implements IntList {
         Node newNode = new Node();
         newNode.data = value;
         newNode.next = pre.next;
+        newNode.next.prev = newNode;
         pre.next = newNode;
-        newNode.prev = pre;
+        size++;
     }
 
     /**
@@ -58,7 +60,6 @@ public class DoublyLinkedIntList implements IntList {
         post.prev = theNewOne;
         // go to the node before the new one and update its next
         theLastOne.next = theNewOne;
-
         size++;
     }
 
@@ -78,9 +79,11 @@ public class DoublyLinkedIntList implements IntList {
             finder = finder.next;
             }
         Node newNode = new Node();
-        finder.prev.next = newNode;
-        newNode.prev = finder.prev;
-        newNode.next = finder;
+        newNode.next = finder.next;
+        finder.next = newNode;
+        newNode.prev = finder;
+        newNode.next.prev = newNode;
+        size++;
     }
 
     /**
@@ -229,6 +232,33 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new DoublyLinkedIntList.DoublyLinkedIterator();
+    }
+    private class DoublyLinkedIterator implements Iterator<Integer> {
+
+        private DoublyLinkedIntList.Node current;
+
+        public DoublyLinkedIterator() {
+            current = pre;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (current == null || current.next == null) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        @Override
+        public Integer next() {
+            if (current == null) {
+                throw new NoSuchElementException("There is no next one to go to!!");
+            }
+            int item = current.data;
+            current = current.next;
+            return item;
+        }
     }
 }
