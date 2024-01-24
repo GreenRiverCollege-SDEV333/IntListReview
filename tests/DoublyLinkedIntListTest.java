@@ -27,6 +27,9 @@ class DoublyLinkedIntListTest
     @Test
     void addBack()
     {
+        DoublyLinkedIntList list = createList();
+        list.addBack(30);
+        assertEquals(30, list.get(list.size));
     }
 
     @Test
