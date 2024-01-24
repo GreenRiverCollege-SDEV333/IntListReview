@@ -3,7 +3,8 @@
  * for an ordered (indexed) collection of ints, which
  * in mathematics is known as a sequence.
  */
-public interface IntList extends Iterable<Integer> {
+public interface IntList extends Iterable<Integer>
+{
 
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
