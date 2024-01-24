@@ -125,7 +125,11 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void removeFront()
     {
-
+        //change the head to head.next
+        //reassign the new heads last to node
+        head = head.next;
+        head.last = null;
+        size--;
     }
 
     /**
@@ -163,7 +167,34 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public int remove(int index)
     {
-        return 0;
+        //index out of bounds
+        if (index > size || index < size)
+        {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+
+        //current index and current node
+        Node current = head;
+        int currentIndex = 0;
+        int returnValue = 0;
+
+        //traverse through list and compare
+        while (currentIndex != index)
+        {
+            current = current.next;
+            currentIndex++;
+        }
+        //remove the node by reassign/rearranging the nodes
+        //previous.next to next node,
+        //next node to previous
+        returnValue = current.data;
+        current.last = current.next;
+        current.next.last = current.last;
+
+        //reduce the size and return value
+        size--;
+
+        return returnValue;
     }
 
     /**
