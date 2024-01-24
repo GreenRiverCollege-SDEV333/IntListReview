@@ -51,12 +51,12 @@ public class SinglyLinkedIntList implements IntList {
 
         if (head == null) {
             head = newNode;
-        }
-        else {
+        } else {
             Node current = head;
             while (current.next != null) {
-                current.next = newNode;
+                current = current.next;
             }
+            current.next = newNode;
         }
 
         size++;
