@@ -64,13 +64,24 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        if(index >= size || index < 0)
+        if(index > size || index < 0)
         {
             throw new IndexOutOfBoundsException("Invalid index");
         }
         if(size == buffer.length)
         {
             resize(size * 2);
+        }
+        if(index == size)
+        {
+            buffer[index] = value;
+        }
+        else {
+            for(int i = size; i >= index; i--)
+            {
+                buffer[i] = buffer[i-1];
+            }
+            buffer[index] = value;
         }
         size++;
     }
@@ -135,7 +146,7 @@ public class ArrayIntList implements IntList {
         //decrement size
         size--;
         //return the removed value
-        return buffer[removedValue];
+        return removedValue;
     }
 
     /**
