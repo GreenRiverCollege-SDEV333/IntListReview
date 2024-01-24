@@ -102,6 +102,7 @@ public class Main
 
         System.out.println("size: " + linkedList.size());
         System.out.println("get: " + linkedList.get(1));
+        System.out.println("contains: " + linkedList.contains(1));
         System.out.println("indexOf: " + linkedList.indexOf(2));
 
         System.out.println("clear: ");
@@ -113,34 +114,46 @@ public class Main
         //test DoublyLinkedList
         DoublyLinkedIntList doublyList = new DoublyLinkedIntList();
 
-//        for (int i = 1; i <= 5; i++)
-//        {
-//            System.out.println("i = " + i);
-//
-//        }
+        System.out.println("Doubly Linked List: ");
+        doublyList.add(0,1);
+        doublyList.add(1, 2);
+        doublyList.add(2, 3);
+        doublyList.add(3, 4);
+        doublyList.add(4, 5);
+        doublyList.printList();
+        System.out.println();
 
-//        arrayList.add(0, 1);
-//        System.out.println(arrayList.get(0));
-//        linkedList.addBack(3);
-//
-//        for (int num : arrayList) {
-//            System.out.println(num + " ");
-//        }
+        System.out.println("Remove: ");
+        doublyList.remove(2);
+        doublyList.printList();
+        System.out.println();
 
+        System.out.println("Add Back: ");
+        doublyList.addBack(6);
+        doublyList.printList();
+        System.out.println();
 
-            //where an iterator gets used:
-//            for (int value : thirdList)
-//            {
-//                System.out.println(value);
-//            }
+        System.out.println("Add Front: ");
+        doublyList.addFront(3);
+        doublyList.printList();
+        System.out.println();
 
-            //alternate way to use an iterator
-//            Iterator<Integer> itr = thirdList.iterator();
-//            while (itr.hasNext())
-//            {
-//                int value = itr.next();
-//                System.out.println(value);
-//            }
+        System.out.println("Remove Back: ");
+        doublyList.removeBack();
+        doublyList.printList();
+        System.out.println();
+
+        System.out.println("size: " + doublyList.size());
+        System.out.println("get: " + doublyList.get(1));
+        System.out.println("contain: " + doublyList.contains(1));
+        System.out.println("contain: " + doublyList.contains(7));
+
+        System.out.println("indexOf: " + doublyList.indexOf(1));
+
+        System.out.println("Clear: ");
+        doublyList.clear();
+        doublyList.printList();
+
     }
 
 }

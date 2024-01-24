@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoublyLinkedIntList implements IntList {
     // private fields
@@ -38,7 +39,16 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void addFront(int value)
     {
+        Node newNode = new Node();
+        newNode.data = value;
+        Node firstNode = pre.next;
 
+        newNode.next = firstNode;
+        newNode.prev = pre;
+
+        pre.next = newNode;
+        firstNode.prev = newNode;
+        size++;
     }
 
     /**
@@ -79,6 +89,16 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void add(int index, int value)
     {
+        Node newNode = new Node();
+        newNode.data = value;
+        Node lastNode = post.prev;
+
+        newNode.next = post;
+        newNode.prev = lastNode;
+
+        lastNode.next = newNode;
+        post.prev = newNode;
+        size++;
 
     }
 
@@ -90,7 +110,19 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void removeFront()
     {
+        Node firstNode = pre.next;
 
+        if (firstNode != post)
+        {
+            Node newNode = firstNode.next;
+
+            pre.next = newNode;
+            newNode.prev = pre;
+        }
+        else
+        {
+            System.out.println("Cannot remove from the front. List is empty.");
+        }
     }
 
     /**
@@ -127,7 +159,25 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public int remove(int index)
     {
-        return 0;
+        Node current = pre.next;
+
+        while (current != post) {
+
+            if (current.data == index)
+            {
+                Node prevNode = current.prev;
+                Node nextNode = current.next;
+
+                prevNode.next = nextNode;
+                nextNode.prev = prevNode;
+
+            }
+
+            current = current.next;
+
+        }
+        return current.data;
+
     }
 
     /**
@@ -140,7 +190,12 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public int get(int index)
     {
-        return 0;
+        Node current = pre;
+        for (int i = 0; i < index; i++)
+        {
+            current = current.next;
+        }
+        return current.data;
     }
 
     /**
@@ -152,7 +207,7 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public boolean contains(int value)
     {
-        return false;
+        return indexOf(value) != -1;
     }
 
     /**
@@ -166,7 +221,26 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public int indexOf(int value)
     {
-        return 0;
+        if (pre == null)
+        {
+            return -1;
+        }
+        else
+        {
+            Node current = pre;
+            int index = 0;
+
+            while (current != null)
+            {
+                if (current.data == value)
+                {
+                    return index;
+                }
+                current = current.next;
+                index++;
+            }
+            return -1;
+        }
     }
 
     /**
@@ -177,7 +251,7 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -188,7 +262,7 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public int size()
     {
-        return 0;
+        return size;
     }
 
     /**
@@ -198,6 +272,26 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void clear()
     {
+        pre = null;
+        post = null;
+        size = 0;
+
+    }
+
+    /**
+     * Prints out DoublyLinkedList
+     */
+    public void printList()
+    {
+        Node current = pre;
+
+        if (pre == null) {
+            System.out.println("List is empty");
+        }
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
 
     }
 
@@ -209,7 +303,30 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public Iterator<Integer> iterator()
     {
-        return null;
+        return new DoublyLinkedListIterator();
+    }
+
+    private class DoublyLinkedListIterator implements Iterator<Integer>
+    {
+        private Node current = pre.next;
+
+        public boolean hasNext() {
+            return current != post;
+        }
+
+        public Integer next() {
+            if (!hasNext())
+            {
+                throw new NoSuchElementException();
+            }
+            else
+            {
+
+                int item = current.data;
+                current = current.next;
+                return item;
+            }
+        }
     }
 }
 
