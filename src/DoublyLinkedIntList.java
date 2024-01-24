@@ -267,6 +267,10 @@ public class DoublyLinkedIntList implements IntList
         {
             return head.data;
         }
+        else if (index == size)
+        {
+            return tail.data;
+        }
         else
         {
             // while loop that traverses list and
