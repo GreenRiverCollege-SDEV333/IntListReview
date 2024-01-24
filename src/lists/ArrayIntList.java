@@ -1,3 +1,5 @@
+package lists;
+
 import java.util.Iterator;
 
 public class ArrayIntList implements IntList
@@ -223,7 +225,7 @@ public class ArrayIntList implements IntList
     }
 
     /**
-     * Returns the contents of the ArrayIntList as a string
+     * Returns the contents of the lists.ArrayIntList as a string
      *
      * @return
      */

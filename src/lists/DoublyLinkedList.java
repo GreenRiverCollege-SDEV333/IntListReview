@@ -1,15 +1,20 @@
+package lists;
+
 import java.util.Iterator;
 
-public class LinkedIntList implements IntList
+public class DoublyLinkedList implements IntList
 {
+
     // define node
     private class Node{
         int data;
         Node next;
+        Node last;
 
         Node(int data){
             this.data = data;
             this.next = null;
+            this.last = null;
         }
     }
     // set up head field
@@ -18,7 +23,7 @@ public class LinkedIntList implements IntList
     private int size;
 
     // constructor method
-    public LinkedIntList(){
+    public DoublyLinkedList(){
         head = null;
         size = 0;
     }
@@ -33,7 +38,8 @@ public class LinkedIntList implements IntList
     @Override
     public void addFront(int value)
     {
-        Node newNode = new Node(value);
+        size++;
+        DoublyLinkedList.Node newNode = new DoublyLinkedList.Node(value);
         newNode.next = head;
         head = newNode;
     }
@@ -46,20 +52,23 @@ public class LinkedIntList implements IntList
     @Override
     public void addBack(int value)
     {
-        Node newNode = new Node(value);
-        if (head == null)
-        {
-            head = newNode;
+        DoublyLinkedList.Node newNode = new DoublyLinkedList.Node(value);
+
+        DoublyLinkedList.Node currentNode = head;
+
+        if(head == null){
+            head = new Node(value);
+            size++;
             return;
         }
 
-        Node current = head;
-        while (current.next != null)
-        {
-            current = current.next;
+        while(currentNode.next != null){
+            currentNode = currentNode.next;
         }
 
-        current.next = newNode;
+        newNode.last = currentNode;
+        currentNode.next = newNode;
+        size++;
     }
 
     /**
@@ -74,23 +83,41 @@ public class LinkedIntList implements IntList
     @Override
     public void add(int index, int value)
     {
-        Node newNode = new Node(value);
+        if (index < size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        DoublyLinkedList.Node newNode = new DoublyLinkedList.Node(value);
+
+        DoublyLinkedList.Node currentNode = head;
 
         if (index == 0)
         {
             addFront(value);
+            size++;
             return;
         }
 
-        Node current = head;
-        for (int i = 0; i < index - 1 && current != null; i++)
-        {
-            current = current.next;
+        if(index > size){
+            addBack(value);
+            size++;
+            return;
         }
 
-        newNode.next = current.next;
-        current.next = newNode;
+            int nodeCount = 0;
 
+            while(currentNode.next != null){
+                if(nodeCount == index){
+                    Node tempNode = currentNode.next.next;
+                    currentNode.next = newNode;
+                    newNode.last = currentNode;
+                    newNode.next = tempNode;
+                }
+                currentNode = currentNode.next;
+
+                nodeCount++;
+            }
+        size++;
     }
 
     /**
@@ -101,7 +128,12 @@ public class LinkedIntList implements IntList
     @Override
     public void removeFront()
     {
+        if(head == null){
+            return;
+        }
+
         head = head.next;
+        size--;
     }
 
     /**
@@ -111,13 +143,19 @@ public class LinkedIntList implements IntList
     @Override
     public void removeBack()
     {
-        Node current = head;
-        while (current.next.next != null)
-        {
-            current = current.next;
+        if(head == null){
+            return;
         }
 
-        current.next = null;
+        DoublyLinkedList.Node currentNode = head;
+
+        while (currentNode.next.next != null)
+        {
+            currentNode = currentNode.next;
+        }
+
+        currentNode.next = null;
+        size--;
     }
 
     /**
@@ -132,22 +170,33 @@ public class LinkedIntList implements IntList
     @Override
     public int remove(int index)
     {
-        if (index == 0)
-        {
-            int removedValue = head.data;
-            head = head.next;
+        int removedValue = -99;
+
+        DoublyLinkedList.Node currentNode = head;
+
+        if(head == null){
             return removedValue;
         }
 
-        Node current = head;
-        for (int i = 0; i < index - 1 && current != null; i++)
-        {
-            current = current.next;
+        if(index == 0){
+            removedValue = head.data;
+            removeFront();
+            return removedValue;
         }
 
-        int removed = current.next.data;
-        current.next = current.next.next;
-        return removed;
+        int nodeCount = 1;
+
+        while(currentNode.next != null){
+            if(index == nodeCount){
+                removedValue = currentNode.next.data;
+                currentNode.next= currentNode.next.next;
+            }else{
+                currentNode = currentNode.next;
+            }
+            nodeCount++;
+        }
+        size--;
+        return removedValue;
     }
 
     /**
@@ -160,7 +209,11 @@ public class LinkedIntList implements IntList
     @Override
     public int get(int index)
     {
-        Node current = head;
+        if(head == null){
+            return -99;
+        }
+
+        DoublyLinkedList.Node current = head;
         for (int i = 0; i < index && current != null; i++)
         {
             current = current.next;
@@ -178,14 +231,20 @@ public class LinkedIntList implements IntList
     @Override
     public boolean contains(int value)
     {
-        Node current = head;
-        while (current != null) {
-            if (current.data == value)
-            {
-                return true;
-            }
-            current = current.next;
+        if(head == null){
+            return false;
         }
+
+        DoublyLinkedList.Node currentNode = head;
+
+        do{
+            if(currentNode.data == value){
+                return true;
+            }else{
+                currentNode = currentNode.next;
+            }
+        }while(currentNode.next != null);
+
         return false;
     }
 
@@ -200,16 +259,23 @@ public class LinkedIntList implements IntList
     @Override
     public int indexOf(int value)
     {
-        Node current = head;
-        int index = 0;
-        while (current != null) {
-            if (current.data == value)
-            {
-                return index;
-            }
-            current = current.next;
-            index++;
+        if(head == null){
+            return -99;
         }
+
+        DoublyLinkedList.Node currentNode = head;
+
+        int nodeCount = 0;
+
+        do{
+            if(currentNode.data == value){
+                return nodeCount;
+            }else{
+                currentNode = currentNode.next;
+            }
+            nodeCount++;
+        }while(currentNode.next != null);
+
         return -1;
     }
 
@@ -221,7 +287,12 @@ public class LinkedIntList implements IntList
     @Override
     public boolean isEmpty()
     {
-        return head == null;
+        if(size == 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -242,8 +313,8 @@ public class LinkedIntList implements IntList
     @Override
     public void clear()
     {
-        head = null;
         size = 0;
+        head = null;
     }
 
     /**
@@ -254,27 +325,49 @@ public class LinkedIntList implements IntList
     @Override
     public Iterator<Integer> iterator()
     {
-        return null;
+        Iterator<Integer> iterator = new Iterator()
+        {
+            private Node currentNode = head;
+
+            @Override
+            public boolean hasNext()
+            {
+                return currentNode != null;
+            }
+
+            @Override
+            public Integer next()
+            {
+                int data = currentNode.data;
+                currentNode = currentNode.next;
+                return data;
+            }
+        };
+        return iterator;
     }
 
-    /**
-     * Returns the contents of the LinkedIntList as a string
-     *
-     * @return
-     */
     @Override
     public String toString()
     {
-        String content = "[ ";
+        String content;
 
-        Node current = head;
-        while (current != null) {
-            content = content + current.data + " ";
-            current = current.next;
+        if(head == null){
+            content = "[ ]";
+            return content;
         }
-        System.out.println();
 
-        content = content + "]";
+        content = "[ ";
+
+        DoublyLinkedList.Node currentNode = head;
+
+        //Traverse to last node
+
+        while(currentNode.next != null){
+            content = content + currentNode.data +", ";
+            currentNode = currentNode.next;
+        }
+
+        content = content + currentNode.data +" ]";
 
         return content;
     }
