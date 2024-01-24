@@ -24,11 +24,7 @@ public class ArrayIntList implements IntList {
     public void addFront(int value) {
         // if buffer is full
         if(size == buffer.length){
-            int[] newBuffer = new int[size * 2];
-            for(int i = 0; i < size; i++){
-                newBuffer[i] = buffer[i];
-            }
-            buffer = newBuffer;
+            resize(size * 2);
         }
 
         for (int i = size; i >= 1; i--){
@@ -49,11 +45,7 @@ public class ArrayIntList implements IntList {
     public void addBack(int value) {
         // TODO: check to see if we are full - if so, we need to create a larger buffer
         if(size == buffer.length){
-            int[] newBuffer = new int[size * 2];
-            for(int i = 0; i < size; i++){
-                newBuffer[i] = buffer[i];
-            }
-            buffer = newBuffer;
+           resize(size * 2);
         }
         buffer[size] = value;
         size++;
@@ -72,11 +64,7 @@ public class ArrayIntList implements IntList {
     public void add(int index, int value) {
         // if buffer is full
         if(size == buffer.length){
-            int[] newBuffer = new int[size * 2];
-            for(int i = 0; i < size; i++){
-                newBuffer[i] = buffer[i];
-            }
-            buffer = newBuffer;
+            resize(size * 2);
         }
 
         if (isEmpty() || index < 0 || index >= size) {
@@ -222,6 +210,23 @@ public class ArrayIntList implements IntList {
     public void clear() {
         buffer = new int[10];
         size = 0;
+    }
+
+    private void resize(int newSize){
+        // create new space, separate from the old space (buffer)
+        int[] newBuffer = new int[newSize];
+
+        // copu everything over from buffer into newBuffer
+        for(int i = 0; i < buffer.length; i++){
+            newBuffer[i] = buffer[i];
+        }
+
+        // set the new space into the buffer
+        buffer = newBuffer;
+
+        // the old buffer space is no longer "pointed to" and will eventually
+        // be cleaned up by the garbage collector
+
     }
 
     /**
