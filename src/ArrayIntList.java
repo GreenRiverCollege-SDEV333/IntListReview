@@ -56,6 +56,9 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        if(index < 0){
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
         if (size == buffer.length){
             resize(size + 2);
         }
@@ -81,6 +84,8 @@ public class ArrayIntList implements IntList {
             //zero out the far right since everything was shifted to the left
             buffer[size -1] = 0;
             size--;
+        }else{
+            throw new IndexOutOfBoundsException("Array is empty, nothing to remove");
         }
     }
 
@@ -93,6 +98,8 @@ public class ArrayIntList implements IntList {
         if (!isEmpty()){
             buffer[size-1] = 0;
             size--;
+        }else{
+            throw new IndexOutOfBoundsException("Array is empty, nothing to remove");
         }
     }
 
@@ -156,7 +163,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < buffer.length; i++) {
             if(buffer[i] == value){
                 return true;
             }
@@ -174,11 +181,13 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        for (int i = 0; i < size; i++) {
-            if(buffer[i] == value){
-                return i;
+
+            for (int i = 0; i < buffer.length; i++) {
+                if (buffer[i] == value) {
+                    return i;
+                }
             }
-        }
+
         return -1;
     }
 
