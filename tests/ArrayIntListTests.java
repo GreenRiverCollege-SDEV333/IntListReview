@@ -26,6 +26,19 @@ class ArrayIntListTest
         assertEquals(15, list.get(0));
         assertEquals(10, list.get(1));
         assertEquals(5, list.get(2));
+
+        //test when list is "full" (list should resize at 10 indices)
+        for(int i = 0; i < 7; i++)
+        {
+            list.addFront(i);
+        }
+
+        //test for list being size of 10
+        assertEquals(10, list.size());
+
+        //test for list being size 11 (list must resize)
+        list.addFront(1);
+        assertEquals(11, list.size());
     }
 
     @Test
@@ -50,6 +63,19 @@ class ArrayIntListTest
         assertEquals(5, list.get(0));
         assertEquals(10, list.get(1));
         assertEquals(15, list.get(2));
+
+        //test when list is "full" (list should resize at 10 indices)
+        for(int i = 0; i < 7; i++)
+        {
+            list.addBack(i);
+        }
+
+        //test for list being size of 10
+        assertEquals(10, list.size());
+
+        //test for list being size 11 (list must resize)
+        list.addBack(1);
+        assertEquals(11, list.size());
     }
 
     @Test
