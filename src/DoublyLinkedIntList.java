@@ -40,21 +40,31 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void addFront(int value)
     {
-        Node previousNode = tail.last;
-
-        // set up my new node and fill it out (data, prev, next)
         Node newNode = new Node();
+        Node tempNode = head;
         newNode.data = value;
-        newNode.next = tail;
-        newNode.last = previousNode;
 
-        //go to the end of the list's sentinel, and update its prev
-        tail.last = newNode;
-
-        //go to the node before the new one, and update its next
-        previousNode.next = newNode;
-
-        size++;
+        //assign head to new value if no value is there
+        if (head.data == 0)
+        {
+            //assign the new node as the head
+            head = newNode;
+            //head as tail
+            tail = head;
+            //reference each other
+            size++;
+        }
+        // if there is, then assign
+        // head.last to the new node
+        // assign the new node to next
+        // and assign the head to new node
+        else
+        {
+            head.last = newNode;
+            head = newNode;
+            head.next = tempNode;
+            size++;
+        }
     }
 
     /**
@@ -72,8 +82,13 @@ public class DoublyLinkedIntList implements IntList
         //assign the next node of tail to new node
         //reassign the tail to the new node
         //increase size
+
+        //current tail
         tail.next = newNode;
-        tail = tail.next;
+
+        //new tail
+        newNode.last = tail;
+        tail = newNode;
         size++;
     }
 
@@ -102,19 +117,48 @@ public class DoublyLinkedIntList implements IntList
         newNode.data = value;
         Node previousNode = current.last;
 
-        //traverse list - while currentIndex does not equal the index
-        while (currentIndex != index)
+        //if there's only one node
+        if (head == tail)
         {
-            previousNode = current;
-            current = current.next;
+            //reassign all nodes
+            //head reassignments
+            head.next = newNode;
+
+            //new node reassignments
+            newNode.last = head;
+            newNode.next = tail;
+
+            //tail
+            tail = newNode;
+            tail.last = head;
+            tail.next = new Node();
+            size++;
         }
-        //if found, add the node by connecting the previous.next, next.previous
-        //to the new node
-        previousNode.next = newNode;
-        newNode.last = previousNode;
-        newNode.next = current.next;
-        current.next.last = newNode;
-        size++;
+        else
+        {
+            //traverse list - while currentIndex does not equal the index
+            while (currentIndex != index)
+            {
+                previousNode = current;
+                current = current.next;
+                currentIndex++;
+            }
+            //if found, add the node by connecting all nodes to each other
+            //previous node
+            previousNode.next = newNode;
+
+            //new node
+            newNode.last = previousNode;
+            if (current == null)
+            {
+                tail = newNode;
+                size++;
+            }
+            else {
+                newNode.next = current.next;
+                size++;
+            }
+        }
     }
 
     /**
@@ -209,7 +253,7 @@ public class DoublyLinkedIntList implements IntList
     {
         //check if the index is out of bounds
         //get the size and check the index
-        if (index > size || index < size)
+        if (index > size)
         {
             throw new IndexOutOfBoundsException("The index is out of range");
         }
@@ -219,14 +263,21 @@ public class DoublyLinkedIntList implements IntList
         Node current = head;
         int currentIndex = 0;
 
-        // while loop that traverses list and
-        // increments current index
-        while (index != currentIndex)
+        if (index == 0)
         {
-            current = current.next;
-            currentIndex++;
+            return head.data;
         }
-        return current.data;
+        else
+        {
+            // while loop that traverses list and
+            // increments current index
+            while (index != currentIndex)
+            {
+                current = current.next;
+                currentIndex++;
+            }
+            return current.data;
+        }
     }
 
     /**
