@@ -142,7 +142,26 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public int get(int index)
     {
-        return 0;
+        //check if the index is out of bounds
+        //get the size and check the index
+        if (index > size || index < size)
+        {
+            throw new IndexOutOfBoundsException("The index is out of range");
+        }
+
+        //traverse list with current starting at the head
+        //and current index
+        Node current = head;
+        int currentIndex = 0;
+
+        // while loop that traverses list and
+        // increments current index
+        while (index != currentIndex)
+        {
+            current = current.next;
+            currentIndex++;
+        }
+        return current.data;
     }
 
     /**
@@ -154,7 +173,20 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public boolean contains(int value)
     {
-        return false;
+        // create current node
+        Node current = head;
+
+        // also check if the next node is null
+        // run through list until you hit the value
+        while (current.data != value)
+        {
+            if (current.next == null)
+            {
+                return false;
+            }
+            current = current.next;
+        }
+        return true;
     }
 
     /**
