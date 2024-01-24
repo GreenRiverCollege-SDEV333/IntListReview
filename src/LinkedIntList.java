@@ -54,17 +54,16 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
-        Node theLastOne = new Node();
-        if (head == null){
-            theLastOne.data = value;
-            head = theLastOne;
-        } else {
-            while(head.next != null){
-                theLastOne = head.next;
-        }
         Node newNode = new Node();
         newNode.data = value;
-        theLastOne.next = newNode;
+        if (head == null){
+            head = newNode;
+        } else {
+            Node theLastOne = head;
+            while(head.next != null){
+                theLastOne = head.next;
+            }
+            theLastOne.next = newNode;
         }
         size++;
     }
@@ -84,7 +83,7 @@ public class LinkedIntList implements IntList{
             throw new IndexOutOfBoundsException("Index is out of range");
         }
 
-        Node indexNode = new Node();
+        Node indexNode = head;
         for(int i  = 0; i < index; i++){
             indexNode = head.next;
         }
@@ -116,7 +115,7 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void removeBack() {
-        Node theLastOne = new Node();
+        Node theLastOne = head;
         if (!isEmpty()){
             while(head.next.next != null){
                 theLastOne = head.next;
@@ -142,7 +141,7 @@ public class LinkedIntList implements IntList{
             throw new IndexOutOfBoundsException("Index is out of range");
         }
 
-        Node indexNode = new Node();
+        Node indexNode = head;
         for(int i  = 0; i < index - 1; i++){
             indexNode = head.next;
         }
@@ -167,7 +166,7 @@ public class LinkedIntList implements IntList{
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index is out of range");
         }
-        Node getNode = new Node();
+        Node getNode = head;
         for(int i  = 0; i < index; i++){
             getNode = head.next;
         }
