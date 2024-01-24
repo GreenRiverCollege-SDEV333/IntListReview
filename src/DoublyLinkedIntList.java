@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoublyLinkedIntList implements IntList
 {
@@ -178,7 +179,7 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return head == null;
     }
 
     /**
@@ -189,7 +190,24 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public int size()
     {
-        return 0;
+        //check if the list is empty
+        if (head == null)
+        {
+            throw new NoSuchElementException("The list is empty");
+        }
+
+        //use current to traverse linked list
+        //and keep count
+        Node current = head;
+        int count = 0;
+
+        //move through until you get to the end
+        while (current != null)
+        {
+            current = current.next;
+            count++;
+        }
+        return count;
     }
 
     /**
@@ -199,7 +217,7 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void clear()
     {
-
+        head = null;
     }
 
     /**
