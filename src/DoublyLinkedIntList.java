@@ -22,7 +22,6 @@ public class DoublyLinkedIntList implements IntList {
     Node head, tail;
     int size;
 
-
     public DoublyLinkedIntList() {
         size = 0;
         head = null;
@@ -39,12 +38,25 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void addFront(int value) {
-        if (head == null) {
+        if (size() == 0) {
             head = new Node(value);
             tail = head;
-        } else {
+        } // if size is 1, do some special coupling
+        else if (size() == 1) {
+            // if size is 1, set head to new head
+            head = new Node(value, null, tail);
+
+            // point the tail's prev to the new head
+            tail.prev = head;
+        } // otherwise, add node as normal
+        else {
+            // create a new head that points to the old head
             head = new Node(value, null, head);
+
+            // set the old heads prev value to the new head.
+            head.next.prev = head;
         }
+
         size++;
     }
 
@@ -55,15 +67,22 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-
         if (tail == null) {
             tail = new Node(value);
             head = tail;
-        } else {
+        } else if (size () == 1) {
+            // set tail to a new tail, set the old tail to the previous value
             tail = new Node(value, tail, null);
+            // set head to new tail.
+            head.next = tail;
+        } else {
+            // make new tail
+            tail = new Node(value, tail, null);
+
+            // set previous tail to point to new tail
+            tail.prev.next = tail;
         }
         size++;
-
     }
 
     /**
@@ -77,29 +96,16 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        if (index > size) throw new IndexOutOfBoundsException();
-        else if (index == 0) { addFront(value); return; } // if add front or add back, don't do anything fancy.
-        else if (index == size) { addBack(value); return; }
+        if (index > size()) throw new IndexOutOfBoundsException();
+        else if (index == 0 || size() == 0) { addFront(value); return; } // if add front or add back, don't do anything fancy.
+        else if (index == size()) { addBack(value); return; }
 
         Node cur;
 
-
-
-        // check which side to loop from
-        // and then move cursor to that position
-        if ( (size() - index) > index ) {
-            cur = tail;
-            index = size() - index;
-
-            for (int i = 0; i < index; i++) {
-                cur = cur.prev;
-            }
-
-        } else {
-            cur = head;
-            for (int i = 0; i< index; i++) {
-                cur = cur.next;
-            }
+        // move to index
+        cur = head;
+        for (int i = 0; i< index; i++) {
+            cur = cur.next;
         }
 
         // set the previous node to point to the new value
@@ -119,7 +125,13 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void removeFront() {
         if (size() == 0) return;
+
+        // set head to next node
         head = head.next;
+
+        // remove reference to old head
+        head.prev = null;
+
         size--;
     }
 
@@ -130,7 +142,13 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void removeBack() {
         if (size() == 0) return;
+
+        // set tail to the previous node
         tail = tail.prev;
+
+        // remove reference to old tail
+        tail.next = null;
+
         size--;
     }
 
@@ -145,7 +163,26 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index > size()) throw new IndexOutOfBoundsException();
+        else if (index == 0) removeFront();
+        else if (index == size()) removeBack();
+
+        int retval = get(index);
+        if (size() == 1) {clear(); return retval;}
+
+        // move cursor to index
+        Node cur = head;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+
+        // remove node by coupling node left to node right, removing any reference to the current node.
+        cur.prev.next = cur.next;
+        cur.next.prev = cur.prev;
+
+        size--;
+
+        return retval;
     }
 
     /**
@@ -157,7 +194,23 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (index > size()) throw new IndexOutOfBoundsException();
+
+        // move to index based on proximity
+        Node cur;
+        if (index > size() - index) {
+            cur = tail;
+            for (int i = size(); i > index + 1; i--) {
+                cur= cur.prev;
+            }
+        } else {
+            cur = head;
+            for (int i = 0; i < index; i++) {
+                cur = cur.next;
+            }
+        }
+
+        return cur.data;
     }
 
     /**
