@@ -164,11 +164,12 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public int remove(int index) {
         if (index > size()) throw new IndexOutOfBoundsException();
-        else if (index == 0) removeFront();
-        else if (index == size()) removeBack();
 
         int retval = get(index);
+
         if (size() == 1) {clear(); return retval;}
+        else if (index == 0) {removeFront(); return retval;}
+        else if (index == size()) {removeBack(); return retval;}
 
         // move cursor to index
         Node cur = head;
