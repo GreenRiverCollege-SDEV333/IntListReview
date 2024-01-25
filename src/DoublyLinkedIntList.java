@@ -45,7 +45,11 @@ public class DoublyLinkedIntList implements IntList
         newNode.data = value;
 
         //assign head to new value if no value is there
-        if (head.data == 0)
+        if (head == null)
+        {
+            head = newNode;
+        }
+        else if (head.data == 0)
         {
             //assign the new node as the head
             head = newNode;
@@ -79,6 +83,12 @@ public class DoublyLinkedIntList implements IntList
         Node newNode = new Node();
         newNode.data = value;
 
+        if (head == null && tail == null)
+        {
+            head = newNode;
+            tail = newNode;
+        }
+
         //assign the next node of tail to new node
         //reassign the tail to the new node
         //increase size
@@ -105,7 +115,7 @@ public class DoublyLinkedIntList implements IntList
     public void add(int index, int value)
     {
         //throw out of bounds exception if out of range
-        if (index < size || index > size)
+        if (index > size || index == 0)
         {
             throw new IndexOutOfBoundsException("The given index is out of range");
         }
@@ -169,11 +179,23 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void removeFront()
     {
-        //change the head to head.next
-        //reassign the new heads last to node
-        head = head.next;
-        head.last = null;
-        size--;
+        if (head == null)
+        {
+            throw new NoSuchElementException("The list is empty");
+        }
+
+        if (size == 1)
+        {
+            head = null;
+        }
+        else
+        {
+            //change the head to head.next
+            //reassign the new heads last to node
+            head = head.next;
+            head.last = null;
+            size--;
+        }
     }
 
     /**
@@ -183,7 +205,11 @@ public class DoublyLinkedIntList implements IntList
     @Override
     public void removeBack()
     {
-        if (size > 0) {
+        if (head == null && tail == null)
+        {
+            throw new NoSuchElementException("The list is empty");
+        }
+        else if (size > 0) {
             //set up a temporary variable for convenience
             Node theOneToRemove = tail.last;
 
@@ -212,7 +238,7 @@ public class DoublyLinkedIntList implements IntList
     public int remove(int index)
     {
         //index out of bounds
-        if (index > size || index < size)
+        if (index > size)
         {
             throw new IndexOutOfBoundsException("Index is out of range");
         }
