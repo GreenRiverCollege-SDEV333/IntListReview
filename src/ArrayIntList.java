@@ -1,6 +1,10 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+/*
+Kayley Young
 
+resize an array implementation of the IntList interface
+ */
 public class ArrayIntList implements IntList {
 
     //fields
