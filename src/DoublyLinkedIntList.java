@@ -125,14 +125,20 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void removeFront() {
         if (size() == 0) return;
+        if (size() == 1) {
+            clear();
+        }
+        else {
 
-        // set head to next node
-        head = head.next;
+            // set head to next node
+            head = head.next;
 
-        // remove reference to old head
-        head.prev = null;
+            // remove reference to old head
+            head.prev = null;
+            size--;
+        }
 
-        size--;
+
     }
 
     /**
@@ -142,14 +148,18 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public void removeBack() {
         if (size() == 0) return;
+        if (size() == 1) {
+            clear();
+        } else {
 
-        // set tail to the previous node
-        tail = tail.prev;
+            // set tail to the previous node
+            tail = tail.prev;
 
-        // remove reference to old tail
-        tail.next = null;
+            // remove reference to old tail
+            tail.next = null;
+            size--;
+        }
 
-        size--;
     }
 
     /**
