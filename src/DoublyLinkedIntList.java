@@ -31,7 +31,16 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public void addFront(int value) {
+        Node newNode = new Node();
+        newNode.data = value;
 
+        newNode.next = pre.next;
+        newNode.prev = pre;
+
+        pre.next.prev = newNode;
+        pre.next = newNode;
+
+        size++;
     }
 
     @Override
@@ -56,7 +65,10 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public void add(int index, int value) {
+    if(index == 0 || index > size){
+        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
 
+    }
     }
 
     @Override
@@ -89,7 +101,25 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public int get(int index) {
-        return 0;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+
+        Node current;
+        // we want to determine whether the index is closer to end or the beginning of the list
+        if (index < size / 2) {// if the is less than 1/2 of the size, the index is closer to the begining of the list
+            current = pre.next;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        } else {//if the index larger than 1/2 of the size than it start at the end of the list
+            current = post.prev;
+            for (int i = size - 1; i > index; i--) {
+                current = current.prev;
+            }
+        }
+
+        return current.data;
     }
 
     @Override
@@ -109,7 +139,7 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
