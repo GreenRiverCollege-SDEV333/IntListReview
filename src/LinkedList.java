@@ -26,15 +26,15 @@ public class LinkedList implements IntList{
     public void addFront(int value) {
         Node newNode = new Node();
         newNode.data = value;
+
         if (head == null){
             head = newNode;
             size++;
         }
         else{
-
             newNode.next = head;
-
             head = newNode;
+            size++;
         }
     }
 
@@ -45,6 +45,28 @@ public class LinkedList implements IntList{
      */
     @Override
     public void addBack(int value) {
+        //create new node
+        Node temp = new Node();
+        temp.data = value;
+
+        if (head == null){
+            head = temp;
+            size++;
+        }
+        else{
+            Node curr;
+            //set reference to head
+            curr = head;
+
+            //move till the last element
+            while(curr.next != null){
+                curr = curr.next;
+            }
+
+            //set last node to temp
+            curr.next = temp;
+            size++;
+        }
 
     }
 
@@ -59,8 +81,52 @@ public class LinkedList implements IntList{
      */
     @Override
     public void add(int index, int value) {
+        Node curr;
+        Node temp = new Node();
+        temp.data = value;
 
+        if (index < 0){
+            throw new IndexOutOfBoundsException("The index value is out of bounds");
+        }
+
+        //adding at the front
+        else if (index == 0 || size==0 ){
+            temp.next = head;
+            head = temp;
+            size++;
+        }
+
+        //adding at the end of the list
+        else if (index >= size){
+            curr = head;
+            while (curr.next != null){
+                curr = curr.next;
+            }
+
+            //set the second to last reference to
+            curr.next = temp;
+            size++;
+        }
+        //adding at index position
+        else{
+            curr = head;
+            //traverse through the linked list
+            for (int i = 0; i < index-1; i++) {
+                curr = curr.next;
+            }
+            //saves the next reference of current.
+            Node saveReference = curr.next;
+
+            //set the node equal to temp
+            curr.next = temp;
+
+            //set reference to the node after for temp
+            temp.next = saveReference;
+            size++;
+        }
     }
+
+
 
     /**
      * Removes the value located at the front of the list
@@ -69,7 +135,15 @@ public class LinkedList implements IntList{
      */
     @Override
     public void removeFront() {
-
+        //head is empty do nothing
+        if (head == null){
+            return;
+        }
+        else{
+            //skip to the next node
+            head = head.next;
+            size--;
+        }
     }
 
     /**
@@ -78,7 +152,20 @@ public class LinkedList implements IntList{
      */
     @Override
     public void removeBack() {
+        if (head==null){
+            return;
+        }
+        else{
+            Node temp = head;
+            while(temp.next.next != null){
 
+                //advance node
+                temp = temp.next;
+            }
+
+            //set the last element to null
+            temp.next = null;
+        }
     }
 
     /**
@@ -92,7 +179,56 @@ public class LinkedList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        Node curr;
+
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException("This index is invalid");
+        }
+        //removing at the front
+        if (index == 0){
+            curr = head;
+            Node saveNode = curr;
+
+            //remove the front node
+            head = head.next;
+            size--;
+            return saveNode.data;
+        }
+
+        //removing at the end
+        else if(index == size-1){
+            curr = head;
+            while (curr.next.next != null){
+                curr = curr.next;
+            }
+
+            Node saveNode = curr.next;
+            //save current value to this variable
+            curr.next = null;
+            size--;
+            return saveNode.data;
+        }
+
+        else{
+            curr = head;
+
+            //advance index number of places to before the removed element
+            for (int i = 0; i < index -1; i++) {
+                curr = curr.next;
+            }
+            Node prev = curr;
+
+            //save the node being removed
+            Node saveNode = curr.next;
+
+            //form a new reference
+            prev.next = curr.next.next;
+
+            size--;
+            return saveNode.data;
+
+        }
+
     }
 
     /**
@@ -104,7 +240,16 @@ public class LinkedList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException("This index is invalid");
+        }
+
+        Node temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.next;
+        }
+        return temp.data;
+
     }
 
     /**
@@ -115,6 +260,20 @@ public class LinkedList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        Node curr = head;
+
+        while (curr.next != null){
+
+            //found within the list
+            if (curr.data == value){
+                return true;
+            }
+
+            //advances through the list
+            curr = curr.next;
+        }
+
+        //not found within list
         return false;
     }
 
@@ -158,6 +317,16 @@ public class LinkedList implements IntList{
     @Override
     public void clear() {
 
+    }
+
+    /**
+     * This method returns whether the index is valid or not
+     *
+     * @param index the index trying to get accessed
+     * @return boolean of out of bounds or not
+     */
+    public boolean isOutOfBound(int index){
+        return index < 0 || index >= size;
     }
 
     /**
