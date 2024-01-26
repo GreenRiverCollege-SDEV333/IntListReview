@@ -17,7 +17,7 @@ public class LinkedIntList implements IntList{
     private int size;
 
     // add a constructor to initialize the fields
-    private LinkedIntList(){
+    public LinkedIntList(){
         head = null;
         size = 0;
     }
@@ -86,9 +86,17 @@ public class LinkedIntList implements IntList{
     @Override
     public void add(int index, int value) {
         // throw exception if index given is out of bounds
-        if(index >= size || index < 0)
+        if(index > size || index < 0)
         {
             throw new IndexOutOfBoundsException("Invalid index given!");
+        }
+        if(head == null)
+        {
+            head = new Node();
+            head.data = value;
+            head.next = null;
+            size++;
+            return;
         }
         // current Node to keep track of index
         Node current = head;
@@ -96,8 +104,16 @@ public class LinkedIntList implements IntList{
         Node theNewOne = new Node();
         // set the new Nodes value
         theNewOne.data = value;
+        // check if index is at the front of the LinkedList
+        if(index == 0)
+        {
+            theNewOne.next = head;
+            head = theNewOne;
+            size++;
+            return;
+        }
         // check if index is at the end of the LinkedList
-        if(index == size()-1)
+        if(index == size())
         {
             // loop to end of the list
             while(current.next != null)
@@ -147,6 +163,8 @@ public class LinkedIntList implements IntList{
         if(size() <= 1)
         {
             head = null;
+            size --;
+            return;
         }
         Node current = head;
         for (int i = 0; i < size()-2; i++) {
@@ -172,6 +190,14 @@ public class LinkedIntList implements IntList{
         {
             throw new IndexOutOfBoundsException("Invalid index given!");
         }
+        if(index == 0)
+        {
+            int dataToBeRemoved = head.data;
+            head.data = 0;
+            head = head.next;
+            size--;
+            return dataToBeRemoved;
+        }
         // current Node to iterate through LinkedList
         Node current = head;
         // loop until one Node before our index
@@ -185,10 +211,12 @@ public class LinkedIntList implements IntList{
         {
             // move current.next an additional space forward
             current.next = current.next.next;
+            size--;
             return dataToBeRemoved;
         }
-        // else, remove the next Node (there are no Nodes ahead of our index
+        // else, remove the next Node (there are no Nodes ahead of our index)
         current.next = null;
+        size--;
         return dataToBeRemoved;
     }
 
