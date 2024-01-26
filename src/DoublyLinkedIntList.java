@@ -1,5 +1,11 @@
 import java.util.Iterator;
-
+import java.util.NoSuchElementException;
+/*
+Kayley Young
+DoublyLinkedIntList: a linked node (singly linked) implementation of the IntList interface.
+ the class implementation uses sentinel (dummy) nodes at the front and back of the list.
+ This is required for our class's implementation.
+ */
 public class DoublyLinkedIntList implements IntList{
 
     //private fields
@@ -10,6 +16,7 @@ public class DoublyLinkedIntList implements IntList{
 
         //constructor to set any new node with nulls be default
         public Node(){
+
              next = null;
              prev = null;
         }
@@ -27,6 +34,14 @@ public class DoublyLinkedIntList implements IntList{
         post.prev = pre;
         size = 0;
     }
+    //helper to view values inside the linked list
+    public void print() {
+        Node current = pre.next;
+        while (current != post) {
+            System.out.println(current.data);
+            current = current.next;  // move to next node
+        }
+    }
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -36,15 +51,14 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void addFront(int value) {
-        Node theFirstOne = pre.next;
-
+       // Node theFirstOne = pre.next;
         Node theNewOne = new Node();
         theNewOne.data = value;
-        theNewOne.next = theFirstOne;
+        theNewOne.next = pre.next;
         theNewOne.prev = pre;
 
         //to go to the end of the list's sentinel, and update it's prev
-        post.prev = theFirstOne;
+        post.prev = theNewOne;
         // go to the node before the new one,  and update it's next
         pre.next = theNewOne;
 
@@ -58,18 +72,19 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
-        Node theLastOne = post.prev;
+
 
         //set up my new node and fill it out(data, prev, next)
         Node theNewOne = new Node();
         theNewOne.data = value;
         theNewOne.next = post;
-        theNewOne.prev = theLastOne;
+        theNewOne.prev = post.prev;
+        // go to the node before the new one,  and update it's next
+        post.prev.next = theNewOne;
+        post.prev = theNewOne;
 
         //to go to the end of the list's sentinel, and update it's prev
-        post.prev = theNewOne;
-        // go to the node before the new one,  and update it's next
-        pre.next = theNewOne;
+       // pre.next = theNewOne;
 
         size++;
     }
@@ -85,6 +100,28 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
+        Node newNode = new Node();
+        newNode.data = value;
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+        if(index == 0){
+            newNode.next=pre.next;
+            newNode.prev=pre;
+            pre.next.prev = newNode;
+            pre.next = newNode;
+        }else {
+            Node current = pre;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+            //set the previous and next node to point at corrected references
+            newNode.next = current.next;
+            newNode.prev = current;
+            current.next.prev = newNode;
+            current.next = newNode;
+        }
+            size++;
 
     }
 
@@ -104,6 +141,9 @@ public class DoublyLinkedIntList implements IntList{
             theOneToRemove.next = null;
             theOneToRemove.prev = null;
             theOneToRemove.data = 0;
+            size--;
+        }else{
+            throw new IndexOutOfBoundsException("List is empty");
         }
 
     }
@@ -127,6 +167,8 @@ public class DoublyLinkedIntList implements IntList{
             theOneToRemove.data = 0;
 
             size--;
+        }else{
+            throw new IndexOutOfBoundsException("List is empty");
         }
 
     }
@@ -142,7 +184,25 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+        Node current = pre.next;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        int removedValue = current.data;
+
+        current.prev.next = current.next;
+        current.next.prev = current.prev;
+
+        current.prev = null;
+        current.next = null;
+
+        size--;
+
+        return removedValue;
     }
 
     /**
@@ -154,7 +214,21 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        Node current = pre.next;
+        if (index < 0 || index > size || current == post) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        if(index == 0){
+             current=pre.next;
+        }else {
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        }
+            int value = current.data;
+            return value;
+
     }
 
     /**
@@ -165,6 +239,16 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        Node current = pre;//traverse the list from start to finish
+        if(current == null){
+            throw new IndexOutOfBoundsException("Array is empty");
+        }
+        while(current!= post){
+            if(current.data == value){
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
@@ -178,7 +262,20 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        int index = -1;
+        Node current = pre;//traverse the list from start to finish
+        if(current == null){
+            throw new IndexOutOfBoundsException("Index is higher than size");
+        }
+        while(current!= post){
+            if(current.data == value){
+                return index;
+            }
+            index++;
+            current = current.next;
+        }
+
+        return -1;// if value is not found
     }
 
     /**
@@ -188,7 +285,7 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size ==0;
     }
 
     /**
@@ -198,7 +295,7 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -207,7 +304,11 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void clear() {
-
+        while (pre!= null){
+            Node clear = pre;
+            pre = pre.next;
+        }
+        size = 0;
     }
 
     /**
@@ -217,6 +318,50 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new DoublyLinkedIterator();
+    }
+    // helper class/type that defines how the iterator works
+    private class DoublyLinkedIterator implements Iterator<Integer>{
+        private Node current;
+
+        public DoublyLinkedIterator(){
+            current = pre.next;
+
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            //can also do return current !=post;
+            if (current == post){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            if (current == post){
+                throw new NoSuchElementException("there is no next one to go to");
+            }
+
+            current = current.next;
+            int item = current.data;
+            return item;
+        }
     }
 }
