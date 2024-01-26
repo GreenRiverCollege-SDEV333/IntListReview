@@ -155,7 +155,31 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+
+        int removedValue;
+
+        if (index == 0) {
+            // Special case: removing the first element
+            removedValue = head.data;
+            head = head.next;
+        } else {
+            // Regular case: removing an element from somewhere in the middle
+            Node current = head;
+
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+
+            removedValue = current.next.data;
+            current.next = current.next.next;
+        }
+
+        size--;
+        return removedValue;
+
     }
 
     /**
@@ -192,6 +216,17 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
+        if (head == null) {
+            throw new NoSuchElementException("The list is empty");
+        }
+
+        Node current = head;
+        while(current != null){// if current is not null
+        if (current.data == value){
+                return true;
+            }
+        current =  current.next;// go through all the data in the link list
+        }
         return false;
     }
 
@@ -205,7 +240,22 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+
+        if (head == null) {
+            System.out.println("The list is empty.");
+            return -1;
+        }
+
+        Node current = head;
+        int index = 0;
+        while (current != null) {
+            if (current.data == value) {
+                return index; // Return the index if the value is found
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
     }
 
     /**
