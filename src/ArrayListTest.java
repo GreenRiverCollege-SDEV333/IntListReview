@@ -1,5 +1,8 @@
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
+*   Ryder Dettloff
+*   Tests for IntList Review; ArrayList methods
+*/
 class ArrayListTest {
 
     @org.junit.jupiter.api.Test
