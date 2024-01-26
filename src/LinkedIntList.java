@@ -98,6 +98,12 @@ public class LinkedIntList implements IntList {
     @Override
     public void add(int index, int value) {
         Node theNewOne = new Node(value);
+        if(index < 0){
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
+        else if (index > size){
+            throw new IndexOutOfBoundsException("Index is higher than size");
+        }
         if(index == 0){
            head = theNewOne;
            size++;
@@ -173,7 +179,7 @@ public class LinkedIntList implements IntList {
         if(index < 0){
             throw new IndexOutOfBoundsException("Index cannot be negative");
         }
-        else if (index >= size){
+        else if (index > size){
             throw new IndexOutOfBoundsException("Index is higher than size");
         }
         if(index == 0){
@@ -306,7 +312,7 @@ public class LinkedIntList implements IntList {
     public Iterator<Integer> iterator() {
         return new SinglyLinkedIterator();
     }
-    // helper class/type that defines how the interator works
+    // helper class/type that defines how the iterator works
     private class SinglyLinkedIterator implements Iterator<Integer>{
         private Node current;
 
@@ -345,7 +351,7 @@ public class LinkedIntList implements IntList {
              }
             int item = current.data;
             current = current.next;
-            return null;
+            return item;
         }
     }
 }
