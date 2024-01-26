@@ -23,8 +23,6 @@ public class Main {
         }
 
         arrayIntListTest();
-
-
     }
 
     public static void arrayIntListTest(){
@@ -73,13 +71,11 @@ public class Main {
         System.out.println("\nremove()");
         arrayTest.remove(1);
         for (int value : arrayTest){
-            System.out.print(value + ", ");
-            //should be: 13,3,2,1
+            System.out.print(value + ", "); //should be: 13,3,2,1
         }
 
         System.out.println("\nget()");
-        arrayTest.get(1);
-        //should be: 3
+        arrayTest.get(1); //should be: 3
 
         System.out.println("contains()");
         System.out.println(arrayTest.contains(1)); //true
