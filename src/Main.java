@@ -21,7 +21,8 @@ public class Main {
             System.out.println(value);
         }
 
-        arrayIntListTest();
+//        arrayIntListTest();
+        singlyLinkedIntListTest();
     }
 
     public static void arrayIntListTest(){
@@ -95,4 +96,18 @@ public class Main {
         }
 
     }
+
+    public static void singlyLinkedIntListTest(){
+        LinkedIntList linkedListTest = new LinkedIntList();
+
+        linkedListTest.addFront(1);
+        linkedListTest.addFront(2);
+        linkedListTest.addFront(3);
+        linkedListTest.addFront(4);
+        System.out.println("Base list: ");
+        linkedListTest.printList();
+
+        System.out.println("\naddBacK()");
+        linkedListTest.addBack(13);
+        linkedListTest.printList();}
 }
