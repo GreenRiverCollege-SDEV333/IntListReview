@@ -54,7 +54,24 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
-
+        Node newOne = new Node();
+        newOne.data = value;
+        if(head == null)
+        {
+            // the list is currently empty
+            newOne.next = null;
+            head = newOne;
+            size++;
+            return;
+        }
+        // the list currently has some nodes in it
+        Node current = head;
+        while(current.next != null)
+        {
+            current = current.next;
+        }
+        current.next = newOne;
+        size++;
     }
 
     /**
@@ -68,7 +85,43 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-
+        // throw exception if index given is out of bounds
+        if(index >= size || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Invalid index given!");
+        }
+        // current Node to keep track of index
+        Node current = head;
+        // create a new Node
+        Node theNewOne = new Node();
+        // set the new Nodes value
+        theNewOne.data = value;
+        // check if index is at the end of the LinkedList
+        if(index == size()-1)
+        {
+            // loop to end of the list
+            while(current.next != null)
+            {
+                current = current.next;
+            }
+            // add the new Node
+            current.next = theNewOne;
+            size++;
+            return;
+        }
+        // else, for loop that stops one before new indexed Node
+        for (int i = 0; i < index-1; i++) {
+            current = current.next;
+        }
+        // save the old Node from that index so we can move it forward one space
+        Node nodeAfterAdded = current.next;
+        // put the new Node in current.next position
+        current.next = theNewOne;
+        // move current forward one
+        current = current.next;
+        // set the previous index Node forward one index position (e.g. index 3 Node would now become index 4)
+        current.next = nodeAfterAdded;
+        size++;
     }
 
     /**
@@ -78,7 +131,11 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void removeFront() {
-
+        if(size() > 0)
+        {
+            head = head.next;
+            size--;
+        }
     }
 
     /**
@@ -87,7 +144,16 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void removeBack() {
-
+        if(size() <= 1)
+        {
+            head = null;
+        }
+        Node current = head;
+        for (int i = 0; i < size()-2; i++) {
+            current = current.next;
+        }
+        current.next = null;
+        size--;
     }
 
     /**
@@ -101,7 +167,29 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        // check if index is invalid
+        if(index >= size() || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Invalid index given!");
+        }
+        // current Node to iterate through LinkedList
+        Node current = head;
+        // loop until one Node before our index
+        for (int i = 0; i < index-1; i++) {
+            current = current.next;
+        }
+        // save our value that will be removed
+        int dataToBeRemoved = current.next.data;
+        // check if there are two Nodes ahead for easy shifting
+        if(size()-index > 1)
+        {
+            // move current.next an additional space forward
+            current.next = current.next.next;
+            return dataToBeRemoved;
+        }
+        // else, remove the next Node (there are no Nodes ahead of our index
+        current.next = null;
+        return dataToBeRemoved;
     }
 
     /**
@@ -113,7 +201,15 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        if(index >= size || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Invalid index given!");
+        }
+        Node current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current.data;
     }
 
     /**
@@ -124,6 +220,15 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        Node current = head;
+        while(current != null)
+        {
+            if(current.data == value)
+            {
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
@@ -137,7 +242,18 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node current = head;
+        int nodeCounter = 0;
+        while(current != null)
+        {
+            if(current.data == value)
+            {
+                return nodeCounter;
+            }
+            current = current.next;
+            nodeCounter++;
+        }
+        return -1;
     }
 
     /**
@@ -157,7 +273,7 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -166,7 +282,10 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void clear() {
-
+        head = new Node();
+        head.data = 0;
+        head.next = null;
+        size = 0;
     }
 
     /**
