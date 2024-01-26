@@ -266,6 +266,7 @@ public class LinkedIntList implements IntList {
     @Override
     public boolean isEmpty() {
         return size == 0;
+
     }
 
     /**
@@ -284,7 +285,8 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
-
+     head = null;
+        size = 0;
     }
 
     /**

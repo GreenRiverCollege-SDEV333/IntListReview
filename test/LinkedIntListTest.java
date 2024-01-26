@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -159,9 +160,38 @@ class LinkedIntListTest {
 
     @Test
     void clear() {
+        LinkedIntList list = new LinkedIntList();
+
+        list.addFront(10);
+        list.addFront(20);
+        assertFalse(list.isEmpty());
+        list.clear();
+
+        assertTrue(list.isEmpty());
+
     }
 
     @Test
     void iterator() {
+        LinkedIntList list = new LinkedIntList();
+        list.addFront(10);
+        list.addFront(20);
+        list.addFront(30);
+        //30 20 10
+        Iterator<Integer> iterator = list.iterator();
+
+        // Test hasNext and next methods
+        assertTrue(iterator.hasNext());
+        assertEquals(30, iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(20, iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(10, iterator.next());
+        assertFalse(iterator.hasNext());
+
+        assertEquals(30, list.get(0));
+        assertEquals(20, list.get(1));
+        assertEquals(10, list.get(2));
     }
+
 }
