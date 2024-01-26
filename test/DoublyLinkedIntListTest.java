@@ -72,6 +72,13 @@ class DoublyLinkedIntListTest {
 
     @Test
     void contains() {
+        list.addBack(10);
+        list.addBack(20);
+        list.addBack(30);
+        assertTrue(list.contains(10));
+        assertTrue(list.contains(20));
+        assertTrue(list.contains(30));
+        assertFalse(list.contains(40));
     }
 
     @Test

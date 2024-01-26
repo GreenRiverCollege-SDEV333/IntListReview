@@ -124,6 +124,14 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public boolean contains(int value) {
+        Node current = pre.next;
+
+        for (int i = 0; i < size; i++) {// the for loop will check the list from the beginning
+            if (current.data == value){
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
