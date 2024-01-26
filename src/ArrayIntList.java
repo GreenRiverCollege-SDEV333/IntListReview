@@ -3,9 +3,10 @@ import java.util.Iterator;
 
 public class ArrayIntList implements IntList{
 
-    //size and length are different
+    // size and length are different
     // size: amount of elements in array has to have a value
     // length: amount of spots in array does not have to have a value
+    // fields:
    private int size;
    private int[] buffer;
 
@@ -23,13 +24,9 @@ public class ArrayIntList implements IntList{
      * @param value value to be inserted
      */
     @Override
-    public void addFront(int value) {
+    public void addFront(int value){
         // loops do same thing just different ways to do it
-//       // going from back of array to not erase data.
-//     for (int i = size; i >= 1; i--) {
-//
-//         buffer[i] = buffer[i - 1];
-//       }
+        // going from back of array to not erase data.
 
         if(size == buffer.length){
             resize(size + 2);
@@ -55,7 +52,7 @@ public class ArrayIntList implements IntList{
      * @param value value to be inserted
      */
     @Override
-    public void addBack(int value) {
+    public void addBack(int value) throws IllegalArgumentException{
         if(size == buffer.length){
             resize(size + 2);
         }
@@ -75,6 +72,9 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
+        if(index < 0){
+            throw new IndexOutOfBoundsException("Index can not be negative");
+        }
         if(size == buffer.length){
             resize(size + 2);
         }
@@ -156,6 +156,12 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int get(int index) {
+        if(index < 0){
+            throw new IndexOutOfBoundsException("Index can not be negative");
+        }
+        if(index >= size){
+            throw new IndexOutOfBoundsException("Index is higher than size");
+        }
         return buffer[index];
     }
 
@@ -213,6 +219,9 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public int size() {
+        if(size < 0){
+            throw new IndexOutOfBoundsException("size can not be negative");
+        }
         return size;
     }
 
@@ -222,18 +231,11 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void clear() {
-      // while size is not 0 remove the items at index
-//        while(size != 0){
-//          remove(0);
-//      }
         // iterating over array and setting values to zero
         for (int i = 0; i < size; i++) {
             buffer[i] = 0;
         }
-        size = 0;
-//        creating new array
-//        buffer = new int[10];
-//        size = 0;
+           size = 0;
     }
 
     private void resize(int newSize){
@@ -278,9 +280,6 @@ public class ArrayIntList implements IntList{
             return null;
         }
     }
-
-    //iterate are what enables main/client to use for each loop
-    // on my intlist
 
 
     @Override

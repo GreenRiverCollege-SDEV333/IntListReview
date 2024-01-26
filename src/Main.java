@@ -4,25 +4,16 @@ public class Main  {
     public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
-        System.out.println("Hello and welcome!");
 
             // create variable of type then write a class that implements type and then you can make a new object
-            IntList firstList;
-
-            ArrayIntList secondList = new ArrayIntList();
-
             IntList thirdList = new ArrayIntList();
-
-//            for(int value : thirdList){
-//                System.out.println(value);
-//            }
 
 
 
             thirdList.add(0,4);
             thirdList.add(1,5);
             thirdList.add(2,6);
-            thirdList.add(3,7);
+            thirdList.add(3,9);
             System.out.println(thirdList);
             thirdList.addBack(65);
             System.out.println(thirdList);
@@ -32,6 +23,28 @@ public class Main  {
             System.out.println(thirdList);
             thirdList.removeFront();
             System.out.println(thirdList);
+            System.out.println(thirdList.contains(6));
+            System.out.println(thirdList);
+            System.out.println(thirdList.remove(2));
+            System.out.println(thirdList);
+            thirdList.clear();
+            System.out.println(thirdList);
+
+
+
+            IntList linked = new LinkedIntList();
+            linked.add(0,1);
+            linked.add(1,2);
+            linked.add(2,3);
+            linked.add(0,66);
+            linked.addFront(33);
+            linked.addBack(44);
+            System.out.println(linked);
+            linked.removeFront();
+            System.out.println(linked);
+            linked.removeBack();
+            System.out.println(linked);
+
 
 
 

@@ -41,6 +41,22 @@ public class DoublyLinkedList implements IntList{
     @Override
     public void addFront(int value) {
 
+        // set up node and fill out
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+
+        //setting the new node in front of post
+        theNewOne.prev = post;
+        // Setting prev node behind new node -> post -> prev
+        theNewOne.prev.prev = prev;
+
+        // setting the node after post to the new node
+        post.next = theNewOne;
+        // incrementing size
+        size++;
+
+
+
     }
 
     /**
@@ -88,6 +104,21 @@ public class DoublyLinkedList implements IntList{
     @Override
     public void removeFront() {
 
+        if(size > 0) {
+            // set up temp variable
+            Node theOneToRemove = post;
+
+            theOneToRemove.prev.next = post;
+
+            post.prev.prev = post.prev;
+
+            theOneToRemove.next = null;
+            theOneToRemove.prev = null;
+            theOneToRemove.data = 0;
+
+            size--;
+        }
+        
     }
 
     /**
