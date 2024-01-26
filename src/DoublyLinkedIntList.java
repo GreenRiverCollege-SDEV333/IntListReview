@@ -58,7 +58,7 @@ public class DoublyLinkedIntList implements IntList{
         theNewOne.prev = pre;
 
         //to go to the end of the list's sentinel, and update it's prev
-        post.prev = theNewOne;
+        theNewOne.next.prev = theNewOne;
         // go to the node before the new one,  and update it's next
         pre.next = theNewOne;
 
