@@ -105,7 +105,9 @@ public class LinkedIntList implements IntList {
             throw new IndexOutOfBoundsException("Index is higher than size");
         }
         if(index == 0){
+           theNewOne.next = head;
            head = theNewOne;
+           head.data = value;
            size++;
         }else{
             Node current = head;
@@ -128,13 +130,15 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
-        if(head != null){
-            head = head.next;
+        if(head != null && head.data ==0){
+            head = null;
+
         }
         if(head == null){
             //if there is nothing to delete
             throw new IndexOutOfBoundsException("Array is empty");
         }
+        size--;
     }
 
     /**
@@ -152,6 +156,7 @@ public class LinkedIntList implements IntList {
         if(current.next == null){
             //if there is only 1 value in the array
             current = null;
+
         }else{
             //for traversing the list to the second to last node, then remove current.next
             while (current.next.next !=null){
@@ -185,17 +190,18 @@ public class LinkedIntList implements IntList {
         if(index == 0){
             //if removing head
               removed = current.data;
-              current = current.next;
+              clear();
 
         }else{
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i < index - 1; i++) {
                 current = current.next;
             }
+
             removed = current.next.data;
             current.next = current.next.next;
-
+            size--;
         }
-        size--;
+
         return removed;
 
     }
@@ -329,8 +335,8 @@ public class LinkedIntList implements IntList {
          */
         @Override
         public boolean hasNext() {
-            //can also do return current !=null;
-            if (current == null){
+            //can also do return current.next !=null;
+            if (current.next == null){
                 return false;
             }
             else{
@@ -349,8 +355,9 @@ public class LinkedIntList implements IntList {
              if (current == null){
                  throw new NoSuchElementException("there is no next one to go to");
              }
-            int item = current.data;
+
             current = current.next;
+            int item = current.data;
             return item;
         }
     }
