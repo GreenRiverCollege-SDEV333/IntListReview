@@ -1,3 +1,11 @@
+/**
+ * This file contains a data structure designed to mimic an ArrayList; however, it only accepts integers instead of
+ * any data type.
+ *
+ * @author Jared Eller
+ * @version 1.0
+ */
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -71,6 +79,19 @@ public class ArrayIntList implements IntList
         {
             resize(size * 2);
         }
+
+        //shuffling stuff over if the current index isn't empty
+        if (buffer[index] != 0)
+        {
+            for (int i = size - 1; i > -1; i--)
+            {
+                buffer[i + 1] = buffer[i];
+            }
+        }
+
+        //inserting the value at the index
+        buffer[index] = value;
+        size++;
     }
 
     /**
@@ -80,7 +101,8 @@ public class ArrayIntList implements IntList
      */
     @java.lang.Override
     public void removeFront()
-    {   if (!isEmpty())
+    {
+        if (!isEmpty())
         {
             for (int i = 0; i <= size - 2; i++)
             {
