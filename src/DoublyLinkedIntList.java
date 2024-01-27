@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoublyLinkedIntList implements IntList{
 
@@ -212,6 +213,15 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        Node indexNode = pre.next;
+
+        while (indexNode != post) {
+            if (indexNode.data == value) {
+                return true;
+            }
+            indexNode = indexNode.next;
+        }
+
         return false;
     }
 
@@ -225,7 +235,14 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node indexNode = pre.next;
+        for(int i = 0; i < size; i++){
+            if( indexNode.data == value){
+                return i;
+            }
+            indexNode = indexNode.next;
+        }
+        return -1;
     }
 
     /**
@@ -235,7 +252,7 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -245,7 +262,7 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -254,6 +271,9 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void clear() {
+        pre.next = post;
+        post.prev = pre;
+        size = 0;
 
     }
 
@@ -264,6 +284,25 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        return new DoublyLinkedIterator();
+    }
+
+    private class DoublyLinkedIterator implements Iterator<Integer> {
+        private Node current = pre.next;
+
+        @Override
+        public boolean hasNext() {
+            return current != post;
+        }
+
+        @Override
+        public Integer next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("There is no next one to go to!");
+            }
+            int item = current.data;
+            current = current.next;
+            return item;
+        }
     }
 }
