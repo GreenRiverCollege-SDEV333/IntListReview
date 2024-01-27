@@ -21,7 +21,7 @@ public class Main {
             System.out.println(value);
         }
 
-//        arrayIntListTest();
+        arrayIntListTest();
         singlyLinkedIntListTest();
     }
 
@@ -126,6 +126,25 @@ public class Main {
         System.out.println("\nremove()");
         linkedListTest.remove(1);
         linkedListTest.printList(); // 3,10,1
+
+        System.out.println("\nget()");
+        System.out.println(linkedListTest.get(1)); // 10
+
+        System.out.println("\ncontains()");
+        System.out.println(linkedListTest.contains(10)); //true
+
+        System.out.println("\nindexOf()");
+        System.out.println(linkedListTest.indexOf(1)); //2
+
+        System.out.println("\nisEmpty()");
+        System.out.println(linkedListTest.isEmpty()); //false
+
+        System.out.println("\nsize()");
+        System.out.println(linkedListTest.size()); //3
+
+        System.out.println("\nclear");
+        linkedListTest.clear();
+        linkedListTest.printList();
 
     }
 }
