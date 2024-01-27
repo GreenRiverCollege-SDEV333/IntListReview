@@ -169,7 +169,49 @@ class DoublyLinkedIntListTest {
 
     @Test
     void remove() {
+        DoublyLinkedIntList empty = new DoublyLinkedIntList();
 
+        //testing errors handling
+        assertThrows(IndexOutOfBoundsException.class, ()-> empty.remove(-1));
+        assertThrows(IndexOutOfBoundsException.class, ()-> empty.remove(1));
+
+        //remove at the start with one element
+        empty.addBack(1);
+        empty.remove(0);
+
+        assertTrue(empty.isEmpty());
+
+        //with multiple elements for shifting test
+        empty.addBack(1);
+        empty.addBack(2);
+        empty.addBack(3);
+
+        //2,3
+        assertEquals(1,empty.remove(0));
+        assertEquals(3,empty.get(1));
+
+        //removing at the end
+        empty.addBack(1);
+        empty.addBack(2);
+        empty.addBack(3);
+        //2,3,1,2,3
+        assertEquals(3,empty.remove(4));
+
+        //2,3,1,2
+        //checking for the correct placement of the other elements
+        assertEquals(2,empty.get(0));
+        assertEquals(3,empty.get(1));
+        assertEquals(1,empty.get(2));
+        assertEquals(2,empty.get(3));
+
+        //testing removing from the middle
+        assertEquals(1,empty.remove(2));
+
+        //2,3,2
+        //testing correct shifting of other elements
+        assertEquals(2,empty.get(0));
+        assertEquals(3,empty.get(1));
+        assertEquals(2,empty.get(2));
     }
 
     @Test
@@ -200,12 +242,72 @@ class DoublyLinkedIntListTest {
 
     @Test
     void contains() {
+        DoublyLinkedIntList empty = new DoublyLinkedIntList();
+        //empty list
+        assertFalse(empty.contains(10));
 
+        //one element
+        empty.addBack(4);
+        assertTrue(empty.contains(4));
+        assertFalse(empty.contains(10));
+
+        //two elements
+        empty.addBack(5);
+
+        //4,5
+        assertTrue(empty.contains(5));
+        assertTrue(empty.contains(4));
+
+        //many elements
+        empty.addBack(18);
+        empty.addBack(99);
+        empty.addBack(29);
+        //4,5,618,99,29
+
+        assertTrue(empty.contains(99));
+        assertTrue(empty.contains(4));
+        assertFalse(empty.contains(100));
+
+        //testing last and first elements
+        assertTrue(empty.contains(4));
+        assertTrue(empty.contains(29));
     }
 
     @Test
     void indexOf() {
+        DoublyLinkedIntList empty = new DoublyLinkedIntList();
 
+        //empty list
+        assertEquals(-1, empty.indexOf(100));
+
+        //with one element
+        empty.addBack(10);
+
+        //10
+        assertEquals(0, empty.indexOf(10));
+        assertEquals(-1,empty.indexOf(99));
+
+        //with two elements
+        //10,21
+        empty.addBack(21);
+        assertEquals(0,empty.indexOf(10));
+        assertEquals(1,empty.indexOf(21));
+
+        //with many elements
+        empty.addBack(99);
+        empty.addBack(14);
+        empty.addBack(9);
+        empty.addBack(10);
+
+        //10,21,99,14,9,10
+        //testing first occurrence of index
+        assertEquals(0,empty.indexOf(10));
+
+        //middle element
+        assertEquals(3,empty.indexOf(14));
+
+        //last element
+        assertEquals(4, empty.indexOf(9));
     }
 
     @Test

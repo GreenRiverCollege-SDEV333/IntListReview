@@ -204,7 +204,45 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        Node save;
+
+        //out of bounds
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException("The index value is out of bounds");
+        }
+
+        //remove the front one
+        if (index == 0){
+            save = pre.next;
+
+            //call method to remove the front
+            removeFront();
+
+        }
+
+        //removing at the last index
+        else if (index == size-1){
+            save = post.prev;
+
+            //call method to remove the back
+            removeBack();
+
+        }
+        //removing in the middle of the list
+        else {
+            Node curr = pre;
+            for (int i = 0; i < index; i++) {
+                curr = curr.next;
+            }
+            save = curr.next;
+
+            //new references to remove node
+            curr.next = curr.next.next;
+            curr.next.next.prev = curr;
+            size--;
+        }
+
+        return save.data;
     }
 
     /**
@@ -235,7 +273,21 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
-        return false;
+        //empty list
+        if (pre.next == post){
+            return false;
+        }
+        Node curr = pre;
+
+        //going through the linkedLIst
+        while (curr.next != post){
+            if (curr.data == value){
+                return true;
+            }
+            curr = curr.next;
+        }
+
+        return curr.data == value;
     }
 
     /**
@@ -248,7 +300,29 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        //empty list
+        if (pre.next == post){
+            return -1;
+        }
+
+        int index = 0;
+        Node curr = pre.next;
+
+        //checking for match in the middle of list
+        while (curr.next != post){
+            if (curr.data == value){
+                return index;
+            }
+            curr = curr.next;
+            index++;
+        }
+
+        //checking the last element
+        if (curr.data == value) {
+            return index;
+        }
+
+        return -1;
     }
 
     /**
