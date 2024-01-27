@@ -98,7 +98,15 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void removeFront() {
-
+        if(size > 0)
+        {
+            // set up a temporary variable for convenience
+            Node theOneToRemove = pre.next;
+            theOneToRemove.next.prev = pre;
+            pre.next = theOneToRemove.next;
+            // decrement size
+            size--;
+        }
     }
 
     /**
@@ -134,7 +142,40 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        // check if index is valid
+        if(index >= size || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Invalid index given!");
+        }
+        // set midpoint to check which sentinel value is closer
+        int mid = size / 2;
+        // check if index is closer to pre
+        if(index <= mid)
+        {
+            Node current = pre;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+            // save value to be returned
+            int valueToBeReturned = current.data;
+            // move prev.next to next Node
+            current.prev.next = current.next;
+            // move next.prev to prev Node
+            current.next.prev = current.prev;
+            return valueToBeReturned;
+        }
+        // else, index is closer to post
+        Node current = post;
+        for (int i = size-1; i > index; i--) {
+            current = current.prev;
+        }
+        // save value to be returned
+        int valueToBeReturned = current.data;
+        // move prev.next to next Node
+        current.prev.next = current.next;
+        // move next.prev to prev Node
+        current.next.prev = current.prev;
+        return valueToBeReturned;
     }
 
     /**
@@ -146,7 +187,28 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        // check if index is valid
+        if(index >= size || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Invalid index given!");
+        }
+        // set midpoint to check which sentinel value is closer
+        int mid = size / 2;
+        // check if index is closer to pre
+        if(index <= mid)
+        {
+            Node current = pre;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+            return current.data;
+        }
+        // else, index is closer to post
+        Node current = post;
+        for (int i = size-1; i > index; i--) {
+            current = current.prev;
+        }
+        return current.data;
     }
 
     /**
@@ -179,7 +241,17 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node current = pre;
+        int indexCounter = 0;
+        while(current != post)
+        {
+            if(current.data == value)
+            {
+                return indexCounter;
+            }
+            current = current.next;
+        }
+        return -1;
     }
 
     /**
