@@ -192,7 +192,24 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        Node current = head;
+        int currIndex = 0;
+
+        while(currIndex != index){
+            current = current.next;
+            currIndex++;
+
+            //don't go past end of list
+            if (current == null){
+                throw new IndexOutOfBoundsException("Invalid index");
+            }
+        }
+
+        return current.data;
     }
 
     /**
@@ -203,6 +220,17 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+
+        Node current = head;
+
+        while(current != null){
+            if(current.data == value){
+                return true;
+            }else{
+                current = current.next;
+            }
+
+        }
         return false;
     }
 
@@ -216,7 +244,20 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node current = new Node();
+        current = head;
+        int currIndex = 0;
+
+        while (current != null){
+            if (current.data == value){
+                return currIndex;
+            }
+            else{
+                current = current.next;
+                currIndex++;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -224,6 +265,9 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
+        if(head.next == null){
+            return true;
+        }
         return false;
     }
 
@@ -241,7 +285,13 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void clear() {
-
+        Node current = head;
+        while (current != null){
+            Node next = current.next;
+            current = next;
+        }
+        head = null;
+        size = 0;
     }
 
     /**
