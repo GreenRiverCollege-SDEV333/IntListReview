@@ -155,6 +155,12 @@ class DoublyLinkedIntListTest {
 
     @Test
     void clear() {
+        list.addFront(10);
+        list.addFront(10);
+        list.addFront(10);
+        assertFalse(list.isEmpty());
+        list.clear();
+        assertTrue(list.isEmpty());
     }
 
     @Test

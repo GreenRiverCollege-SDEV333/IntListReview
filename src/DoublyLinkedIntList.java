@@ -208,7 +208,9 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public void clear() {
-
+        pre.next = post;
+        post.prev = pre;
+        size = 0;
     }
 
     @Override
