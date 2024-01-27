@@ -268,21 +268,21 @@ class LinkedListTest {
         LinkedList empty = new LinkedList();
 
         //empty list
-        assertEquals(0,empty.size);
+        assertEquals(0,empty.size());
 
         //one element
         empty.addBack(1);
-        assertEquals(1, empty.size);
+        assertEquals(1, empty.size());
 
         //two elements
         empty.addBack(2);
-        assertEquals(2,empty.size);
+        assertEquals(2,empty.size());
 
         //many elements
         empty.addBack(3);
         empty.addBack(4);
         empty.addBack(5);
-        assertEquals(5,empty.size);
+        assertEquals(5,empty.size());
 
 
     }

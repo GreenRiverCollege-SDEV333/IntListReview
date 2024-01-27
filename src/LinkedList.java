@@ -351,6 +351,7 @@ public class LinkedList implements IntList{
     @Override
     public void clear() {
         head = null;
+        size = 0;
     }
 
     /**
