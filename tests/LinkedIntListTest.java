@@ -19,13 +19,13 @@ class LinkedIntListTest {
         one.addFront(10);
 
         half = new LinkedIntList();
-        for(int i = 1; i <= 5; i++){
-            half.addFront(i * 2);
+        for(int i = 1; i <= 5 ; i++){
+            half.addBack(i * 2);
         }
 
         full = new LinkedIntList();
         for(int i = 0; i < 10; i++){
-            full.addFront(i + 1);
+            full.addBack(i + 1);
         }
     }
 

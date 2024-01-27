@@ -87,9 +87,7 @@ public class LinkedIntList implements IntList{
         for(int i  = 0; i < index; i++){
             indexNode = indexNode.next;
         }
-        Node newNode = new Node();
-        newNode.data = value;
-        indexNode.next = new Node();
+        indexNode.data = value;
 
         size++;
 
