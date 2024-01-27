@@ -26,7 +26,6 @@ public class DoublyLinkedIntList implements IntList {
         front.next = back;
         back.prev = front;
         size = 0;
-
     }
 
     private class Node {
@@ -110,18 +109,21 @@ public class DoublyLinkedIntList implements IntList {
     public void add(int index, int value) {
 
         // Counter
-        int i = 0;
+        int dex = 0;
         // Create new Node
         Node nodeAtIndex = new Node(value);
         Node current = front.next;
 
-        if (i <= size) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException(
+                    "Index must be in the Range 0-" + (size - 1));
+        } else {
             // Conditional: If index is size of List skip loop and add to back
             if (index == size) {
                 this.addBack(value);
             } else {
                 while (current != back) {
-                    if (index == i) {
+                    if (index == dex) {
                         // Assign the new node's prev and next locators
                         nodeAtIndex.prev = current.prev;
                         nodeAtIndex.next = current;
@@ -129,10 +131,9 @@ public class DoublyLinkedIntList implements IntList {
                         current.prev.next = nodeAtIndex;
                         current.prev = nodeAtIndex;
                     }
-                    i++;
+                    dex++;
                     current = current.next;
-                }
-                size++;
+                } size++;
             }
         }
     }
@@ -189,47 +190,38 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        // Counter
-        int i = 0;
-        // Position
+
+        int dex = 0;
         Node current = front.next;
 
-        if (index < size && index >= 0) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException(
+                    "Index must be in the Range 0-" + (size - 1));
+        } else {
             // Conditional to skip looping if index is first node
             if (index == 0) {
                 int removedValue = current.data;
                 removeFront();
-                size--;
                 return removedValue;
             // Conditional to skip looping if index is last node
             } else if (index == size - 1) {
                 int removedValue = back.prev.data;
                 removeBack();
-                size--;
                 return removedValue;
+            // Loop to find the node at index position
             } else {
-                // Loop to find the node at index position
                 while (current != back) {
-                    if (index == i) {
+                    if (index == dex) {
                         int removedValue = current.data;
                         current.prev.next = current.next;
                         current.next.prev = current.prev;
                         size--;
-                        // Index found so skip looping
                         return removedValue;
                     } else {
                         current = current.next;
-                        i++;
+                        dex++;
                     }
-                // Decrement size of list
                 }
-//                size--;
-            }
-        } else {
-            if (index < 0) {
-                throw new IndexOutOfBoundsException("Index must be 0 or greater...");
-            } else {
-                throw new IndexOutOfBoundsException("List does not have enough indices...");
             }
         } return 0;
     }
@@ -243,34 +235,32 @@ public class DoublyLinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
+
         // Counter
-        int i = 0;
+        int dex = 0;
         // Position
         Node current = front.next;
 
-        //Skip looping if index is at front of list
-        if (index == 0) {
-            return current.data;
-        // Skip looping if index is at back of list
-        } else if (index == size - 1) {
-            return back.prev.data;
-        // If index is in acceptable range loop to find Node at index value
-        }else if (index < size && index >= 0){
-            while (current != back) {
-                if (index == i) {
-                    return current.data;
-                } else {
-                    i++;
-                    current = current.next;
-                }
-            }
-            return current.data;
-        // Throw IndexOutOfBoundsException if index is not in range
+        if (index < 0 || index >= size) {
+                throw new IndexOutOfBoundsException(
+                    "Index must be in the Range 0-" + (size - 1));
         } else {
-            if (index < 0) {
-                throw new IndexOutOfBoundsException("Index must be 0 or greater...");
+            //Skip looping if index is at front of list
+            if (index == 0) {
+                return current.data;
+                // Skip looping if index is at back of list
+            } else if (index == size - 1) {
+                return back.prev.data;
+                // If index is in acceptable range loop to find Node at index value
             } else {
-                throw new IndexOutOfBoundsException("List does not have enough indices...");
+                while (current != back) {
+                    if (index == dex) {
+                        return current.data;
+                    } else {
+                        dex++;
+                        current = current.next;
+                    }
+                } return current.data;
             }
         }
     }
@@ -284,7 +274,6 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public boolean contains(int value) {
 
-        // Position
         Node current = front.next;
 
         while (current != back) {
@@ -307,34 +296,28 @@ public class DoublyLinkedIntList implements IntList {
     @Override
     public int indexOf(int value) {
 
-        int i = 0;
+        int dex = 0;
         Node current = front.next;
 
         if (contains(value)) {
              while (current.data != value) {
-                 i++;
+                 dex++;
                  current = current.next;
-             } return i;
+             } return dex;
         } return -1;
     }
 
     /**
      * Returns true if this list contains no values.
-     *
      * @return true if this list contains no values
      */
     @Override
     public boolean isEmpty() {
-
-        if (front.next == back && back.prev == front) {
-            return true;
-        }
-        return false;
+        return front.next == back && back.prev == front;
     }
 
     /**
      * Returns the number of values in this list.
-     *
      * @return the number of values in this list
      */
     @Override
@@ -355,7 +338,6 @@ public class DoublyLinkedIntList implements IntList {
 
     /**
      * Returns an iterator over elements of type {@code T}.
-     *
      * @return an Iterator.
      */
     @Override
@@ -385,10 +367,17 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public String toString() {
-        return "DoublyLinkedIntList{" +
-                "front=" + front +
-                ", back=" + back +
-                ", size=" + size +
-                '}';
+        Node current = this.front.next;
+        String list = ("DoublyLinkedIntList{Size: " + size + ", list [");
+
+        while (current.next != null) {
+            if (current.next != back) {
+                list += (current.data + " -> ");
+            } else {
+                list += (current.data);
+            }
+            current = current.next;
+        }
+        return list + "]}";
     }
 }
