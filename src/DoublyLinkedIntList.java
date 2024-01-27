@@ -157,6 +157,15 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        Node current = pre;
+        while(current != post)
+        {
+            if(current.data == value)
+            {
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
@@ -199,7 +208,9 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void clear() {
-
+        pre.next = post;
+        post.prev = pre;
+        size = 0;
     }
 
     /**
