@@ -38,6 +38,12 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void addFront(int value) {
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+        theNewOne.next = pre.next;
+        theNewOne.prev = pre;
+        post.prev = theNewOne;
+        pre.next = theNewOne;
 
     }
 
@@ -77,6 +83,23 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+        Node indexNode = pre;
+
+        for (int i = 0; i < index; i++) {
+            indexNode = indexNode.next;
+        }
+        theNewOne.next = indexNode.next;
+        theNewOne.prev = indexNode;
+        indexNode.next.prev = theNewOne;
+        indexNode.next = theNewOne;
+
+        size++;
 
     }
 
@@ -87,7 +110,18 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void removeFront() {
+        if(!isEmpty()){
+            Node theFirstOne = pre.next;
+            pre.next = theFirstOne.next;
+            theFirstOne.next.prev = pre;
 
+            theFirstOne.next = null;
+            theFirstOne.prev = null;
+            theFirstOne.data = 0;
+
+            size--;
+
+        }
     }
 
     /**
@@ -124,7 +158,26 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+
+        Node indexNode = pre;
+
+        for (int i = 0; i < index; i++) {
+            indexNode = indexNode.next;
+        }
+        Node removeNode = indexNode.next;
+        int value = removeNode.data;
+        post.prev = indexNode;
+        indexNode.next = post;
+        removeNode.next = null;
+        removeNode.prev = null;
+        removeNode.data = 0;
+
+        size--;
+
+        return value;
     }
 
     /**
@@ -136,7 +189,19 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index is out of range");
+        }
+
+        Node indexNode = pre;
+
+        for (int i = 0; i < index; i++) {
+            indexNode = indexNode.next;
+        }
+
+        int value = indexNode.next.data;
+
+        return value;
     }
 
     /**
