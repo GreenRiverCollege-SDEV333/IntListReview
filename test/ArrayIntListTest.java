@@ -114,7 +114,7 @@ class ArrayIntListTest {
         empty.addFront(3);
         //[3,2,1]
         empty.removeFront();
-        assertEquals(2, empty.get(1));
+        assertEquals(2, empty.get(0));
 
     }
 
