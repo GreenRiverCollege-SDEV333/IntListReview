@@ -32,10 +32,33 @@ class DoublyLinkedIntListTest {
 
     @Test
     void add() {
+        list.addBack(10);
+        list.addBack(20);
+        list.addBack(30);
+        //10 20 30
+        list.add(1,5);
+        //10 5 20 30
+        assertEquals(4,list.size());
+        assertEquals(10, list.get(0));
+        assertEquals(5, list.get(1));
+        assertEquals(20, list.get(2));
+        assertEquals(30, list.get(3));
+
+
     }
 
     @Test
     void removeFront() {
+        list.addBack(10);
+        list.addBack(20);
+        list.addBack(30);
+        //10 20 30
+        list.removeFront();
+        //20 30
+        assertEquals(2,list.size());
+        assertEquals(20, list.get(0));
+        assertEquals(30, list.get(1));
+
     }
 
     @Test

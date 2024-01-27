@@ -65,15 +65,52 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public void add(int index, int value) {
-    if(index == 0 || index > size){
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        if(index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Index is out of bound");
+        }else if (index == 0){
+            addFront(value);
+        }else if (index == size){
+            addBack(value);
+        }
+        //Create a new node
+        Node  node = new Node();
+        // store value into new node
+        node.data = value;
 
-    }
+        //move node to the desire index
+        Node current;
+        if (index < size / 2) {
+            current = pre.next;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        } else {
+            current = post.prev;
+            for (int i = size - 1; i > index; i--) {
+                current = current.prev;
+            }
+        }
+        // 10 20 30
+        //new node head =  value (5)
+        //insertion at index 1
+
+        node.next = current;        //new node 5 20
+        node.prev = current.prev; //
+        current.prev.next = node;
+        current.prev = node;
+
+        size++;
+
     }
 
     @Override
     public void removeFront() {
-
+        if (size > 0 ){
+            Node current = pre.next;
+            pre.next = current.next;
+            current.next.prev = pre;
+            size--;
+        }
     }
 
     @Override
