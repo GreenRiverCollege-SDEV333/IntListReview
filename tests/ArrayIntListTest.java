@@ -225,10 +225,17 @@ class ArrayIntListTest {
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
             list.addBack(30);
             assertEquals(0, list.indexOf(30));
+            assertEquals(-1, list.indexOf(2300));
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-
+            list.addBack(49);
+            assertEquals(1, list.indexOf(49));
+            assertEquals(-1, list.indexOf(200));
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-
+        for (int i = 0; i < 3000; i++) {
+            list.addBack(4993 * i * i + 1 + i  );
+        }
+        assertEquals(-1, list.indexOf(300));
+        assertEquals(184, list.indexOf(165388315));
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
 
 
@@ -244,13 +251,18 @@ class ArrayIntListTest {
     @Test
     void isEmpty() {
         //  TODO  Does the method work when the data structure is empty?
-        //it will throw an exception if the list is empty.
+                assertEquals(true, list.isEmpty());
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-
+                list.addBack(200);
+                assertEquals(false, list.isEmpty());
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-
+                list.addBack(203);
+                assertEquals(false, list.isEmpty());
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-
+        for (int i = 0; i < 3000; i++) {
+            list.addBack(i * 238 * ( i +293 ) * 3);
+        }
+            assertEquals(false, list.isEmpty());
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
 
 
@@ -266,13 +278,18 @@ class ArrayIntListTest {
     @Test
     void size() {
         //  TODO  Does the method work when the data structure is empty?
-        //it will throw an exception if the list is empty.
+                assertEquals(0 , list.size());
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-
+                list.addBack(300290);
+                assertEquals(1, list.size());
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-
+                list.addBack(3929);
+                assertEquals(2, list.size());
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-
+        for (int i = 0; i < 10000; i++) {
+            list.addBack(i + 4000);
+        }
+            assertEquals(10002, list.size());
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
 
 
@@ -288,13 +305,19 @@ class ArrayIntListTest {
     @Test
     void clear() {
         //  TODO  Does the method work when the data structure is empty?
-        //it will throw an exception if the list is empty.
+                list.clear();
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-
+                list.addBack(3292);
+                list.clear();
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-
+                list.addBack(39349);
+                list.addBack(34948);
+                list.clear();
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-
+        for (int i = 0; i < 2000000; i++) {
+            list.addBack(i);
+        }
+            list.clear();
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
 
 

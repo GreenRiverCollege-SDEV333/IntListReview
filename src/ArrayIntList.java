@@ -221,19 +221,20 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
+
         if(size == 0 )
         {
             throw new RuntimeException("The list is empty. ");
         }
         else {
-            int index = 0;
             for (int i = 0; i < size; i++) {
                 if (buffer[i] == value) {
-                    index = i;
+                    return i;
                 }
+
             }
-            return index;
         }
+        return -1;
     }
 
     /**
