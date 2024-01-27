@@ -188,16 +188,27 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        //TODO case for zero
-
-        Node current = head;
-        for (int i = 0; i < index - 1 ; i++) {
-            current = current.next;
+        if(index < 0 )
+        {
+            throw new IndexOutOfBoundsException("The index can not be less than zero . ") ;
+        }else if(index > size){
+            throw new IndexOutOfBoundsException("the index can not be more than the size. ");
+        }else if(index == 0 )
+        {
+            int temp = head.data;
+            head = head.next;
+            return temp;
         }
-        Node temp = current.next;
-        current.next = current.next.next;
-        size--;
-        return temp.data;
+        else {
+                Node current = head;
+                for (int i = 0; i < index - 1; i++) {
+                    current = current.next;
+                }
+                Node temp = current.next;
+                current.next = current.next.next;
+                size--;
+                return temp.data;
+        }
     }
 
     /**
@@ -210,11 +221,20 @@ public class LinkedIntList implements IntList{
     @Override
     public int get(int index) {
         //TODO CASE FOR ZERO
-        Node current = head;
-        for (int i = 0; i < index - 1; i++) {
-            current = current.next;
+        if(index < 0 )
+        {
+            throw new IndexOutOfBoundsException("The index can not be less than zero . ") ;
+        }else if(index > size){
+            throw new IndexOutOfBoundsException("the index can not be more than the size. ");
+        }else if(index == 0 ){
+            return head.data;
+        }else {
+            Node current = head;
+            for (int i = 1; i < index; i++) {
+                current = current.next;
+            }
+            return current.next.data;
         }
-        return current.next.data;
     }
 
     /**
@@ -226,11 +246,20 @@ public class LinkedIntList implements IntList{
     @Override
     public boolean contains(int value) {
         //this will loop through all the Linked-list.
-        Node current = head;
-        while (current.next != null )
+        if(head == null)
         {
+            throw new NoSuchElementException(" The list is empty. ");
+        }
+        Node current = head;
+        if(current.next == null)
+        {
+            if(current.data == value){
+                return true;
+            }
+        }
+        while (current.next != null) {
             current = current.next;
-            if( current.data == value) {
+            if (current.data == value) {
                 return true;
             }
         }
@@ -247,22 +276,23 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        int index = 0;
-        Node current = head;
-        if(head.data == value )
-        {
-            return index;
-        }
-        while(current.next != null )
-        {
-            current = current.next;
-            index++;
-            if(current.data == value)
-            {
+        if(head == null){
+            throw new NoSuchElementException("There is not list . ");
+        }else {
+            int index = 0;
+            Node current = head;
+            if (head.data == value) {
                 return index;
             }
+            while (current.next != null) {
+                current = current.next;
+                index++;
+                if (current.data == value) {
+                    return index;
+                }
+            }
+            return -1;
         }
-        return -1;
     }
 
     /**

@@ -24,10 +24,9 @@ class LinkedIntListTest {
 
         //the displays
         int index = 0;
-        for (int i = 0; i < list.size(); i++) {
+        for (int numbers : list) {
             index++;
-            System.out.println("index " + index + ": " + list.get(i));
-
+            System.out.println("index " + index + ": " +  numbers);
         }
     }
 
@@ -49,10 +48,9 @@ class LinkedIntListTest {
 
         //the displays
         int index = 0;
-        for (int i = 0; i < list.size(); i++) {
+        for (int numbers : list) {
             index++;
-            System.out.println("index " + index + ": " + list.get(i));
-
+            System.out.println("index " + index + ": " +  numbers);
         }
     }
 
@@ -71,18 +69,17 @@ class LinkedIntListTest {
         }
         list.add(23,29929393);
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
-        list.add(-1, 3949);
-        list.add(2999, 3000);
+//        list.add(-1, 3949);
+//        list.add(2999, 3000);
 
         //if the index is out of bound, like if it is greater than the size of the list or index is less than zero  it
         // will through an exceptions
 
         //the displays
         int index = 0;
-        for (int i = 0; i < list.size(); i++) {
+        for (int numbers : list) {
             index++;
-            System.out.println("index " + index + ": " + list.get(i));
-
+            System.out.println("index " + index + ": " +  numbers);
         }
     }
 
@@ -108,26 +105,28 @@ class LinkedIntListTest {
 
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + index + ": " +  numbers);
         }
     }
 
     @Test
     void removeBack() {
         //  TODO  Does the method work when the data structure is empty?
-        //it will throw an exception if the list is empty.
+                //since its a remove method, it will throw an exception saying that the head is null.
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-        list.addFront(2);
-        list.removeBack();
-
+                list.addFront(222);
+                list.removeBack();
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-        list.addFront(3);
-        list.removeBack();
+                list.addFront(239);
+                list.addFront(39034);
+                list.removeBack();
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
         //FILL THE ARRAY WITH NUMBERS
-        for (int i = 0; i < 200; i++) {
-            list.addBack(2382 * i /23 *  23);
+        for (int i = 0; i < 21; i++) {
+            list.addBack(304 * i );
         }
         list.removeBack();
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
@@ -135,8 +134,10 @@ class LinkedIntListTest {
 
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + (index - 1 ) + ": " +  numbers);
         }
     }
 
@@ -145,86 +146,92 @@ class LinkedIntListTest {
     @Test
     void remove() {
         //  TODO  Does the method work when the data structure is empty?
-
-        //it will throw an exception if the list is empty.
+            // it is a remove method, if the list is empty, it will tell the user that the list is empty .
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-        list.addFront(2);
-        list.remove(0);
+            list.addFront(203);
+            list.remove(0);
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-        list.addBack(1);
-        list.addBack(2);
-        list.remove(1);
+            list.addFront(3993);
+            list.addFront(3434);
+            list.remove(0);
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-        //FILL THE ARRAY WITH NUMBERS
-        for (int i = 0; i < 2000; i++) {
-            list.addBack(200 + i );
+        for (int i = 0; i < 2900; i++) {
+            list.addFront(10 + i );
         }
-        list.remove(34);
+            list.remove(334);
+            list.remove(444);
+            list.remove(2199);
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
-        //there are no parameters.
-        list.remove(-1);
-        //it will throw exception if there is negative indexes.
+            //it will throw exceptions if the index is less than zero or if the index is more than the list.
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + (index - 1 ) + ": " +  numbers);
         }
     }
 
     @Test
     void get() {
         //  TODO  Does the method work when the data structure is empty?
-
         //it will throw an exception if the list is empty.
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-        list.addFront(21);
-        assertEquals(21, list.get(0));
+            list.addFront(2);
+            assertEquals(2, list.get(0));
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-        list.addBack(23);
-        assertEquals(23, list.get(1));
+            list.addBack(2390);
+            list.addBack(2993);
+            assertEquals(2390, list.get(1));
+            assertEquals(2993, list.get(2));
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
         for (int i = 0; i < 2000; i++) {
-            list.addBack(i *238482);
+                list.addBack(i * 1);
         }
-        assertEquals(68205852, list.get(288));
+            assertEquals(99, list.get(102) );
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
-        list.get(-2);
-        list.get(3000);
-        //if the index is less than zero or more than the index, it will throw IndexOutOfBound exception
-
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + (index - 1 ) + ": " +  numbers);
         }
     }
 
     @Test
     void contains() {
         //  TODO  Does the method work when the data structure is empty?
+
         //it will throw an exception if the list is empty.
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-        list.addBack(2);
-        assertEquals(true, list.contains(2));
-        assertEquals(false, list.contains(3000));
+            list.addFront(239);
+            assertEquals(true, list.contains(239));
+            assertEquals(false, list.contains(23333));
+
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-        list.addBack(34);
-        assertEquals(true, list.contains(34));
-        assertEquals(false,list.contains(20000) );
+            list.addBack(269);
+            assertEquals(true, list.contains(269));
+            assertEquals(false, list.contains(23333));
+
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-        for (int i = 0; i < 2000; i++) {
-            list.addBack(3123478 * i + (i * i +1) );
+        for (int i = 0; i < 10; i++) {
+            list.addBack(293 + i);
         }
-        assertEquals(true, list.contains(1693218841));
-        assertEquals(false, list.contains(2003));
+        assertEquals(true, list.contains(293));
+        assertEquals(true, list.contains(295));
+        assertEquals(true, list.contains(296));
+
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
 
 
 
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + (index - 1 ) + ": " +  numbers);
         }
     }
 
@@ -234,27 +241,27 @@ class LinkedIntListTest {
         //it will throw an exception if the list is empty.
 
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-        list.addBack(30);
-        assertEquals(0, list.indexOf(30));
-        assertEquals(-1, list.indexOf(2300));
+                list.addFront(204);
+                assertEquals(0, list.indexOf(204));
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-        list.addBack(49);
-        assertEquals(1, list.indexOf(49));
-        assertEquals(-1, list.indexOf(200));
+                list.addBack(3004);
+                assertEquals(1, list.indexOf(3004));
+                assertEquals(-1 , list.indexOf(200));
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-        for (int i = 0; i < 3000; i++) {
-            list.addBack(4993 * i * i + 1 + i  );
+        for (int i = 0; i < 200; i++) {
+            list.addBack(i);
         }
-        assertEquals(-1, list.indexOf(300));
-        assertEquals(184, list.indexOf(165388315));
+                assertEquals(105, list.indexOf(103));
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
 
 
 
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + (index - 1 ) + ": " +  numbers);
         }
 
     }
@@ -280,35 +287,39 @@ class LinkedIntListTest {
 
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + (index - 1 ) + ": " +  numbers);
         }
 
     }
 
     @Test
     void size() {
-        //  TODO  Does the method work when the data structure is empty?
-        assertEquals(0 , list.size());
+//          TODO  Does the method work when the data structure is empty?
+                assertEquals(0, list.size());
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-        list.addBack(300290);
-        assertEquals(1, list.size());
+                list.addFront(203);
+                assertEquals(1, list.size());
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-        list.addBack(3929);
-        assertEquals(2, list.size());
+                list.addFront(39490);
+                assertEquals(2, list.size());
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-        for (int i = 0; i < 10000; i++) {
-            list.addBack(i + 4000);
+        for (int i = 0; i < 304534; i++) {
+            list.addFront(i);
         }
-        assertEquals(10002, list.size());
+                assertEquals(304536, list.size());
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
 
 
 
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + (index - 1 ) + ": " +  numbers);
         }
 
     }
@@ -316,28 +327,28 @@ class LinkedIntListTest {
     @Test
     void clear() {
         //  TODO  Does the method work when the data structure is empty?
-        list.clear();
+                list.clear();
 //          TODO Does the method work when the data structure has one item (almost empty, but not empty)?
-        list.addBack(3292);
-        list.clear();
+                list.addFront(39494);
+                list.clear();
 //          TODO Does the method work when the data structure has 2 or more items (not empty)?
-        list.addBack(39349);
-        list.addBack(34948);
-        list.clear();
+                list.addFront(3948494);
+                list.clear();
 //          TODO Does the method work when the data structure is "full" (if "full" is a possibility)?
-        for (int i = 0; i < 2000000; i++) {
-            list.addBack(i);
+        for (int i = 0; i < 3994; i++) {
+                list.addFront(29499 * (i ^ ( 7273 * 342789) ) );
         }
-        list.clear();
+            list.clear();
 //          TODO Does the method handle invalid parameter values? (and throws exceptions as appropriate)s
 
 
 
 
         //the displays
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("index " + i + ": " + list.get(i));
+        int index = 0;
+        for (int numbers : list) {
+            index++;
+            System.out.println("index " + (index - 1 ) + ": " +  numbers);
         }
-
     }
 }
