@@ -26,11 +26,14 @@ public class ArrayIntList implements IntList {
     @Override
     public void addFront(int value) {
         fullSize();
-        //move all the values over to one index.
-        for (int i = size; i >= 1 ; i--) {
-            buffer[i] = buffer[i-1];
+        //if the array is empty
+        if (size != 0) {
+            //move all the values over to one index.
+            for (int i = size; i >= 1; i--) {
+                buffer[i] = buffer[i - 1];
+            }
+            // put the value at the front of the array of position 0 ;
         }
-        // put the value at the front of the array of position 0 ;
         buffer[0] = value;
         size++;
     }
@@ -44,8 +47,10 @@ public class ArrayIntList implements IntList {
     public void addBack(int value) {
         //TODO: Check to see if we are full - if so, we need to create a larger buffer.
         fullSize();
-        buffer[size] = value ;
-        size++;
+
+            buffer[size] = value;
+            size++;
+
     }
 
     /**
@@ -59,8 +64,36 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
-        fullSize();
 
+        fullSize(); // this will check if the array is full, if it is, it will resize into a bigger array
+        // let say we want to add 22 to index 3
+        if(size == 0 )
+        {
+            index = 0;
+            buffer[index] = value;
+            size++;
+
+        } else if(index > size || index < 0 )
+        {
+            throw new IndexOutOfBoundsException(" The index is out of bound bruh...");
+
+        }
+        else if(index == 0 )
+        {
+            for (int i = size; i >= 1 ; i--) {
+                buffer[i] = buffer[i-1];
+            }
+            buffer[0] = value;
+            size++;
+        }
+        else {
+
+            for (int i = size; i >= index; i--) {
+                buffer[i] = buffer[i - 1];
+            }
+            buffer[index] = value;
+            size++;
+        }
     }
 
     /**
@@ -70,7 +103,15 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeFront() {
-
+        // get the index of front which will be buffer[0]
+        if(size == 0 )
+        {
+            throw new NoSuchElementException(" The array is empty... ");
+        }
+        for (int i = 0; i < size; i++) {
+            buffer[i] = buffer[i+1];
+        }
+        size--;
     }
 
     /**
@@ -79,7 +120,13 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void removeBack() {
-
+        //set the back value as 0
+        if(size == 0)
+        {
+            throw new NoSuchElementException("The array is empty... ");
+        }
+        buffer[size] = 0;
+        size--;
     }
 
     /**
@@ -99,6 +146,8 @@ public class ArrayIntList implements IntList {
         }else if( index < 0)
         {
             throw new IndexOutOfBoundsException("index cannot be negative");
+        } else if (size == 0 ) {
+            throw new NoSuchElementException("The list is empty ");
         }
 
         // save a copy of value .
@@ -126,7 +175,17 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        if(index > size)
+        {
+            throw new IndexOutOfBoundsException("The index is more than the size. ");
+        }else if(index < 0 )
+        {
+            throw new IndexOutOfBoundsException("Index is less than 0, it can not be less than 0");
+        }
+        else{
+            return buffer[index];
+        }
+
     }
 
     /**
@@ -137,7 +196,19 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        return false;
+        //it will use loop to search for the value
+        if(size == 0 )
+        {
+            throw new NoSuchElementException(" The list is empty. ");
+        }else {
+
+            for (int i = 0; i < size; i++) {
+                if (buffer[i] == value) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     /**
@@ -150,7 +221,19 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        if(size == 0 )
+        {
+            throw new RuntimeException("The list is empty. ");
+        }
+        else {
+            int index = 0;
+            for (int i = 0; i < size; i++) {
+                if (buffer[i] == value) {
+                    index = i;
+                }
+            }
+            return index;
+        }
     }
 
     /**
@@ -160,7 +243,13 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        if(size == 0 )
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -170,7 +259,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -179,11 +268,7 @@ public class ArrayIntList implements IntList {
      */
     @Override
     public void clear() {
-        for (int i = 0; i < buffer[size]; i++) {
-            buffer[i] = 0;
-        }
-        // or you can create a new array
-        // buffer = new array[ whatever size ] ;
+        buffer = new int [10];
         size = 0 ;
 
 

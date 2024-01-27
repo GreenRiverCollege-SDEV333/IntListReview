@@ -1,6 +1,7 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class DoublyLinkedList implements IntList{
+public class DoublyLinkedList implements IntList {
 
     //private fields
     private class Node {
@@ -10,25 +11,28 @@ public class DoublyLinkedList implements IntList{
         Node prev; //address of the node before this one in line
 
         //the Node constructor, next and prev will be null in default, you can change it everytime you construct a node.
-        public Node(){
+        public Node() {
             next = null;
             prev = null;
         }
     }
+
     //these two fields are like the bookends of the linkedlist
     private Node pre;
     private Node post;
     private int size;
-    public DoublyLinkedList (){
+
+    public DoublyLinkedList() {
         // an empty list has 2 sentinel (dummy) nodes that serves as bookends
-        pre = new Node ();
-        post = new Node ();
+        pre = new Node();
+        post = new Node();
         pre.next = post; // this will connect the pre to the post
         // pre.prev will be null by default
         post.prev = pre; // this will connect the post to the pre
         //post.next will be null by default
         size = 0;
     }
+
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -38,7 +42,21 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void addFront(int value) {
+        //put the last one into the front
+        //renaming the pre.next as theLastOne
+        Node theLastOne = pre.next;
+        //Create a new node
+        Node theNewOne = new Node();
+        theNewOne.data = value;
 
+        //connect theNewOne to the book case.
+        theNewOne.next = theLastOne;
+        theNewOne.prev = pre;
+        pre.next = theNewOne;
+        theLastOne.prev = theNewOne;
+
+        //increment size..
+        size++;
     }
 
     /**
@@ -48,6 +66,7 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void addBack(int value) {
+        //Renaming the post.prev as theLastOne
         Node theLastOne = post.prev;
         //make a new node
         Node theNewOne = new Node();
@@ -92,7 +111,17 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void removeFront() {
+            if(size > 0 )
+            {
+                //rename the pre.next which is the variable in the front .  this to the one to remove
+                Node theOneToRemove = pre.next;
 
+                //assign the front to the next node
+                theOneToRemove.next.prev = pre;
+                pre.next = theOneToRemove.next;
+                size--;
+
+            }
     }
 
     /**
@@ -101,7 +130,7 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void removeBack() {
-        if(size > 0 ) {
+        if (size > 0) {
             // set up a temp variable for convenience
             Node theOneToRemove = post.prev;
             theOneToRemove.prev.next = post;
@@ -128,6 +157,15 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public int remove(int index) {
+        //TODO need to think of cases for post
+        Node current = pre; // pre will be 0 the head will count as a 0 index
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        Node theOneRemove = current.next;
+        theOneRemove.next.prev = current;
+        current.next = theOneRemove.next;
+        size--;
         return 0;
     }
 
@@ -140,7 +178,12 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        //TODO CASE FOR ZERO AT THE END
+        Node current = pre;
+        for (int i = 0; i < index ; i++) {
+            current = current.next;
+        }
+        return current.next.data;
     }
 
     /**
@@ -151,7 +194,18 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        //TODO NEED TO FIGURE OUT IF THERE ARE ZEROS
+        Node current = pre;
+        while(current.next != null)
+        {
+            current = current.next;
+            if(current.data == value)
+            {
+                return true;
+            }
+        }
         return false;
+
     }
 
     /**
@@ -164,6 +218,7 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public int indexOf(int value) {
+
         return 0;
     }
 
@@ -174,7 +229,13 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        if(pre.next == post && post.prev == pre)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -184,7 +245,7 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -193,7 +254,9 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void clear() {
-
+        pre.next = post;
+        post.prev = pre;
+        size = 0;
     }
 
     /**
@@ -203,6 +266,50 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        DoublyLinkedListIterator theIterator = new DoublyLinkedListIterator();
+        return theIterator;
+    }
+
+    //helper class/type define how the iterator works
+    private class DoublyLinkedListIterator implements Iterator<Integer> {
+        private Node current;
+
+        public DoublyLinkedListIterator()
+        {
+            current = pre;
+        }
+
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            if (current == null) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+            if (current == null) {
+                throw new NoSuchElementException("There is no next one to go to! ");
+            }
+            int item = current.data;
+            current = current.next;
+            return item;
+        }
     }
 }
