@@ -1,5 +1,4 @@
 package tests;
-import lists.ArrayIntList;
 import lists.LinkedIntList;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,9 +9,18 @@ import static org.junit.jupiter.api.Assertions.*;
  * @version 1.0
  */
 public class LinkedIntListTest {
-    public LinkedIntList list = new LinkedIntList();
-    public Exception exception;
+    private LinkedIntList list = new LinkedIntList();
+    private Exception exception;
     public static final int ITERATIONS = 15;
+
+
+    protected Exception getException() {
+        return exception;
+    }
+
+    protected void setException(Exception exception) {
+        this.exception = exception;
+    }
 
     /**
      * Test adds Integer values to the front when empty, almost empty,
@@ -67,17 +75,13 @@ public class LinkedIntListTest {
         }
 
         //IndexOutOfBoundsException is thrown if -1 is called
-        exception = assertThrows(
-                IndexOutOfBoundsException.class, () -> {
-                    list.add(-1, ITERATIONS);
-                });
+        setException(assertThrows(
+                IndexOutOfBoundsException.class, () -> list.add(-1, ITERATIONS)));
 
         //IndexOutOfBoundsException is thrown if index larger than
         // the amount of indices is called
-        exception = assertThrows(
-                IndexOutOfBoundsException.class, () -> {
-                    list.add(list.size() + 1, ITERATIONS);
-                });
+        setException(assertThrows(
+                IndexOutOfBoundsException.class, () -> list.add(list.size() + 1, ITERATIONS)));
     }
 
     /**
@@ -91,10 +95,8 @@ public class LinkedIntListTest {
 
         //test with empty array
         list.removeFront();
-        exception = assertThrows(
-                IndexOutOfBoundsException.class, () -> {
-                    list.get(0);
-                });
+        setException(assertThrows(
+                IndexOutOfBoundsException.class, () -> list.get(0)));
         assertTrue(list.isEmpty());
 
         //test with 1 value in array
@@ -102,13 +104,19 @@ public class LinkedIntListTest {
         list.removeFront();
         assertTrue(list.isEmpty());
 
-        for (int i = 0; i <= ITERATIONS; i++) {
-            list.add(i, i);
-        }
+        /* Check that next index value is now equal to index 0
+           after the first index is removed */
+
+        fillArray();
         for (int i = 0; i < ITERATIONS; i++) {
-            int removedValue = list.get(1);
-            list.removeFront();
-            assertEquals(removedValue, list.get(0));
+            if (list.size() >= 1) {
+                int nextIndex = list.get(1);
+                list.removeFront();
+                assertEquals(nextIndex, list.get(0));
+            } else {
+                list.removeFront();
+                assertTrue(list.isEmpty());
+            }
         }
     }
 
@@ -123,10 +131,8 @@ public class LinkedIntListTest {
 
         //test with empty array
         list.removeBack();
-        exception = assertThrows(
-                IndexOutOfBoundsException.class, () -> {
-                    list.get(0);
-                });
+        setException(assertThrows(
+                IndexOutOfBoundsException.class, () -> list.get(0)));
         assertTrue(list.isEmpty());
 
         //test with 1 value in array
@@ -134,15 +140,14 @@ public class LinkedIntListTest {
         list.removeBack();
         assertTrue(list.isEmpty());
 
-        //Finish this for removed
-//        for (int i = 0; i <= ITERATIONS; i++) {
-//            array.add(i, i);
-//        }
-//        for (int i = 0; i < ITERATIONS; i++) {
-//            int removedValue = array.get(1);
-//            array.removeFront();
-//            assertEquals(removedValue, array.get(0));
-//        }
+        /* Check that next index value is now equal to index 0
+           after the first index is removed */
+        fillArray();
+        for (int i = 0; i < ITERATIONS; i++) {
+            int removedValue = list.get(1);
+            list.removeFront();
+            assertEquals(removedValue, list.get(0));
+        }
     }
 
     /**
@@ -156,17 +161,13 @@ public class LinkedIntListTest {
         assertEquals(0, list.size());
 
         //test with empty array
-        exception = assertThrows(
-                IndexOutOfBoundsException.class, () -> {
-                    list.get(0);
-                });
+        setException(assertThrows(
+                IndexOutOfBoundsException.class, () -> list.get(0)));
         assertTrue(list.isEmpty());
 
         //test with index higher than size of array
-        exception = assertThrows(
-                IndexOutOfBoundsException.class, () -> {
-                    list.get(list.size());
-                });
+        setException(assertThrows(
+                IndexOutOfBoundsException.class, () -> list.get(list.size())));
         assertTrue(list.isEmpty());
 
         //test with one value in array
@@ -175,9 +176,7 @@ public class LinkedIntListTest {
         assertTrue(list.isEmpty());
         assertEquals(0, list.size());
 
-        for (int i = 0; i <= ITERATIONS; i++) {
-            list.add(i, i);
-        }
+        fillArray();
         for (int i = 0; i < ITERATIONS; i++) {
             int removedValue = list.get(1);
             list.remove(0);
@@ -195,22 +194,18 @@ public class LinkedIntListTest {
         assertEquals(0, list.size());
 
         //test with empty array
-        exception = assertThrows(
-                IndexOutOfBoundsException.class, () -> {
-                    list.get(0);
-                });
+        setException(assertThrows(
+                IndexOutOfBoundsException.class, () -> list.get(0)));
         assertTrue(list.isEmpty());
 
         //test with index greater than size of array
         //test with empty array
-        exception = assertThrows(
-                IndexOutOfBoundsException.class, () -> {
-                    list.get(1);
-                });
+        setException(assertThrows(
+                IndexOutOfBoundsException.class, () -> list.get(1)));
         assertTrue(list.isEmpty());
 
         //reassign values
-        this.fillArray(list);
+        this.fillArray();
 
         //test the return values of get()
         for (int i = 0; i <= ITERATIONS; i++) {
@@ -236,7 +231,7 @@ public class LinkedIntListTest {
         assertTrue(list.contains(1));
 
         //test if Iterations exists
-        this.fillArray(list);
+        this.fillArray();
         assertTrue(list.contains(ITERATIONS));
 
         //test if number does not exist
@@ -278,7 +273,7 @@ public class LinkedIntListTest {
         assertEquals(0, list.size());
 
         //test against non-empty array
-        this.fillArray(list);
+        this.fillArray();
         assertFalse(list.isEmpty());
     }
 
@@ -310,16 +305,15 @@ public class LinkedIntListTest {
         assertEquals(0, list.size());
 
         //test against non-empty array
-        this.fillArray(list);
+        this.fillArray();
         list.clear();
         assertEquals(0, list.size());
     }
 
     /**
      * Helper method to fill the array in this class
-     * @param arr Field array
      */
-    public void fillArray(LinkedIntList arr) {
+    public void fillArray() {
         //reassign values
         for (int i = 0; i <= ITERATIONS; i++) {
             list.addFront(i);

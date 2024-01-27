@@ -31,7 +31,7 @@ public class LinkedIntList implements IntList {
         private Node next;
 
         /**
-         * Constutor for Node that accepts on Integer data
+         * Constuctor for Node that accepts on Integer data
          * and sets the next to null
          * @param data Integer value of Node
          */
@@ -41,7 +41,7 @@ public class LinkedIntList implements IntList {
         }
 
         /**
-         * Constutor for Node that accepts on Integer data
+         * Constuctor for Node that accepts on Integer data
          * and sets the next to null
          * @param data Integer Value of Node
          * @param next Points to the next Node in list
@@ -67,15 +67,12 @@ public class LinkedIntList implements IntList {
     public void addFront(int value) {
         // new Node to be added
         Node addedToFront = new Node(value);
-
-        if (head == null) {
-            // the list is currently empty
-            head = addedToFront;
-        } else {
-            // the list currently has some nodes in it
+        // the list currently has some nodes in it
+        if (head != null) {
             addedToFront.next = head;
-            head = addedToFront;
-        } size++;
+        }
+        head = addedToFront;
+        size++;
     }
 
     /**
@@ -147,11 +144,10 @@ public class LinkedIntList implements IntList {
         if (head != null) {
             if (head.next != null) {
                 head = head.next;
-                size--;
             } else {
                 head = null;
-                size--;
             }
+            size--;
         }
     }
 
@@ -243,7 +239,7 @@ public class LinkedIntList implements IntList {
                     current = current.next;
                     dex++;
                 }
-                return dex;
+                return current.data;
             }
         }
     }

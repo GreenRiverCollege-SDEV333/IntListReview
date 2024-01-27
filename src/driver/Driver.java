@@ -279,7 +279,15 @@ public class Driver {
         list.addBack(6);
         System.out.println(list);
 
+        System.out.println(list.get(0));
+        list.addFront(100);
+        System.out.println(list);
         list.clear();
+        System.out.println(list);
+        list.addFront(100);
+        list.addFront(200);
+        list.addFront(300);
+
         System.out.println(list);
 
 
