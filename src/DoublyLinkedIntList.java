@@ -46,6 +46,8 @@ public class DoublyLinkedIntList implements IntList{
         post.prev = theNewOne;
         pre.next = theNewOne;
 
+        size++;
+
     }
 
     /**
@@ -163,7 +165,7 @@ public class DoublyLinkedIntList implements IntList{
             throw new IndexOutOfBoundsException("Index is out of range");
         }
 
-        Node indexNode = pre;
+        Node indexNode = pre.next;
 
         for (int i = 0; i < index; i++) {
             indexNode = indexNode.next;
