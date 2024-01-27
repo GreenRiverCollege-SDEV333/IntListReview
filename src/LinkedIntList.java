@@ -97,23 +97,35 @@ public class LinkedIntList implements IntList{
         Node theNewOne = new Node();
         //set the value to the new node data.
         theNewOne.data = value;
-        if(current != null) { // if the point is not null or any of the current value is not null
-            if (index == 0) { // if the index is 0, we can use addfront that is already created.
-                addFront(value);
-            } else{ // else if there is already values in there, we will do a fori loop that ends with the index
-            for (int i = 1; i < index; i++) {
-                current = current.next;
+        if(index < 0 )
+        {
+            throw new IndexOutOfBoundsException("the index can not be less than 0 ");
+        } else if (index > size) {
+            if(size == 0 )
+            {
+                head = theNewOne;
+            }else {
+                throw new IndexOutOfBoundsException( "The index is greater than the list itself. ");
             }
-            //create a temp node so we wont lose the data.
-            Node temp = current.next;
-            // set the current.next connect to the new node.
-            current.next = theNewOne;
-            //set the new node . next connects to the existing node.
-            theNewOne.next = temp;
-            size++;
+
+        }else{
+
+            if(current != null) { // if the point is not null or any of the current value is not null
+                if (index == 0) { // if the index is 0, we can use addfront that is already created.
+                    addFront(value);
+                } else{ // else if there is already values in there, we will do a fori loop that ends with the index
+                for (int i = 1; i < index; i++) {
+                    current = current.next;
+                }
+                //create a temp node so we wont lose the data.
+                Node temp = current.next;
+                // set the current.next connect to the new node.
+                current.next = theNewOne;
+                //set the new node . next connects to the existing node.
+                theNewOne.next = temp;
+                size++;
+                }
             }
-        } else {
-            throw new NullPointerException(" The list is empty ");
         }
     }
 
