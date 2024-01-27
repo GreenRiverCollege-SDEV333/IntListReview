@@ -138,7 +138,7 @@ class DoublyLinkedIntListTest {
 
         full.remove(index);
         assertEquals(9, full.size());
-        assertEquals(index + 2, full.get(index));
+        assertEquals(index + 1, full.get(index));
     }
 
     @Test
