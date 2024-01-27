@@ -260,7 +260,16 @@ public class LinkedList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        //with an emptu list
         Node curr = head;
+
+        if (head == null){
+            return false;
+        }
+
+        else if (size == 1){
+            return curr.data == value;
+        }
 
         while (curr.next != null){
 
@@ -273,8 +282,8 @@ public class LinkedList implements IntList{
             curr = curr.next;
         }
 
-        //not found within list
-        return false;
+        //return if it is in the list (last element)
+        return curr.data == value;
     }
 
     /**
@@ -287,7 +296,32 @@ public class LinkedList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        //if the list is empty
+        if (head==null){
+            return -1;
+        }
+
+        int index = 0;
+        Node curr = head;
+
+        //traversing to find the index
+        while (curr.next != null){
+
+            if (curr.data == value){
+                return index;
+            }
+            curr = curr.next;
+            index++;
+        }
+
+        //last element check
+        if (curr.data == value){
+            return index;
+        }
+
+        //not found
+        return -1;
+
     }
 
     /**
@@ -297,7 +331,7 @@ public class LinkedList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return head == null;
     }
 
     /**
@@ -307,7 +341,7 @@ public class LinkedList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -316,7 +350,7 @@ public class LinkedList implements IntList{
      */
     @Override
     public void clear() {
-
+        head = null;
     }
 
     /**

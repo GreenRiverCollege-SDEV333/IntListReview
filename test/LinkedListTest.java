@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListTest {
@@ -160,29 +162,162 @@ class LinkedListTest {
 
     @Test
     void get() {
+        LinkedList empty = new LinkedList();
+        empty.addBack(1);
+        empty.addBack(2);
+        empty.addBack(3);
+        empty.addBack(4);
+        empty.addBack(5);
+        empty.addBack(6);
+
+        //1,2,3,4,5,6
+        //test at the front of list
+        assertEquals(1,empty.get(0));
+
+        //test at the middle of list
+        assertEquals(4,empty.get(3));
+
+        //test at the end of list
+        assertEquals(6,empty.get(5));
+
+        //error throwing test
+        assertThrows(IndexOutOfBoundsException.class, () -> {empty.get(7);} );
+        assertThrows(IndexOutOfBoundsException.class, () -> {empty.get(-1);} );
     }
 
     @Test
     void contains() {
+        LinkedList empty = new LinkedList();
+
+        //test with an empty list
+        assertEquals(false,empty.contains(5));
+
+        //test with one element list
+        empty.addBack(1);
+        //1
+        assertEquals(true,empty.contains(1));
+        assertEquals(false,empty.contains(100));
+
+        //test with two elements on the list (last on list)
+        empty.addBack(4);
+
+        //1,4
+        assertEquals(true,empty.contains(4));
+        assertEquals(false, empty.contains(199));
+
+        empty.addBack(99);
+        assertEquals(false, empty.contains(100));
+        assertEquals(true,empty.contains(4));
+
     }
 
     @Test
     void indexOf() {
+        LinkedList empty = new LinkedList();
+
+        //empty list
+        assertEquals(-1, empty.indexOf(100));
+
+        //with one element
+        empty.addBack(1);
+
+        //1
+        assertEquals(0, empty.indexOf(1));
+        assertEquals(-1, empty.indexOf(50));
+
+        //with two elements
+        empty.addBack(6);
+        //1,6
+        assertEquals(0, empty.indexOf(1));
+        assertEquals(1,empty.indexOf(6));
+
+        //with many elements
+        empty.addBack(8);
+        empty.addBack(3);
+        empty.addBack(19);
+
+        //1,6,8,3,19
+        //the last element
+        assertEquals(4,empty.indexOf(19));
+
+        //middle element
+        assertEquals(2,empty.indexOf(8));
+
+        //front element
+        assertEquals(0,empty.indexOf(1));
+
+        //not on the list
+        assertEquals(-1,empty.indexOf(22));
     }
+
 
     @Test
     void isEmpty() {
+        LinkedList empty = new LinkedList();
+
+        //an empty list
+        assertTrue(empty.isEmpty());
+
+        empty.addBack(10);
+        //non-empty list
+        assertFalse(empty.isEmpty());
     }
 
     @Test
     void size() {
+        LinkedList empty = new LinkedList();
+
+        //empty list
+        assertEquals(0,empty.size);
+
+        //one element
+        empty.addBack(1);
+        assertEquals(1, empty.size);
+
+        //two elements
+        empty.addBack(2);
+        assertEquals(2,empty.size);
+
+        //many elements
+        empty.addBack(3);
+        empty.addBack(4);
+        empty.addBack(5);
+        assertEquals(5,empty.size);
+
+
     }
 
     @Test
     void clear() {
+        LinkedList empty = new LinkedList();
+        empty.addBack(1);
+
+        //testing clear
+        empty.clear();
+        assertTrue(empty.isEmpty());
     }
 
     @Test
     void iterator() {
+        LinkedList empty = new LinkedList();
+
+        //adding into the array numbers
+        for (int i = 0; i < 10; i++) {
+            empty.addBack(i);
+        }
+
+        //testing iterator
+        Iterator<Integer> test = empty.iterator();
+        assertEquals(0,test.next());
+        assertEquals(1,test.next());
+
+        assertTrue(test.hasNext());
+
+        //testing hasNext
+        if(test.hasNext()){
+            int curr = 2;
+            int testInt = test.next();
+            assertEquals(curr, testInt);
+        }
     }
 }
