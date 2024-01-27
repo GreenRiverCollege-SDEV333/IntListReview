@@ -104,10 +104,28 @@ public class Main {
         linkedListTest.addFront(2);
         linkedListTest.addFront(3);
         linkedListTest.addFront(4);
-        System.out.println("Base list: ");
+        System.out.println("Base linked list: ");
         linkedListTest.printList();
 
         System.out.println("\naddBacK()");
         linkedListTest.addBack(13);
-        linkedListTest.printList();}
+        linkedListTest.printList(); //4,3,2,1,13
+
+        System.out.println("\nadd()");
+        linkedListTest.add(3,10);
+        linkedListTest.printList(); //4,3,2,10,1,13
+
+        System.out.println("\nremoveFront()");
+        linkedListTest.removeFront();
+        linkedListTest.printList(); // 3,2,10,1,13
+
+        System.out.println("\nremoveBack()");
+        linkedListTest.removeBack();
+        linkedListTest.printList(); // 3,2,10,1
+
+        System.out.println("\nremove()");
+        linkedListTest.remove(1);
+        linkedListTest.printList(); // 3,10,1
+
+    }
 }
