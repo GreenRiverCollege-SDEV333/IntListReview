@@ -63,6 +63,7 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
+        //create a new a node with the specified value
         Node newNode = new Node();
         newNode.data = value;
 
@@ -75,6 +76,8 @@ public class LinkedIntList implements IntList{
 
         //add it to the back
         current.next = newNode;
+
+        size++;
 
     }
 
@@ -93,23 +96,36 @@ public class LinkedIntList implements IntList{
             throw new IndexOutOfBoundsException("Invalid Index");
         }
 
-        Node current = head;
-
+        //create a new node with the specified data
         Node newNode = new Node();
         newNode.data = value;
 
+        //temporary node to traverse list
+        Node current = head;
+        int currIndex = 0;
 
+        while (currIndex != index - 1){
+            current = current.next;
+            currIndex++;
+        }
+
+        newNode.next = current.next;
+        current.next = newNode;
+
+        size++;
     }
 
     /**
      * Removes the value located at the front of the list
      * (at index 0), if it is present.
-     * Shifts any subsequent values to the left.
      */
     @Override
     public void removeFront() {
-        Node current = head;
+        if (size > 0){
+            head = head.next;
+        }
 
+        size--;
     }
 
     /**
@@ -118,7 +134,17 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void removeBack() {
+        Node current = head;
+        int currIndex = 1;
 
+        while (currIndex != size()- 1){
+            current = current.next;
+            currIndex++;
+        }
+
+        current.next = null;
+
+        size--;
     }
 
     /**
@@ -132,7 +158,29 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        Node current = head;
+        Node prev = null;
+        int currIndex = 0;
+
+        while(currIndex != index){
+            prev = current;
+            current = current.next;
+            currIndex++;
+        }
+
+        //remove node
+        if (prev != null){
+            prev.next = current.next;
+        }else{ //if removal of head node
+            head = current.next;
+        }
+
+        size--;
+        return current.data;
     }
 
     /**
