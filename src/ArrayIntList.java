@@ -162,7 +162,20 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public int get(int index)
     {
-        return 0;
+        //checking to make sure the user doesn't enter a number that's out of bounds
+        if (index > size)
+        {
+            throw new IndexOutOfBoundsException("Provided index is too large.");
+        }
+        else if (index < 0) //same here
+        {
+            throw new IndexOutOfBoundsException("Indexes cannot be negative.");
+        }
+        else
+        {
+            //if the index is within the bounds of the ArrayIntList, give the user the data at the provided index.
+            return buffer[index];
+        }
     }
 
     /**
@@ -174,6 +187,16 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public boolean contains(int value)
     {
+        //run through the entire ArrayIntList to check for the provided value
+        for (int i = 0; i < size; i++)
+        {
+            if (buffer[i] == value)
+            {
+                //if the value is found, stop right there and return true
+                return true;
+            }
+        }
+        //if the loop reaches its end, that means the value wasn't found; return false.
         return false;
     }
 
@@ -188,7 +211,17 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public int indexOf(int value)
     {
-        return 0;
+        //there's probably some way to recycle contains for this, but I'm not smart enough to do it right now.
+        for (int i = 0; i < size; i++)
+        {
+            //if the provided value is found in the ArrayIntList, return the index (i) that it was found at.
+            if (buffer[i] == value)
+            {
+                return i;
+            }
+        }
+        //if the loop reaches its end, then chances are the value isn't in the ArrayIntList, so return -1.
+        return -1;
     }
 
     /**
@@ -199,7 +232,15 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public boolean isEmpty()
     {
-        return false;
+        //if the size is 0, then the ArrayIntList should be empty, right?
+        if (size == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -210,7 +251,8 @@ public class ArrayIntList implements IntList
     @java.lang.Override
     public int size()
     {
-        return 0;
+        //just return the size variable.
+        return size;
     }
 
     /**
