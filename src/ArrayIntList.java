@@ -2,20 +2,16 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class ArrayIntList implements IntList{
-
     // size and length are different
     // size: amount of elements in array has to have a value
     // length: amount of spots in array does not have to have a value
     // fields:
    private int size;
    private int[] buffer;
-
    public ArrayIntList(){
        size = 0;
        buffer = new int[10];
    }
-
-
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
@@ -36,16 +32,14 @@ public class ArrayIntList implements IntList{
             buffer[i+1] = buffer[i];
 
         }
-
-//         buffer[4] = buffer[3];
-//         buffer[3] = buffer[2];
-//         buffer[2] = buffer[1];
-//         buffer[1] = buffer[0];
-
-         buffer[0] = value;
+        // visual of what is happening in loop.
+    //         buffer[4] = buffer[3];
+    //         buffer[3] = buffer[2];
+    //         buffer[2] = buffer[1];
+    //         buffer[1] = buffer[0];
+             buffer[0] = value;
          size++;
     }
-
     /**
      * Appends (inserts) the specified value at the back of the list (at index size()-1).
      *
@@ -58,9 +52,7 @@ public class ArrayIntList implements IntList{
         }
         buffer[size] = value;
         size++;
-
     }
-
     /**
      * Inserts the specified value at the specified position in this list.
      * Shifts the value currently at that position (if any) and any subsequent
@@ -83,7 +75,6 @@ public class ArrayIntList implements IntList{
         }
         size++;
     }
-
     /**
      * Removes the value located at the front of the list
      * (at index 0), if it is present.
@@ -100,7 +91,6 @@ public class ArrayIntList implements IntList{
         buffer[size - 1] = 0;
         size--;
     }
-
     /**
      * Removes the value located at the back of the list
      * (at index size()-1), if it is present.
@@ -110,9 +100,7 @@ public class ArrayIntList implements IntList{
      // reduce size or zero it out
         buffer[size - 1] = 0;
         size--;
-
     }
-
     /**
      * Removes the value at the specified position in this list.
      * Shifts any subsequent values to the left. Returns the value
@@ -130,23 +118,17 @@ public class ArrayIntList implements IntList{
         if(index >= size){
             throw new IndexOutOfBoundsException("Index is higher than size");
         }
-
-        // save copy of the value to be removed so we can return it later
+        // save copy of the value to be removed ,so we can return it later
         int removedValue = buffer[index];
-
         // shift values to the left
         for(int i = index; i <= size-1; i++){
             buffer[i] = buffer[1 + i]; // buffer[3] = buffer[4] 3 becomes 4, buffer[4] = buffer[5]  4 becomes 5
         }
-
         buffer[size - 1] = 0;
         //size decrement
         size--;
-
         return removedValue;
-
     }
-
     /**
      * Returns the value at the specified position in the list.
      *
@@ -164,7 +146,6 @@ public class ArrayIntList implements IntList{
         }
         return buffer[index];
     }
-
     /**
      * Returns true if this list contains the specified value.
      *
@@ -180,7 +161,6 @@ public class ArrayIntList implements IntList{
         }
            return false;
     }
-
     /**
      * Returns the index of the first occurrence of the specified value
      * in this list, or -1 if this list does not contain the value.
@@ -208,10 +188,8 @@ public class ArrayIntList implements IntList{
        if(size == 0){
            return true;
        }
-
         return false;
     }
-
     /**
      * Returns the number of values in this list.
      *
@@ -224,7 +202,6 @@ public class ArrayIntList implements IntList{
         }
         return size;
     }
-
     /**
      * Removes all the values from this list.
      * The list will be empty after this call returns.
@@ -237,21 +214,16 @@ public class ArrayIntList implements IntList{
         }
            size = 0;
     }
-
     private void resize(int newSize){
        // create a new space separate from the old buffer
         int[] temp = new int[newSize];
-
         // copy everything over from the buffer into new buffer
         for (int i = 0; i < buffer.length; i++) {
             temp[i] = buffer[i];
-
         }
         // reassign temp data back to buffer with bigger array
         buffer = temp;
     }
-
-
     /**
      * Returns an iterator over elements of type {@code T}.
      *
@@ -266,9 +238,8 @@ public class ArrayIntList implements IntList{
     //create a private helper iterator class
     private static class IntListIterator implements Iterable<Integer>{
 //    private int 1;
-
     private IntListIterator(){
-        ;
+
     }
         /**
          * Returns an iterator over elements of type {@code T}.
@@ -280,8 +251,6 @@ public class ArrayIntList implements IntList{
             return null;
         }
     }
-
-
     @Override
     public String toString() {
         return "ArrayIntList{" + " " +

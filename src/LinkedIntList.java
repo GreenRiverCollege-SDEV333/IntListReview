@@ -81,9 +81,7 @@ public class LinkedIntList implements IntList{
           temp.next = theNewOne;
           size++;
         }
-
     }
-
     @Override
     public String toString() {
         return "[" +
@@ -91,7 +89,6 @@ public class LinkedIntList implements IntList{
                 ", size=" + size +
                 ']';
     }
-
     /**
      * Inserts the specified value at the specified position in this list.
      * Shifts the value currently at that position (if any) and any subsequent
@@ -125,12 +122,8 @@ public class LinkedIntList implements IntList{
                 }
             }
             size++;
-
-
-
         }
     }
-
     /**
      * Removes the value located at the front of the list
      * (at index 0), if it is present.
@@ -175,13 +168,7 @@ public class LinkedIntList implements IntList{
             temp.next = null;
             size--;
         }
-
-
-
-
-
     }
-
     /**
      * Removes the value at the specified position in this list.
      * Shifts any subsequent values to the left. Returns the value
@@ -193,9 +180,21 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if(index >= size || index < 0){throw new  IndexOutOfBoundsException();}
+        Node prev = null;
+        Node temp = head;
+        for (int i = 0; i < index; i++) {
+            prev = temp;
+            temp = temp.next;
+        }
+        if (prev == null) {
+            head = temp.next;
+        } else {
+            prev.next = temp.next;
+        }
+        size--;
+        return temp.data;
     }
-
     /**
      * Returns the value at the specified position in the list.
      *
@@ -205,7 +204,24 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        Node temp;
+        int result = 0;
+        if (index > size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            temp = head;
+            for (int i = 0; i < size; i++) {
+                // then iterate through the list
+                if (i == index) {
+                    result = temp.data;
+                } else{
+                    temp = temp.next;
+                }
+
+
+            }
+        }
+        return result;
     }
 
     /**
@@ -216,6 +232,17 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        Node temp = head;
+        // if temp. next is not null
+        while (temp.next != null)
+        {
+            // then iterate through the list
+            if(temp.data == value){
+                return true;
+            }else {
+                temp = temp.next;
+            }
+        }
         return false;
     }
 
@@ -229,9 +256,20 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        if(value == 0){
+            return head.data;
+        }
+        Node temp = head;
+        int i;
+        for (i = 0; i < size; i++) {
+            if (temp.data == value) {
+                return i;
+            } else {
+                temp = temp.next;
+            }
+        }
+        return -1;
     }
-
     /**
      * Returns true if this list contains no values.
      *
@@ -239,7 +277,7 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -249,7 +287,7 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+       return size;
     }
 
     /**
@@ -258,7 +296,11 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void clear() {
-
+        while (head != null){
+            head = head.next;
+        }
+        head = null;
+        size = 0;
     }
     /**
      * Returns an iterator over elements of type {@code T}.
@@ -291,16 +333,5 @@ public class LinkedIntList implements IntList{
             current = current.next;
             return item;
         }
-    }
-
-
-
-    public static void main(String[] args) {
-
-        IntList linked = new LinkedIntList();
-        linked.add(0,1);
-
-        System.out.println();
-
     }
 }
