@@ -60,8 +60,8 @@ public class LinkedIntList implements IntList{
             head = newNode;
         } else {
             Node theLastOne = head;
-            while(head.next != null){
-                theLastOne = head.next;
+            while(theLastOne.next != null){
+                theLastOne = theLastOne.next;
             }
             theLastOne.next = newNode;
         }
@@ -85,7 +85,7 @@ public class LinkedIntList implements IntList{
 
         Node indexNode = head;
         for(int i  = 0; i < index; i++){
-            indexNode = head.next;
+            indexNode = indexNode.next;
         }
         Node newNode = new Node();
         newNode.data = value;
@@ -117,8 +117,8 @@ public class LinkedIntList implements IntList{
     public void removeBack() {
         Node theLastOne = head;
         if (!isEmpty()){
-            while(head.next.next != null){
-                theLastOne = head.next;
+            while(theLastOne.next != null){
+                theLastOne = theLastOne.next;
             }
             theLastOne.next = null;
         }
@@ -143,7 +143,7 @@ public class LinkedIntList implements IntList{
 
         Node indexNode = head;
         for(int i  = 0; i < index - 1; i++){
-            indexNode = head.next;
+            indexNode = indexNode.next;
         }
         Node removeNode = indexNode.next;
         int value = removeNode.data;
@@ -168,7 +168,7 @@ public class LinkedIntList implements IntList{
         }
         Node getNode = head;
         for(int i  = 0; i < index; i++){
-            getNode = head.next;
+            getNode = getNode.next;
         }
         int value = getNode.data;
         return value;
@@ -187,7 +187,7 @@ public class LinkedIntList implements IntList{
             if( indexNode.data == value){
                 return true;
             }
-            indexNode = head.next;
+            indexNode = indexNode.next;
         }
         return false;
     }
@@ -207,7 +207,7 @@ public class LinkedIntList implements IntList{
             if( indexNode.data == value){
                 return i;
             }
-            indexNode = head.next;
+            indexNode = indexNode.next;
         }
 
         return -1;

@@ -16,16 +16,16 @@ class LinkedIntListTest {
         empty = new LinkedIntList();
 
         one = new LinkedIntList();
-        one.addBack(10);
+        one.addFront(10);
 
         half = new LinkedIntList();
         for(int i = 1; i <= 5; i++){
-            half.addBack(i * 2);
+            half.addFront(i * 2);
         }
 
         full = new LinkedIntList();
         for(int i = 0; i < 10; i++){
-            full.addBack(i + 1);
+            full.addFront(i + 1);
         }
     }
 
