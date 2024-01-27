@@ -1,5 +1,7 @@
+package interfaces;
+
 /**
- * The IntList interface defines a set of operations
+ * The Interfaces.IntList interface defines a set of operations
  * for an ordered (indexed) collection of ints, which
  * in mathematics is known as a sequence.
  */
