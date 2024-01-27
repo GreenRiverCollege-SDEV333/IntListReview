@@ -77,6 +77,16 @@ class DoublyLinkedIntListTest {
 
     @Test
     void remove() {
+        list.addFront(10);
+        list.addBack(20);
+        list.addBack(30);
+        //10 20 30
+        list.remove(1);
+        assertEquals(2,list.size());
+        assertEquals(10,list.get(0));
+        assertEquals(30,list.get(1));
+
+
     }
 
     @Test
@@ -106,10 +116,26 @@ class DoublyLinkedIntListTest {
 
     @Test
     void indexOf() {
+        list.addBack(10);
+        list.addBack(20);
+        list.addBack(30);
+        //10 20 30
+        assertEquals(1,list.indexOf(20));
+        assertEquals(0,list.indexOf(10));
+        assertEquals(2,list.indexOf(30));
+
     }
 
     @Test
     void isEmpty() {
+        list.addBack(10);
+        list.addBack(20);
+        list.addBack(30);
+        assertFalse(list.isEmpty());
+        list.removeBack();
+        list.removeBack();
+        list.removeBack();
+        assertTrue(list.isEmpty());
     }
 
     @Test

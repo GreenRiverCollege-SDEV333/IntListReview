@@ -133,7 +133,19 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of bound");
+        }
+
+        Node current = pre.next;
+        for (int i = 0; i < index; i++) {// the for loop will check the list from the beginning
+                current = current.next;
+            }
+        int delete = current.data;
+        current.prev.next = current.next;
+        current.next.prev = current.prev;
+        size--;
+        return delete;
     }
 
     @Override
@@ -174,12 +186,19 @@ public class DoublyLinkedIntList implements IntList {
 
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node current = pre.next;
+        for (int i = 0; i < size; i++) {
+            if(current.data == value){
+                return i;
+            }
+            current = current.next;
+        }
+        return -1;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
