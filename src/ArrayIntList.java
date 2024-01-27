@@ -64,15 +64,16 @@ public class ArrayIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-        if(index < 0){
+        if (index < 0) {
             throw new IndexOutOfBoundsException("Index can not be negative");
         }
-        if(size == buffer.length){
+        if (size == buffer.length) {
             resize(size + 2);
         }
-        for (int i = size; i >= 0; i--) {
-            buffer[index] = value;
+        for (int i = size - 1; i >= index; i--) {
+            buffer[i+1] = buffer[i];
         }
+        buffer[index] = value;
         size++;
     }
     /**

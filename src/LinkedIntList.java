@@ -234,7 +234,7 @@ public class LinkedIntList implements IntList{
     public boolean contains(int value) {
         Node temp = head;
         // if temp. next is not null
-        while (temp.next != null)
+        while (temp != null)
         {
             // then iterate through the list
             if(temp.data == value){
