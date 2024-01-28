@@ -36,11 +36,18 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void addFront(int value) {
-        Node theFirstOne = new Node();
-        theFirstOne.data = value;
-        theFirstOne.next = pre.next;
-        theFirstOne.prev = pre;
-        pre.prev = theFirstOne;
+        Node theFirstOne = pre.next;
+        // set up my new node and fill it out (data, prev, next)
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+        theNewOne.prev = pre;
+        theNewOne.next = theFirstOne;
+        // go to the front of the list's sentinel, and update it's next
+        pre.next = theNewOne;
+        // go to the node after the new one, and update it's prev
+        theFirstOne.prev = theNewOne;
+        // increment size
+        size++;
     }
 
     /**
@@ -55,9 +62,9 @@ public class DoublyLinkedIntList implements IntList{
         Node theNewOne = new Node();
         theNewOne.data = value;
         theNewOne.next = post;
-        theNewOne.prev = pre;
+        theNewOne.prev = theLastOne;
         // go to the end of the list's sentinel, and update it's prev
-        post.prev = theLastOne;
+        post.prev = theNewOne;
         // go to the node before the new one, and update it's next
         theLastOne.next = theNewOne;
         // increment size
@@ -80,15 +87,28 @@ public class DoublyLinkedIntList implements IntList{
             System.out.println("Index out of bounds!");
             return;
         }
+        if(size == 0)
+        {
+            Node theNewOne = new Node();
+            theNewOne.data = value;
+            theNewOne.next = post;
+            theNewOne.prev = pre;
+            pre.next = theNewOne;
+            post.prev = theNewOne;
+            size++;
+            return;
+        }
         Node current = pre;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
         Node theNewOne = new Node();
         theNewOne.data = value;
-        theNewOne.prev.next = theNewOne;
+        theNewOne.next = current.next;
         theNewOne.next.prev = theNewOne;
-        current.prev = theNewOne;
+        current.next = theNewOne;
+        theNewOne.prev = current;
+        size++;
     }
 
     /**
@@ -162,6 +182,7 @@ public class DoublyLinkedIntList implements IntList{
             current.prev.next = current.next;
             // move next.prev to prev Node
             current.next.prev = current.prev;
+            size--;
             return valueToBeReturned;
         }
         // else, index is closer to post
@@ -175,6 +196,7 @@ public class DoublyLinkedIntList implements IntList{
         current.prev.next = current.next;
         // move next.prev to prev Node
         current.next.prev = current.prev;
+        size--;
         return valueToBeReturned;
     }
 
@@ -197,14 +219,14 @@ public class DoublyLinkedIntList implements IntList{
         // check if index is closer to pre
         if(index <= mid)
         {
-            Node current = pre;
+            Node current = pre.next;
             for (int i = 0; i < index; i++) {
                 current = current.next;
             }
             return current.data;
         }
         // else, index is closer to post
-        Node current = post;
+        Node current = post.prev;
         for (int i = size-1; i > index; i--) {
             current = current.prev;
         }
