@@ -172,7 +172,7 @@ public class DoublyLinkedIntList implements IntList{
         // check if index is closer to pre
         if(index <= mid)
         {
-            Node current = pre;
+            Node current = pre.next;
             for (int i = 0; i < index; i++) {
                 current = current.next;
             }
@@ -186,7 +186,7 @@ public class DoublyLinkedIntList implements IntList{
             return valueToBeReturned;
         }
         // else, index is closer to post
-        Node current = post;
+        Node current = post.prev;
         for (int i = size-1; i > index; i--) {
             current = current.prev;
         }
@@ -263,7 +263,7 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        Node current = pre;
+        Node current = pre.next;
         int indexCounter = 0;
         while(current != post)
         {
@@ -272,6 +272,7 @@ public class DoublyLinkedIntList implements IntList{
                 return indexCounter;
             }
             current = current.next;
+            indexCounter++;
         }
         return -1;
     }
