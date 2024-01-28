@@ -1,3 +1,9 @@
+/**
+ * This class attempts to imitate a LinkedList, with the exception that it only allows integers in its data field.
+ *
+ * @author Jared Eller
+ */
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
