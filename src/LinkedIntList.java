@@ -48,6 +48,7 @@ public class LinkedIntList implements IntList
             //the list currently has nodes in it
             theNewOne.next = head;
             head = theNewOne;
+            size++;
         }
     }
 
@@ -59,7 +60,24 @@ public class LinkedIntList implements IntList
     @Override
     public void addBack(int value)
     {
+        //set up a new node
+        Node theNewOne = new Node();
 
+        //getting an iterator set up
+        SinglyLinkedIterator iterator = new SinglyLinkedIterator();
+
+        //as long as there's another node, scoot the iterator forward along the list.
+        while(iterator.hasNext())
+        {
+            iterator.current = iterator.current.next;
+        }
+
+        //if the iterator can't move forward, then put the new Node into that empty space.
+        if(!iterator.hasNext())
+        {
+            iterator.current.next = theNewOne;
+            size++;
+        }
     }
 
     /**
@@ -74,7 +92,31 @@ public class LinkedIntList implements IntList
     @Override
     public void add(int index, int value)
     {
+        //setting up a size variable and an iterator to walk through the list
+        int currentIndex = 0;
+        SinglyLinkedIterator iterator = new SinglyLinkedIterator();
 
+        //as long as the next index isn't the one where the new value belongs AND the next index exists, move forward.
+        while (currentIndex != index + 1 && iterator.hasNext())
+        {
+            iterator.current = iterator.current.next;
+            currentIndex++;
+        }
+        //if the next index IS the one where the value belongs, then create a new node there and link it to the old
+        //"next".
+        if (currentIndex + 1 == index)
+        {
+            //to start, create a new Node. link it up to the current "next" node.
+            Node theNewOne = new Node();
+            theNewOne.next = iterator.current.next;
+
+            //now, link up the current Node to the newly-created "next" node.
+            iterator.current.next = theNewOne;
+
+            //I hope it's that simple...
+            //wait, increment the size.
+            size++;
+        }
     }
 
     /**
@@ -85,7 +127,26 @@ public class LinkedIntList implements IntList
     @Override
     public void removeFront()
     {
+        //Re-wire "head" to point to the Node in front of the node to be removed, then... let the GC grab it?
+        //I think...
+        if (head == null)
+        {
+            System.out.println("Empty list! Sorry!");
+        }
+        else
+        {
+            //storing the front node in a proper variable
+            Node theOneToRemove = head.next;
 
+            //adjusting head's pointer to point to the next one in the list
+            head.next = theOneToRemove.next;
+
+            //cutting off the old front from the rest of the list entirely
+            theOneToRemove.next = null;
+
+            //decrement the size...
+            size--;
+        }
     }
 
     /**
@@ -95,7 +156,24 @@ public class LinkedIntList implements IntList
     @Override
     public void removeBack()
     {
+        //so, check if the Node in front of the current one's "next" field is null? And if it is, that must be the
+        //back of the list. In which case, cut off the current one's "next" field so that the old "back" floats off
+        //and gets eaten by the GC.
+        SinglyLinkedIterator iterator = new SinglyLinkedIterator();
 
+        //as long as the Node in front of this one doesn't have a null pointer...
+        while(iterator.current.next.next != null)
+        {
+            //go forward.
+            iterator.current = iterator.current.next;
+        }
+
+        //if we're at the second-to-last node...
+        if (iterator.current.next.next == null)
+        {
+            //let the last node go. It's IDE food now.
+            iterator.current.next = null;
+        }
     }
 
     /**
@@ -110,7 +188,50 @@ public class LinkedIntList implements IntList
     @Override
     public int remove(int index)
     {
-        return 0;
+        if (index > size)
+        {
+            throw new IndexOutOfBoundsException("Provided index is too high.");
+        }
+        else if (index < 0)
+        {
+            throw new IndexOutOfBoundsException("Negative indexes are not supported.");
+        }
+        else
+        {
+            //walk through the list, keeping track of what node you're on, and when your pointer is pointing to the Node
+            //you're looking for, store that Node in a variable, grab its pointer to redirect your current Node, then
+            //set the stored Node's next to null so it floats away like a piece of driftwood in the ocean.
+
+            //gonna recycle some of my solution for add(), really hoping this works since it's largely untested...
+
+            //setting up a size variable and an iterator to walk through the list
+            int currentIndex = 0;
+            SinglyLinkedIterator iterator = new SinglyLinkedIterator();
+
+            //as long as the next index isn't the index indicated AND the next index exists, move forward.
+            while (currentIndex != index + 1 && iterator.hasNext())
+            {
+                iterator.current = iterator.current.next;
+                currentIndex++;
+            }
+            //if the next index IS the one we're looking for, store that Node in a variable.
+            if (currentIndex + 1 == index)
+            {
+                //store the Node in a variable.
+                Node theOneToRemove = iterator.current.next;
+
+                //from here, I need to grab the pointer from this new variable and give it to the current Node.
+                iterator.current.next = theOneToRemove.next;
+
+                //cut the stored Node's next field and return its data.
+                //also decrement the list size.
+                size--;
+                theOneToRemove.next = null;
+                return theOneToRemove.data;
+            }
+        }
+        //otherwise, return -1, I suppose.
+        return -1;
     }
 
     /**
@@ -123,7 +244,39 @@ public class LinkedIntList implements IntList
     @Override
     public int get(int index)
     {
-        return 0;
+        if (index > size)
+        {
+            throw new IndexOutOfBoundsException("Provided index is too high.");
+        }
+        else if (index < 0)
+        {
+            throw new IndexOutOfBoundsException("Negative indexes are not supported.");
+        }
+        else
+        {
+            //walk through the list, keeping track of what node you're on, and when your pointer is pointing to the Node
+            //you're looking for, return the Node data at that particular index.
+
+            //gonna recycle some of my solution for add(), really hoping this works since it's largely untested...
+
+            //setting up a size variable and an iterator to walk through the list
+            int currentIndex = 0;
+            SinglyLinkedIterator iterator = new SinglyLinkedIterator();
+
+            //as long as the next index isn't the index indicated AND the next index exists, move forward.
+            while (currentIndex != index + 1 && iterator.hasNext())
+            {
+                iterator.current = iterator.current.next;
+                currentIndex++;
+            }
+            //if the next index IS the one we're looking for, return the data at that index.
+            if (currentIndex + 1 == index)
+            {
+                return iterator.current.next.data;
+            }
+        }
+        //otherwise, return -1.
+        return -1;
     }
 
     /**
@@ -135,6 +288,23 @@ public class LinkedIntList implements IntList
     @Override
     public boolean contains(int value)
     {
+        //walk through the list, keeping track of what node you're on, and if the Node you're on has the value you're
+        //looking for, return true. Otherwise, return false.
+
+        //gonna recycle some of my solution for add(), really hoping this works since it's largely untested...
+
+        SinglyLinkedIterator iterator = new SinglyLinkedIterator();
+
+        //as long as the next index exists, check for the value and move forward.
+        while (iterator.hasNext())
+        {
+            if (iterator.current.data == value)
+            {
+                return true;
+            }
+            iterator.current = iterator.current.next;
+        }
+        //if the iterator makes it to the end of the list and didn't return true, then it's not here. return false.
         return false;
     }
 
@@ -149,7 +319,36 @@ public class LinkedIntList implements IntList
     @Override
     public int indexOf(int value)
     {
-        return 0;
+
+        //walk through the list, keeping track of what node you're on, and if your current Node has the data being
+        //requested in it, return the currentIndex variable. Otherwise, keep going.
+
+         //gonna recycle some of my solution for add(), really hoping this works since it's largely untested...
+
+         //setting up a size variable and an iterator to walk through the list
+         int currentIndex = 0;
+         SinglyLinkedIterator iterator = new SinglyLinkedIterator();
+
+         //as long as the next index exists, move forward.
+         while (iterator.hasNext())
+         {
+             //check for if the value's here...
+             if (iterator.current.data == value)
+             {
+                 //if it is, return the current index.
+                 return currentIndex;
+             }
+             else
+             {
+                 //if it isn't, iterate the current index instead.
+                 currentIndex++;
+             }
+             //then move forward.
+            iterator.current = iterator.current.next;
+
+         }
+         //if it isn't found by the time the iterator reaches the end of the list it's not here. return -1.
+        return -1;
     }
 
     /**
@@ -160,7 +359,15 @@ public class LinkedIntList implements IntList
     @Override
     public boolean isEmpty()
     {
-        return false;
+        //just check if the size is 0; if it is, it's empty. If it isn't, it's not empty.
+        if (size == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -171,7 +378,8 @@ public class LinkedIntList implements IntList
     @Override
     public int size()
     {
-        return 0;
+        //just return the size field.
+        return size;
     }
 
     /**
@@ -181,7 +389,9 @@ public class LinkedIntList implements IntList
     @Override
     public void clear()
     {
-
+        //make a new one entirely. Wipe the slate clean.
+        head = null;
+        size = 0;
     }
 
     /**
