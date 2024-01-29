@@ -1,0 +1,370 @@
+/**
+ * This file contains a data structure designed to mimic an ArrayList; however, it only accepts integers instead of
+ * any data type.
+ *
+ * @author Jared Eller
+ * @version 1.0
+ */
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class ArrayIntList implements IntList
+{
+
+    //fields
+    private int size;
+    private int[] buffer;
+
+    public ArrayIntList ()
+    {
+        size = 0;
+        buffer = new int[10];
+    }
+
+    /**
+     * Prepends (inserts) the specified value at the front of the list (at index 0).
+     * Shifts the value currently at the front of the list (if any) and any
+     * subsequent values to the right.
+     *
+     * @param value value to be inserted
+     */
+    @java.lang.Override
+    public void addFront(int value)
+    {
+        //index shuffle
+        for (int i = size - 1; i > -1; i--)
+        {
+            buffer[i + 1] = buffer[i];
+        }
+
+        //put the value at position 0
+        buffer[0] = value;
+        size++;
+    }
+
+    /**
+     * Appends (inserts) the specified value at the back of the list (at index size()-1).
+     *
+     * @param value value to be inserted
+     */
+    @java.lang.Override
+    public void addBack(int value)
+    {
+        //TODO: check to see if we are full - if so, we need to create a larger buffer
+
+        //if the buffer is full, double the size.
+        if (size == buffer.length)
+        {
+            resize(size * 2);
+        }
+
+        buffer[size] = value;
+        size++;
+    }
+
+    /**
+     * Inserts the specified value at the specified position in this list.
+     * Shifts the value currently at that position (if any) and any subsequent
+     * values to the right.
+     *
+     * @param index index at which the specified value is to be inserted
+     * @param value value to be inserted
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
+    @java.lang.Override
+    public void add(int index, int value)
+    {
+        if (size == buffer.length)
+        {
+            resize(size * 2);
+        }
+
+        //shuffling stuff over if the current index isn't empty
+        if (buffer[index] != 0)
+        {
+            for (int i = size - 1; i > -1; i--)
+            {
+                buffer[i + 1] = buffer[i];
+            }
+        }
+
+        //inserting the value at the index
+        buffer[index] = value;
+        size++;
+    }
+
+    /**
+     * Removes the value located at the front of the list
+     * (at index 0), if it is present.
+     * Shifts any subsequent values to the left.
+     */
+    @java.lang.Override
+    public void removeFront()
+    {
+        if (!isEmpty())
+        {
+            for (int i = 0; i <= size - 2; i++)
+            {
+                buffer[i] = buffer[i + 1];
+            }
+
+            //clearing out the rightmost index
+            buffer[size - 1] = 0;
+            size--;
+        }
+        else
+        {
+            System.out.println("List is empty. Nothing to remove.");
+        }
+    }
+
+    /**
+     * Removes the value located at the back of the list
+     * (at index size()-1), if it is present.
+     */
+    @java.lang.Override
+    public void removeBack()
+    {
+        if (!isEmpty())
+        {
+            buffer[size - 1] = 0;
+            size--;
+        }
+        else
+        {
+            System.out.println("List is empty. Nothing to remove.");
+        }
+    }
+
+    /**
+     * Removes the value at the specified position in this list.
+     * Shifts any subsequent values to the left. Returns the value
+     * that was removed from the list.
+     *
+     * @param index the index of the value to be removed
+     * @return the value previously at the specified position
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
+    @java.lang.Override
+    public int remove(int index)
+    {
+        if (index < 0)
+        {
+            throw new IndexOutOfBoundsException("Index cannot be negative.");
+        }
+        else if (index >= size)
+        {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        //save a copy of the value to be removed so we can return it later
+        int returnValue = buffer[index];
+
+        //shift values from upper indexes down
+        for (int i = index; i < size; i++)
+        {
+            buffer[i] = buffer[i + 1];
+        }
+        buffer[size - 1] = 0;
+
+        //decrement the size of the list
+        size--;
+
+        return returnValue;
+    }
+
+    /**
+     * Returns the value at the specified position in the list.
+     *
+     * @param index index of the value to return
+     * @return the value at the specified position in this list
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
+    @java.lang.Override
+    public int get(int index)
+    {
+        //checking to make sure the user doesn't enter a number that's out of bounds
+        if (index > size)
+        {
+            throw new IndexOutOfBoundsException("Provided index is too large.");
+        }
+        else if (index < 0) //same here
+        {
+            throw new IndexOutOfBoundsException("Indexes cannot be negative.");
+        }
+        else
+        {
+            //if the index is within the bounds of the ArrayIntList, give the user the data at the provided index.
+            return buffer[index];
+        }
+    }
+
+    /**
+     * Returns true if this list contains the specified value.
+     *
+     * @param value value whose presence in this list is to be searched for
+     * @return true if this list contains the specified value
+     */
+    @java.lang.Override
+    public boolean contains(int value)
+    {
+        //run through the entire ArrayIntList to check for the provided value
+        for (int i = 0; i < size; i++)
+        {
+            if (buffer[i] == value)
+            {
+                //if the value is found, stop right there and return true
+                return true;
+            }
+        }
+        //if the loop reaches its end, that means the value wasn't found; return false.
+        return false;
+    }
+
+    /**
+     * Returns the index of the first occurrence of the specified value
+     * in this list, or -1 if this list does not contain the value.
+     *
+     * @param value value to search for
+     * @return the index of the first occurrence of the specified value in this list
+     * or -1 if this list does not contain the value
+     */
+    @java.lang.Override
+    public int indexOf(int value)
+    {
+        //there's probably some way to recycle contains for this, but I'm not smart enough to do it right now.
+        for (int i = 0; i < size; i++)
+        {
+            //if the provided value is found in the ArrayIntList, return the index (i) that it was found at.
+            if (buffer[i] == value)
+            {
+                return i;
+            }
+        }
+        //if the loop reaches its end, then chances are the value isn't in the ArrayIntList, so return -1.
+        return -1;
+    }
+
+    /**
+     * Returns true if this list contains no values.
+     *
+     * @return true if this list contains no values
+     */
+    @java.lang.Override
+    public boolean isEmpty()
+    {
+        //if the size is 0, then the ArrayIntList should be empty, right?
+        if (size == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Returns the number of values in this list.
+     *
+     * @return the number of values in this list
+     */
+    @java.lang.Override
+    public int size()
+    {
+        //just return the size variable.
+        return size;
+    }
+
+    /**
+     * Removes all the values from this list.
+     * The list will be empty after this call returns.
+     */
+    @java.lang.Override
+    public void clear()
+    {
+        buffer = new int[10];
+        size = 0;
+
+//        clean, efficient method. Too slow.
+//        while (size != 0)
+//        {
+//            remove(0);
+//        }
+    }
+
+    private void resize(int newSize)
+    {
+        //create a new space, separate from the old one
+        int[] newBuffer = new int[newSize];
+
+        //copy everything over from buffer into newBuffer
+        for (int i = 0; i < size; i++)
+        {
+            newBuffer[i] = buffer[i];
+        }
+
+        //set the new space into buffer
+        buffer = newBuffer;
+
+        //the old buffer space is no longer "pointed to" and will eventually be cleaned up by the
+        //garbage collector
+    }
+
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator<Integer> iterator()
+    {
+
+        return new IntListIterator();
+    }
+
+    //create a private helper Iterator class
+    private class IntListIterator implements Iterator<Integer>
+    {
+        //private fields
+        private int i;
+
+        private IntListIterator()
+        {
+            i = 0;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext()
+        {
+            return i < size;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next()
+        {
+            if (i >= size)
+            {
+                throw new NoSuchElementException("i is out of bounds");
+            }
+
+            int currentValue = buffer[i];
+            i++;
+            return currentValue;
+        }
+    }
+}
