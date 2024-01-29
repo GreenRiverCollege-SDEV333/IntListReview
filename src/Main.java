@@ -21,8 +21,10 @@ public class Main {
             System.out.println(value);
         }
 
-        arrayIntListTest();
-        singlyLinkedIntListTest();
+//        arrayIntListTest();
+//        singlyLinkedIntListTest();
+        doublyLinkedIntListTest();
+
     }
 
     public static void arrayIntListTest(){
@@ -145,6 +147,51 @@ public class Main {
         System.out.println("\nclear");
         linkedListTest.clear();
         linkedListTest.printList();
+
+    }
+
+    public static void doublyLinkedIntListTest(){
+        DoublyLinkedIntList test = new DoublyLinkedIntList();
+        test.addFront(1);
+        test.addFront(2);
+        test.addFront(3);
+        test.addFront(4);
+        test.addFront(5);
+        test.addFront(6);
+        test.addFront(7);
+        test.addBack(8);
+        System.out.println("Base doubly linked list"); //7, 6, 5, 4, 3, 2, 1, 8
+        test.printList();
+
+        System.out.println("\nindexOf()");
+        System.out.println(test.indexOf(6)); //1
+
+        System.out.println("\nget()");
+        System.out.println(test.get(0)); //7
+
+        System.out.println("\ncontains()");
+        System.out.println(test.contains(3)); //true
+
+        System.out.println("\nremove()");
+        test.remove(4);
+        test.printList(); //7, 6, 5, 4, 2, 1, 8
+
+        System.out.println("\nremoveFront");
+        test.removeFront();
+        test.printList(); //6, 5, 4, 2, 1, 8
+
+        System.out.println("\nremoveBack");
+        test.removeBack();
+        test.printList(); //6, 5, 4, 2, 1
+
+        System.out.println("\nsize()");
+        System.out.println(test.size()); //5
+
+        System.out.println("\nclear()");
+        test.clear();
+
+        System.out.println("\nisEmpty()");
+        System.out.println(test.isEmpty()); //true
 
     }
 }
