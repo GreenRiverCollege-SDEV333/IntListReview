@@ -95,7 +95,28 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
 
+        Node newNode = new Node();
+        newNode.data = value;
+
+        Node current = pre.next;
+
+        for (int i = 0; i < index; i++) {
+           current = current.next;
+        }
+
+        //update references to include new node
+        newNode.next = current.prev;
+        newNode.prev = current;
+
+        //update neighboring nodes' reference
+        current.prev.next = newNode;
+        current.prev = newNode;
+
+        size++;
     }
 
     /**
@@ -105,6 +126,15 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void removeFront() {
+        if (size > 0){
+            //the node to be removed
+            Node removedNode = pre.next;
+
+            //update references
+            pre.next = removedNode.next; //set pre to the node after the removed one
+            removedNode.next.prev = pre; //new 'first' node connects back to sentinel pre
+            size--;
+        }
 
     }
 
@@ -130,8 +160,6 @@ public class DoublyLinkedIntList implements IntList{
 
             size--;
         }
-
-
     }
 
     /**
@@ -145,7 +173,33 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        Node removedNode = pre;
+
+        //removing first node
+        if (index == 0){
+            removeFront();
+        }
+        //removing last node
+        else if (index == size-1){
+            removeBack();
+        }
+        //removing middle node
+        else{
+            Node current = pre.next;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+            removedNode = current;
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
+        }
+
+        size--;
+        return removedNode.data;
     }
 
     /**
@@ -157,7 +211,18 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        if (index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        Node current = pre.next;
+
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        //return the data at the index
+        return current.data;
     }
 
     /**
@@ -171,6 +236,15 @@ public class DoublyLinkedIntList implements IntList{
         //if list is empty
         if(pre.next == post){
             return false;
+        }
+        //new node to traverse list
+        Node current = pre.next;
+
+        while (current.next != post){
+            if (current.data == value){
+                return true;
+            }
+            current = current.next;
         }
 
         return false;
@@ -186,22 +260,33 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node current = pre.next;
+        int index = 0;
+
+        //go to the end of the list
+        while(current != post){
+            if (current.data == value){
+                return index;
+            }else{
+                index++;
+                current = current.next;
+            }
+        }
+        return -1;
     }
 
     /**
-     * Returns true if this list contains no values.
-     *
      * @return true if this list contains no values
      */
     @Override
     public boolean isEmpty() {
+        if (pre.next == post){
+            return true;
+        }
         return false;
     }
 
     /**
-     * Returns the number of values in this list.
-     *
      * @return the number of values in this list
      */
     @Override
@@ -215,7 +300,8 @@ public class DoublyLinkedIntList implements IntList{
      */
     @Override
     public void clear() {
-
+        pre.next = post;
+        size = 0;
     }
 
     /**
