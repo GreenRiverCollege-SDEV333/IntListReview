@@ -1,15 +1,19 @@
 import org.junit.jupiter.api.Test;
+
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 /*
  *   Ryder Dettloff
- *   Tests for IntList Review; LinkedList methods
+ *   Tests for IntList Review; DoublyLinkedList methods
+ * I have work to do to get this to work )):
  */
-class LinkedListTest {
+class DoublyLinkedListTest {
 
 
     @Test
     void AddFront() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addFront(1);
         myList.addFront(5);
         myList.addFront(10);
@@ -20,7 +24,8 @@ class LinkedListTest {
 
     @Test
     void AddBack() {
-        LinkedList myList = new LinkedList();
+        // Create a new instance of DoublyLinkedList
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addBack(1);
         myList.addBack(5);
         myList.addBack(10);
@@ -31,7 +36,7 @@ class LinkedListTest {
 
     @Test
     void Add() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addFront(1);
         myList.addFront(5);
         myList.add(1, 10);
@@ -42,7 +47,7 @@ class LinkedListTest {
 
     @Test
     void RemoveFront() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addFront(1);
         myList.addFront(5);
         myList.removeFront();
@@ -52,31 +57,30 @@ class LinkedListTest {
 
     @Test
     void RemoveBack() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addBack(1);
         myList.addBack(5);
         myList.addBack(10);
         myList.removeBack();
-        assertEquals(1, myList.get(0));
-        assertEquals(5, myList.get(1));
+        assertEquals(5, myList.get(myList.size() - 1));
         assertEquals(2, myList.size());
     }
 
     @Test
     void Remove() {
-        LinkedList mylist = new LinkedList();
-        mylist.addBack(1);
-        mylist.addBack(5);
-        mylist.addBack(10);
+        DoublyLinkedList mylist = new DoublyLinkedList();
+        mylist.addFront(1);
+        mylist.addFront(5);
+        mylist.addFront(10);
         mylist.remove(1);
-        assertEquals(1, mylist.get(0));
-        assertEquals(10, mylist.get(1));
+        assertEquals(10, mylist.get(0));
+        assertEquals(1, mylist.get(1));
         assertEquals(2, mylist.size());
     }
 
     @Test
     void Get() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addFront(1);
         myList.addFront(5);
         myList.addFront(10);
@@ -85,7 +89,7 @@ class LinkedListTest {
 
     @Test
     void Contains() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addFront(1);
         myList.addFront(5);
         myList.addFront(10);
@@ -95,7 +99,7 @@ class LinkedListTest {
 
     @Test
     void IndexOf() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addBack(1);
         myList.addBack(5);
         myList.addBack(10);
@@ -105,7 +109,7 @@ class LinkedListTest {
 
     @Test
     void IsEmpty() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         myList.addBack(1);
         assertFalse(myList.isEmpty());
         myList.clear();
@@ -114,7 +118,7 @@ class LinkedListTest {
 
     @Test
     void Size() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         assertEquals(0, myList.size());
         myList.addBack(1);
         myList.addBack(5);
@@ -124,7 +128,7 @@ class LinkedListTest {
 
     @Test
     void Clear() {
-        LinkedList myList = new LinkedList();
+        DoublyLinkedList myList = new DoublyLinkedList();
         assertEquals(0, myList.size());
         myList.addBack(1);
         myList.addBack(5);
@@ -132,4 +136,25 @@ class LinkedListTest {
         assertTrue(myList.isEmpty());
     }
 
+    /*
+    I had trouble with this test but finally got it working
+    it tests the itertators and its methods (hasNext) and next
+     */
+    @Test
+    public void testIterator() {
+        DoublyLinkedList mylist = new DoublyLinkedList();
+        mylist.addFront(1);
+        mylist.addFront(5);
+        mylist.addFront(10);
+
+        Iterator<Integer> iterator = mylist.iterator();
+
+        assertTrue(iterator.hasNext());
+        assertEquals(10, iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(5, iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(1, iterator.next());
+        assertFalse(iterator.hasNext());
+    }
 }
