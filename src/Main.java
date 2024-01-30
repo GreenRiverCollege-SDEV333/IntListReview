@@ -7,6 +7,128 @@ public class Main  {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
 
+
+
+           IntList dbl = new DoublyLinkedList();
+          // DoublyLinkedList tests
+          // 0 elements
+          dbl.add(0,1);
+          System.out.println(dbl);
+          dbl.clear();
+
+         dbl.addFront(33);
+         System.out.println(dbl);
+         dbl.clear();
+
+
+         dbl.addBack(44);
+         System.out.println(dbl);
+         dbl.clear();
+//        commented out because will throw exception
+//         dbl.removeFront();
+//         dbl.removeBack();
+//         dbl.remove(0);
+
+
+        System.out.println(dbl.get(0));
+        System.out.println(dbl.contains(55));
+        System.out.println(dbl.isEmpty());
+        System.out.println(dbl.indexOf(0));
+        System.out.println(dbl.size());
+
+
+     // one element tests
+        dbl.add(0,76);
+        Iterator<Integer> iteratingDoubleListNodes = dbl.iterator();
+        while (iteratingDoubleListNodes.hasNext()) {
+            System.out.println(iteratingDoubleListNodes.next());
+        }
+        dbl.clear();
+        dbl.add(0,54);
+        System.out.println(dbl);
+        dbl.clear();
+
+        dbl.add(0,76);
+        dbl.addFront(33);
+        System.out.println(dbl);
+        dbl.clear();
+
+        dbl.add(0,76);
+        dbl.addBack(44);
+        System.out.println(dbl);
+        dbl.clear();
+        dbl.add(0,76);
+
+        System.out.println(dbl);
+
+         dbl.removeFront();
+         dbl.removeBack();
+         dbl.addFront(5);
+        System.out.println(dbl.remove(0));
+
+        dbl.add(0,76);
+        System.out.println(dbl.get(0));
+        System.out.println(dbl.contains(55));
+        System.out.println(dbl.isEmpty());
+        System.out.println(dbl);
+        System.out.println(dbl.indexOf(1));
+        System.out.println(dbl.size());
+        dbl.clear();
+
+        //multiple elements
+        dbl.addFront(33);
+        dbl.addFront(34);
+        dbl.addFront(37);
+        dbl.addFront(55);
+        dbl.addFront(44);
+        dbl.addFront(98);
+        System.out.println(dbl);
+
+
+        dbl.add(0,76);
+        System.out.println(dbl);
+
+
+
+        dbl.addFront(33);
+        System.out.println(dbl);
+
+        dbl.addBack(44);
+        System.out.println(dbl);
+
+        dbl.removeFront();
+        System.out.println(dbl);
+
+        dbl.removeBack();
+        System.out.println(dbl);
+
+        dbl.addFront(5);
+        System.out.println(dbl);
+
+        System.out.println(dbl.remove(0));
+
+
+        System.out.println(dbl.get(0));
+
+        System.out.println(dbl.contains(55));
+
+        System.out.println(dbl.isEmpty());
+
+        System.out.println(dbl);
+
+        System.out.println(dbl.indexOf(1));
+
+        System.out.println(dbl.size());
+
+        Iterator<Integer> iteratingDoubleListNodesOneElement = dbl.iterator();
+        while (iteratingDoubleListNodesOneElement.hasNext()) {
+            System.out.println(iteratingDoubleListNodesOneElement.next());
+        }
+
+        System.out.println();
+
+
+
             // create variable of type then write a class that implements type then you can make a new object
             IntList array = new ArrayIntList();
             //resizing tests

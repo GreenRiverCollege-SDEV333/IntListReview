@@ -1,34 +1,38 @@
 import java.util.Iterator;
 
-public class DoublyLinkedList implements IntList{
+public class DoublyLinkedList implements IntList {
     /**
      * Prepends (inserts) the specified value at the front of the list (at index 0).
      * Shifts the value currently at the front of the list (if any) and any
      * subsequent values to the right.
-     *
-     *
      */
     //private fields
 
-    private class Node{
+    private class Node {
         int data;
 
         Node next;  // address of the node after this one in line
 
         Node prev; // address of the node before this one in the line
+
+        @Override
+        public String toString() {
+            return "" + data + "," + next;
+        }
+
+        public Node() {
+            next = null;
+            prev = null;
+
+        }
     }
 
-    public void Node(){
-        next = null;
-        prev = null;
-    }
-
-    private Node next;
     private Node prev;
     private Node post;
     private int size;
 
-    DoublyLinkedList(){
+    // constructor
+    DoublyLinkedList() {
         // set empty list has 2 sentinel nodes that serve as bookends
         prev = new Node();
         post = new Node();
@@ -46,15 +50,16 @@ public class DoublyLinkedList implements IntList{
         theNewOne.data = value;
 
         //setting the new node in front of post
-        theNewOne.prev = post;
+        theNewOne.prev = prev;
         // Setting prev node behind new node -> post -> prev
-        theNewOne.prev.prev = prev;
+        theNewOne.next = prev.next;
 
         // setting the node after post to the new node
-        post.next = theNewOne;
+        theNewOne.prev.next = theNewOne;
+        theNewOne.next.prev = theNewOne;
+
         // incrementing size
         size++;
-
 
 
     }
@@ -66,7 +71,7 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void addBack(int value) {
-       Node theLastOne = prev.prev;
+        Node theLastOne = post.prev;
 
         //set up any new node and fill it out (data,prev,next)
         Node theNewOne = new Node();
@@ -82,6 +87,18 @@ public class DoublyLinkedList implements IntList{
 
     }
 
+    @Override
+    public String toString() {
+        String string = "DoublyLinkedList{";
+        Node node = prev.next;
+        for (int i = 0; i < size; i++) {
+            string += node.data + ", ";
+            node = node.next;
+        }
+        string += "size=" + size + "}";
+        return string;
+    }
+
     /**
      * Inserts the specified value at the specified position in this list.
      * Shifts the value currently at that position (if any) and any subsequent
@@ -93,7 +110,34 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void add(int index, int value) {
+        Node theNewOne = new Node();
+        theNewOne.data = value;
+        if(index > size || index < 0){
+            throw new IndexOutOfBoundsException();
+        } else {
+            if(size == 0){
+                prev.next = theNewOne;
+                post.prev = theNewOne;
+                theNewOne.prev = prev;
+                theNewOne.next = post;
+            } else {
+                Node temp = prev.next;
+                for (int i = 0; i <= size; i++) {
+                    if(i == index){
+                        theNewOne.next = temp;
+                        theNewOne.prev = temp.prev;
+                        temp.prev = theNewOne;
+                        theNewOne.prev.next = theNewOne;
 
+                    }else{
+                        // important iterating through nodes temp -> temp.next - > temp -> temp.next
+                        temp = temp.next;
+                    }
+                }
+
+            }
+            size++;
+        }
     }
 
     /**
@@ -104,13 +148,12 @@ public class DoublyLinkedList implements IntList{
     @Override
     public void removeFront() {
 
-        if(size > 0) {
+        if (size > 0) {
             // set up temp variable
-            Node theOneToRemove = post;
+            Node theOneToRemove = prev.next;
 
-            theOneToRemove.prev.next = post;
-
-            post.prev.prev = post.prev;
+            theOneToRemove.prev.next = theOneToRemove.next;
+            theOneToRemove.next.prev = theOneToRemove.prev;
 
             theOneToRemove.next = null;
             theOneToRemove.prev = null;
@@ -118,7 +161,7 @@ public class DoublyLinkedList implements IntList{
 
             size--;
         }
-        
+
     }
 
     /**
@@ -128,22 +171,23 @@ public class DoublyLinkedList implements IntList{
     @Override
     public void removeBack() {
 
-        if(size > 0){
+        if (size > 0) {
 
 
-        // set up a temp variable for convience
-        Node theOneToRemove = post.prev;
+            // set up a temp variable
+            Node theOneToRemove = post.prev;
 
-        theOneToRemove.next.prev = post;
-        post.prev = theOneToRemove.prev;
+            theOneToRemove.prev.next = post;
+            post.prev = theOneToRemove.prev;
 
-        // strong optional cleanup
-        theOneToRemove.next = null;
-        theOneToRemove.prev = null;
-        theOneToRemove.data = 0;
+            // strong optional cleanup
+            theOneToRemove.next = null;
+            theOneToRemove.prev = null;
+            theOneToRemove.data = 0;
 
-        size--;
-    }}
+            size--;
+        }
+    }
 
     /**
      * Removes the value at the specified position in this list.
@@ -156,7 +200,23 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        int removed = 0;
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            Node theRemovedOne = prev.next;
+            for (int i = 0; i < size; i++) {
+                if (i == index) {
+                    removed = theRemovedOne.data;
+                    theRemovedOne.prev.next = theRemovedOne.next;
+                    theRemovedOne.next.prev = theRemovedOne.prev;
+
+                }
+                theRemovedOne = theRemovedOne.next;
+            }
+            size--;
+        }
+        return removed;
     }
 
     /**
@@ -168,7 +228,20 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        Node node;
+        if (index > size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            node = prev.next;
+            for (int i = 0; i < size; i++) {
+                if (index == i) {
+                    return node.data;
+                } else {
+                    node = node.next;
+                }
+            }
+        }
+        return node.data;
     }
 
     /**
@@ -179,7 +252,16 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public boolean contains(int value) {
-        return false;
+        Node node;
+        node = prev.next;
+        while (node != post) {
+            if (node.data == value) {
+                return true;
+            }
+            node = node.next;
+
+        }
+            return false;
     }
 
     /**
@@ -192,8 +274,15 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node node = prev.next;
+        for (int i = 0; i < size; i++) {
+            if(value == node.data){
+                return i;
+            } node = node.next;
+        }
+        return -1;
     }
+
 
     /**
      * Returns true if this list contains no values.
@@ -202,7 +291,7 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -212,7 +301,7 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -221,7 +310,9 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public void clear() {
-
+       prev.next = post;
+       post.prev = prev;
+       size = 0;
     }
 
     /**
@@ -231,6 +322,29 @@ public class DoublyLinkedList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        DoublyLinkedIterator theIterator = new DoublyLinkedIterator();
+        return theIterator;
     }
+
+    private class DoublyLinkedIterator implements Iterator<Integer>{
+
+            // private int i;   // index of the item I am on in the arraylist
+            private DoublyLinkedList.Node current;
+
+            public DoublyLinkedIterator(){
+                current = prev.next;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return current != null && current != post;
+            }
+
+            @Override
+            public Integer next() {
+                int item = current.data;
+                current = current.next;
+                return item;
+            }
+        }
 }
