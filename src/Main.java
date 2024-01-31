@@ -11,18 +11,19 @@ public class Main {
 
         IntList secondList = new DoublyLinkedList();
         IntList thirdList = new ArrayIntList();
-        secondList.addBack(1);
-        secondList.addFront(20);
-        secondList.addFront(30);
-        secondList.addFront(40);
-        secondList.addFront(50);
-        secondList.addBack(3000);
-        secondList.remove(3);
+
+        secondList.add(0,10);
+        secondList.add(1,11);
+        secondList.add(2,12);
+        secondList.add(3, 13);
+
+
         for (int number :secondList
              ) {
             System.out.println(number);
         }
-        System.out.println("index: " + secondList.get(5));
+        System.out.println("this is the contain test: " + secondList.contains(14));
+
         System.out.println("This is the size: " + secondList.size());
         System.out.println("is the list empty? " + secondList.isEmpty());
 

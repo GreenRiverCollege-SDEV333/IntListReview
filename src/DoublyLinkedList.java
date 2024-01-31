@@ -101,6 +101,31 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        Node current = pre;// pre will be starting point already
+        Node theNewOne = new Node(); // creates a new node
+        theNewOne.data = value; // set the value as the data for the new node
+        if(index > size)
+        {
+            throw new IndexOutOfBoundsException("index can not be more than size. ");
+        } else if (index < 0 ) {
+            throw new IndexOutOfBoundsException("Index can not be less than zero. ");
+        }
+        if(pre.next == post && post.prev == pre)
+        {
+            pre.next = theNewOne;
+            theNewOne.next = post;
+            post.prev = theNewOne;
+        }else {
+            for (int i = 0; i < index; i++) { // i will starts at 0 which will be the first index.
+                current = current.next; // if index is 3. current will be at index 2
+            }
+            Node theLastOne = current.next; // this will be index 3
+            current.next = theNewOne; //index2.next will be the new one
+            theNewOne.next = theLastOne; //theNewOne.next will be connected to index 3, which is the last one .
+            theNewOne.prev = current;
+            theLastOne.prev = theNewOne;
+        }
+        size++;
 
     }
 
@@ -157,8 +182,8 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int remove(int index) {
-        //TODO need to think of cases for post
         Node current = pre; // pre will be 0 the head will count as a 0 index
+        throwOutOfBoundEx(index);
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
@@ -178,8 +203,8 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int get(int index) {
-        //TODO CASE FOR ZERO AT THE END
         Node current = pre;
+        throwOutOfBoundEx(index);
         for (int i = 0; i < index ; i++) {
             current = current.next;
         }
@@ -194,8 +219,11 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        //TODO NEED TO FIGURE OUT IF THERE ARE ZEROS
+
         Node current = pre;
+        if(value == 0 ){
+            return false;
+        }
         while(current.next != null)
         {
             current = current.next;
@@ -218,8 +246,17 @@ public class DoublyLinkedList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-
-        return 0;
+        Node current = pre; // this node will be default // 0
+        int index = -1;
+        while (current.next != null)
+        {
+            current = current.next;
+            index++;
+            if(current.data == value){
+                return index;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -257,6 +294,14 @@ public class DoublyLinkedList implements IntList {
         pre.next = post;
         post.prev = pre;
         size = 0;
+    }
+    public void throwOutOfBoundEx(int index) {
+        if(index >=  size)
+        {
+            throw new IndexOutOfBoundsException("index can not be more than size. ");
+        } else if (index < 0 ) {
+            throw new IndexOutOfBoundsException("Index can not be less than zero. ");
+        }
     }
 
     /**
@@ -311,5 +356,6 @@ public class DoublyLinkedList implements IntList {
             current = current.next;
             return item;
         }
+
     }
 }
