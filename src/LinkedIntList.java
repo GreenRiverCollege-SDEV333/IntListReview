@@ -54,20 +54,16 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void addBack(int value) {
-        // set up a new node
         Node theNewOne = new Node();
+        Node currentNode = head;
 
-        if (head == null) {
-            // the list is currently empty
-            head = theNewOne;
-
-            size++;
+        // For each size, we will move the currentNode next until we reach the size so that we can set the currenNode.next to theNewOne which means that we added a new node in the back
+        for (int i = 0; i < size; i++) {
+            currentNode = currentNode.next;
         }
-        else {
-            head.next = theNewOne;
 
-            size++;
-        }
+        currentNode.next = theNewOne;
+        size++;
     }
 
     /**
@@ -81,7 +77,31 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void add(int index, int value) {
+        Node currentNode = head;
+        int lastData;
 
+        // If the index is less than or equal to size since it won't makes sense to work if it's bigger than the size
+        if (index <= size) {
+            for (int i = 0; i < size - index; i++) {
+                currentNode = currentNode.next;
+            }
+
+            // First time
+            lastData = currentNode.next.data; // Grabs the next data so it won't be lost
+            currentNode.next = currentNode; // The next node is equal to the current node
+            currentNode.data = value; // Replaces the current data to the value since we are adding the index here
+            currentNode = currentNode.next; // Then we move to the next node
+
+            // The rest of the time
+            for (int i = size + 1; i > index; i--) {
+                currentNode.data = lastData;
+                lastData = currentNode.next.data; // Grabs the next data so it won't be lost
+                currentNode.next = currentNode; // The next node is equal to the current node
+                currentNode = currentNode.next; // Then we move to the next node
+            }
+
+            size++;
+        }
     }
 
     /**
@@ -91,7 +111,14 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeFront() {
+        Node currentNode = head;
 
+        for (int i = 0; i < size - 1; i++) {
+            currentNode.data = currentNode.next.data;
+            currentNode = currentNode.next;
+        }
+
+        size--;
     }
 
     /**
@@ -100,7 +127,14 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void removeBack() {
+        Node currentNode = head;
 
+        for (int i = 0; i < size; i++) {
+            currentNode = currentNode.next;
+        }
+
+        currentNode.data = 0;
+        size--;
     }
 
     /**
@@ -114,7 +148,13 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int remove(int index) {
-        return 0;
+        Node currentNode = head;
+
+        for (int i = 0; i < index; i++) {
+            currentNode = currentNode.next;
+        }
+
+        return currentNode.data;
     }
 
     /**
@@ -126,7 +166,13 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int get(int index) {
-        return 0;
+        Node currentNode = head;
+
+        for (int i = 0; i < index; i++) {
+            currentNode = currentNode.next;
+        }
+
+        return currentNode.data;
     }
 
     /**
@@ -137,7 +183,18 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean contains(int value) {
-        return false;
+        Node currentNode = head;
+        boolean containValue = false;
+
+        for (int i = 0; i < size; i++) {
+            if (currentNode.data == value) {
+                containValue = true;
+            }
+
+            currentNode = currentNode.next;
+        }
+
+        return containValue;
     }
 
     /**
@@ -150,7 +207,18 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node currentNode = head;
+        int indexOfValue = -1;
+
+        for (int i = 0; i < size; i++) {
+            if (currentNode.data == value) {
+                indexOfValue = i;
+            }
+
+            currentNode = currentNode.next;
+        }
+
+        return indexOfValue;
     }
 
     /**
@@ -160,7 +228,12 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        if (size > 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /**
@@ -170,7 +243,7 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -179,7 +252,14 @@ public class LinkedIntList implements IntList {
      */
     @Override
     public void clear() {
+        Node currentNode = head;
 
+        for (int i = 0; i < size; i++) {
+            currentNode.data = 0;
+            currentNode = currentNode.next;
+        }
+
+        size = 0;
     }
 
     /**
