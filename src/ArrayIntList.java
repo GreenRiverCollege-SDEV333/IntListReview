@@ -7,7 +7,7 @@ public class ArrayIntList implements IntList {
 
     // Default
     public ArrayIntList() {
-        // initialize my fields
+        // initialize my fieldss
         size = 0;
         buffer = new int[10];
     }
