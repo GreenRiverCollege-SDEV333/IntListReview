@@ -28,7 +28,7 @@ public class ArrayIntList implements IntList {
         }
 
         for (int i = size; i >= 1; i--){
-            buffer[i + 1] = buffer[i];
+            buffer[i] = buffer[i - 1];
         }
 
         // put the value at the front of the array at position 0
