@@ -101,6 +101,7 @@ public class ArrayIntList implements IntList {
 
             }
             buffer[index] = value;
+            size ++;
         }
     }
 
@@ -177,7 +178,7 @@ public class ArrayIntList implements IntList {
     @Override
     public int get(int index) {
 
-        if(index >= size){
+        if(index >= size || index < 0){
             throw new IndexOutOfBoundsException();
         }
         else{
