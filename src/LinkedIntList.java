@@ -84,10 +84,13 @@ public class LinkedIntList implements IntList{
         }
 
         Node indexNode = head;
-        for(int i  = 0; i < index; i++){
+        for(int i  = 0; i < index - 1; i++){
             indexNode = indexNode.next;
         }
-        indexNode.data = value;
+        Node newNode = new Node();
+        newNode.data = value;
+        newNode.next = indexNode.next;
+        indexNode.next = newNode;
 
         size++;
 
