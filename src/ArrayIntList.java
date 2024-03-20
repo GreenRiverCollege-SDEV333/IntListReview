@@ -85,9 +85,8 @@ public class ArrayIntList implements IntList {
         if(index < 0){
             throw new IndexOutOfBoundsException("Index can not be less than 0");
         }
-        if(index >= buffer.length){
-            //resize array to allow for that index position
-            resize(index);
+        if(index >= size){
+            throw new IndexOutOfBoundsException("Index must be less than size " + size);
         }
         if (size == buffer.length){
             resize(size*2);

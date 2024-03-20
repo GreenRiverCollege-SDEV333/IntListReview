@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedIntList implements IntList{
 
@@ -35,6 +36,7 @@ public class LinkedIntList implements IntList{
     @Override
     public void addFront(int value) {
         Node theNewOne = new Node();
+        theNewOne.data = value;
         if(head == null){
             // the list is currently empty
             head = theNewOne;
@@ -43,7 +45,9 @@ public class LinkedIntList implements IntList{
         }
         else{
             // The list has something in it.
+            //point the new node at the "first" node (we don't want to lose the list)
             theNewOne.next = head;
+            //point the head at the new node
             head = theNewOne;
 
             //increase size
@@ -58,7 +62,26 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void addBack(int value) {
+        //pretty sure we should have a method that builds the node WITH the value
+        Node theNewNode = new Node();
+        theNewNode.data = value;
 
+        //check to see if the LinkedList is empty
+        if (head == null){
+            head = theNewNode;
+        }
+
+        //set your pointer to move through the linkedlist
+        Node current = head;
+        //move through the linked list until you get to the last node
+        while(current.next != null){
+            current = current.next;
+        }
+
+        //set the current nodes pointer to the new node
+        current.next = theNewNode;
+        //increase the size to account for the new node
+        size++;
     }
 
     /**
@@ -72,7 +95,29 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void add(int index, int value) {
-
+        Node current = head;
+        Node theNewNode = new Node();
+        theNewNode.data = value;
+        int position = 1;
+        if(head == null && index == 1){
+            head = theNewNode;
+        }
+        else if(index < 0 ){
+            throw new IndexOutOfBoundsException("Index value can not be less than 1.");
+        }
+        else if(index > size){
+            throw new IndexOutOfBoundsException("Index cannot be greater than size: " + (size));
+        }
+        else{
+            while(current.next != null && position != index-1){
+                current = current.next;
+                position++;
+            }
+            //add the new node to the next position and increase size
+            theNewNode.next = current.next;
+            current.next = theNewNode;
+            size ++;
+        }
     }
 
     /**
@@ -82,7 +127,8 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void removeFront() {
-
+        head = head.next;
+        size --;
     }
 
     /**
@@ -91,7 +137,12 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void removeBack() {
-
+        Node current = head;
+        while(current.next.next!= null){
+            current = current.next;
+        }
+        current.next = null;
+        size --;
     }
 
     /**
@@ -105,7 +156,40 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int remove(int index) {
-        return 0;
+        
+        Node current = head;
+        int value;
+        int position = 1;
+        if(head == null){
+            throw new IndexOutOfBoundsException("Can not call remove on an empty linkedlist. ");
+        }
+        else if(index < 0 ){
+            throw new IndexOutOfBoundsException("Index value can not be less than 1.");
+        }
+        else if(index > size){
+            throw new IndexOutOfBoundsException("Index cannot be greater than size: " + (size));
+        }
+        else{
+            while(current.next.next != null && position != index-1){
+
+                current = current.next;
+                position++;
+            }
+            //If the node to remove points to null, have previous node point to null
+            if(current.next.next == null){
+                value = current.next.data;
+                current.next = null;
+                size --;
+            }
+            else{
+                value = current.next.data;
+                current.next = current.next.next;
+                size --;
+            }
+
+        }
+
+        return value;
     }
 
     /**
@@ -117,7 +201,20 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int get(int index) {
-        return 0;
+        Node current = head;
+
+        if(index < 1 ){
+            throw new IndexOutOfBoundsException("Index must be greater than zero");
+        }else if(index > size){
+            throw new IndexOutOfBoundsException("Index cannot be greater than size: " + size);
+        }
+        //move the position and the pointer until the position matches the index position.
+        int position = 1;
+        while (index > position){
+            current = current.next;
+            position++;
+        }
+        return current.data;
     }
 
     /**
@@ -128,6 +225,15 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public boolean contains(int value) {
+        Node current = head;
+
+        while(current != null){
+            if(current.data == value){
+                return true;
+            }
+            current = current.next;
+        }
+
         return false;
     }
 
@@ -141,7 +247,24 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int indexOf(int value) {
-        return 0;
+        Node current = head;
+        int index = 1;
+        if(head == null){
+            return -1;
+        }
+        //iterate over the nodes to look for if current is null
+        //end loop and returns -1
+        while(current != null){
+            if (current.data == value){
+                return index;
+            }
+
+            current = current.next;
+            index++;
+        }
+
+        //value was not in the linkedList
+        return -1;
     }
 
     /**
@@ -151,7 +274,7 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     /**
@@ -161,7 +284,7 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
@@ -170,7 +293,8 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public void clear() {
-
+        head = null;
+        size = 0;
     }
 
     /**
@@ -180,6 +304,56 @@ public class LinkedIntList implements IntList{
      */
     @Override
     public Iterator<Integer> iterator() {
-        return null;
+        singlyLinkedIterator theIterator = new singlyLinkedIterator();
+
+        return theIterator;
+    }
+
+    //helper class/type that defines how te iterator works
+    private class singlyLinkedIterator implements Iterator<Integer>{
+
+        //track the current node you are on.
+        private Node current;
+
+        public singlyLinkedIterator(){
+            current = head;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+//            if (current != null){
+//                return true;
+//            }
+//            else{
+//                return false;
+//            }
+            return current!=null;
+
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public Integer next() {
+
+            if(current == null){
+                throw new NoSuchElementException("There is no next one to go to!!");
+            }
+            //change current to next node.
+            int item = current.data;
+            current = current.next;
+            return item;
+        }
     }
 }
